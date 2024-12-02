@@ -10,3 +10,8 @@ VALUES
     ('Colori - Mèche', 205, 45, 150),
     ('Ricostruzione', 80, 20, 25),
     ('Trattamento', 25, 20, 15);
+
+
+INSERT INTO incompatible(service_id1,service_id2)
+    VALUES 
+        (1,1),
