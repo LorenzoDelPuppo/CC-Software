@@ -6,41 +6,47 @@
     <meta name="description" content="Una breve descrizione del contenuto della pagina.">
     <meta name="keywords" content="HTML, CSS, JavaScript, Tutorial">
     <meta name="author" content="Il tuo nome o nome dell'azienda">
-    <title>che capelli</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Che Capelli</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="robots" content="index, follow">
 </head>
+<header>Che Capelli - Feltrin</header><br>
 <body>
-<form action="index.php" method="post">
-        <label for="fName">Nome:</label>
-        <input type="text" id="fName" name="fName" placeholder="Inserisci il tuo nome" required>
+    <div class="form-container">
+        <form action="index.php" method="post">
+            <label for="fName">Nome</label>
+            <input type="text" id="fName" name="fName" placeholder="Inserisci" required>
 
-        <label for="sName">Cognome:</label>
-        <input type="text" id="sName" name="sName" placeholder="Inserisci il tuo cognome" required>
+            <label for="sName">Cognome</label>
+            <input type="text" id="sName" name="sName" placeholder="Inserisci" required>
          
-        <label for="phoneN">phoneN:</label>
-        <input type="tel" id="phoneN" name="phoneN" placeholder="Inserisci il numero di telefono" required>
+            <label for="phoneN">Numero di Telefono</label>
+            <input type="tel" id="phoneN" name="phoneN" placeholder="Inserisci" required>
         
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Inserisci" required>
         
-        <label for="password">password:</label>
-        <input type="password" id="password" name="password" placeholder="Inserisci la password" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Inserisci" required>
 
-            <label for="hair">capelli:</label>
-        <select id="hair" name="hair" required>
-            <option value="short">corti</option>
-            <option value="long">lunghi</option>
-        </select>
+            <div class="dropdown">
+                <label for="gender">Genere</label>
+                <select id="gender" name="gender">
+                    <option value="men">Uomo</option>
+                    <option value="woman">Donna</option>
+                </select>
+            </div>
 
-        <label for="gender">genere:</label>
-        <select id="gender" name="gender" required>
-            <option value="men">uomo</option>
-            <option value="woman">donna</option>
-        </select>
-      
-        <button type="submit">Invia</button>
+            <label for="hair">Capelli</label>
+            <select id="hair" name="hair" required>
+                <option value="short">Lunghi</option>
+                <option value="long">Corti</option>
+            </select>
+
+
+            <button type="submit">Invia</button>
+    </div>
 </body>
 </html>
 
