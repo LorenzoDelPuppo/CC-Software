@@ -53,4 +53,13 @@ INSERT INTO incompatible(service_id1,service_id2)
         (9,9),
         (10,10);
 
+INSERT INTO requiredS(requiredS_id1,requiredS_id2)
+    VALUES 
+        (2,1),
+        (3,1),
+        (4,1),
+        (5,1),
+        (7,1),
+        (8,1),
+        (9,1);
         

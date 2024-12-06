@@ -37,7 +37,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $password = $_POST["password"];
 
     //query per l'estrazione dei dati 
-
     $query = "SELECT * FROM customer WHERE email = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $email);
