@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS Customer (
     gender ENUM ('maschio', 'femmina') NOT NULL,
     email VARCHAR(254)
 );
+
 -- Tabella appuntamenti
 CREATE TABLE IF NOT EXISTS appointment (
 
@@ -31,6 +32,7 @@ CREATE TABLE IF NOT EXISTS serviceCC(
     engageTime INT,
     nameS VARCHAR (50) NOT NULL
 ); 
+
 -- Tabella di marge
 CREATE TABLE IF NOT EXISTS mergeAS (
 
@@ -40,6 +42,7 @@ CREATE TABLE IF NOT EXISTS mergeAS (
     FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES serviceCC(service_id) ON DELETE CASCADE
 );
+
 -- Tabelle di incompatibilità
 CREATE TABLE IF NOT EXISTS incompatible (
 
@@ -58,6 +61,7 @@ CREATE TABLE IF NOT EXISTS servicesOfAppointment (
     service_id INT NOT NULL,
     FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id) ON DELETE CASCADE
 );
+
 -- Tabella servizi obbligatori
 CREATE TABLE IF NOT EXISTS requiredS (
 
