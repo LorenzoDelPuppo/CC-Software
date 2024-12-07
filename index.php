@@ -30,7 +30,7 @@
         
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Inserisci" required>
-
+ 
             <div class="dropdown">
                 <label for="gender">Genere</label>
                 <select id="gender" name="gender">
@@ -39,7 +39,7 @@
                     <option value="other">Preferisco non dirlo</option>
                 </select>
             </div>
-
+        
             <label for="hair">Capelli</label>
 
             <div class="buttons_select">
