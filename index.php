@@ -36,9 +36,10 @@
                 <select id="gender" name="gender">
                     <option value="men">Uomo</option>
                     <option value="woman">Donna</option>
+                    <option value="other">Preferisco non dirlo</option>
                 </select>
             </div>
-        
+
             <label for="hair">Capelli</label>
 
             <div class="buttons_select">
@@ -74,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phoneNumber = $_POST['phoneN'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $hairType = $_POST['hair'];
+    $hairType = $_POST['lunghezzaCapelli'];
     $gender = $_POST['gender'];
 
     $sql = "INSERT INTO customer (fName, lName, phoneN, email, password, hair, gender)
