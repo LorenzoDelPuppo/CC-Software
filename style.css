@@ -1,0 +1,129 @@
+header {
+    background-color: #333; 
+    color: #fff;
+    padding: 20px;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+.form-container {
+    width: 323px;
+    padding: 20px;
+    padding-right: 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(158, 37, 37, 0.1);
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-container select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-container button {
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #555;
+}
+
+.dropdown {
+    margin: 30px 0;
+}
+
+.dropdown {
+    margin: 20px 0;
+}
+
+.dropdown select {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.buttons_select {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.buttons_select {
+    display: flex;
+    justify-content: center; /* Centra gli elementi orizzontalmente */
+    gap: 20px; /* Spaziatura tra i pulsanti */
+    margin-top: 20px;
+}
+
+.radio_menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.img_sceltacapelli {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border 0.3s ease, transform 0.3s ease;
+}
+
+input[type="radio"] {
+    display: none; /* Nasconde il bottone radio */
+}
+
+input[type="radio"]:checked + label .img_sceltacapelli {
+    border: 3px solid black; /* Evidenzia immagine selezionata */
+    transform: scale(1.1); /* Ingrandisce leggermente immagine */
+}
+
+.img_label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

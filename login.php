@@ -3,19 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Che Capelli</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<header>Che Capelli - Feltrin</header><br>
 <body>
-    <h1>Login</h1>
-    <form action="index.php" method="POST">
-        <label for="inserisci l'email">Email</label>
-        <input type="email" name="email" required>
-        <br>
-        <label for="inserisci la password">Password</label>
-        <input type="password" name="password" required>
-        <br>
-        <input type="submit" value="Accedi">
-    </form>
+    <div class = "form-container">
+        <h1>Login</h1>
+        <form action="index.php" method="POST">
+            <label for="inserisci l'email">Email</label>
+            <input type="email" name="email" required>
+            <br>
+            <label for="inserisci la password">Password</label>
+            <input type="password" name="password" required>
+            <br>
+          
+            <button type="submit">Accedi</button>
+        </form>
+    </div>
 </body>
 </html>
 
