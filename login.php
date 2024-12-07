@@ -6,10 +6,13 @@
     <title>Che Capelli</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<header>Che Capelli - Feltrin</header><br>
 <body>
+    <div class= "logo-cointainer">
+        <h1 class="logo">Che capelli Feltrin (logo)</h1>
+    </div>
+    <br>
     <div class = "form-container">
-        <h1>Login</h1>
+        <h2>Login</h2>
         <form action="index.php" method="POST">
             <label for="inserisci l'email">Email</label>
             <input type="email" name="email" required>

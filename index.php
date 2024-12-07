@@ -12,13 +12,16 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="robots" content="index, follow">
 </head>
-<header>Che Capelli - Feltrin</header><br>
 <body>
+    <div class= "logo-cointainer">
+        <h1 class="logo">Che capelli Feltrin (logo)</h1>
+    </div>
+    <br>
     <div class="form-container">
         <form action="index.php" method="post">
             <label for="fName">Nome</label>
             <input type="text" id="fName" name="fName" placeholder="Inserisci" required>
-
+            
             <label for="sName">Cognome</label>
             <input type="text" id="sName" name="sName" placeholder="Inserisci" required>
          
@@ -46,13 +49,13 @@
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="lunghi" value="long">
                     <label for="lunghi" class="img_label">
-                    <img src="download.jpeg" class="img_sceltacapelli" alt="Lunghi">
+                    <img src="capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
                     </label>
                 </div>
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="corti" value="short">
                     <label for="corti" class="img_label">
-                    <img src="download.jpeg" class="img_sceltacapelli" alt="Corti">
+                    <img src="CapelliCorti.png" class="img_sceltacapelli" alt="Corti">
                     </label>
                 </div>
             </div>
