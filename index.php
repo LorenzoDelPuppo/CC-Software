@@ -17,7 +17,7 @@
         <h1 class="logo">Che capelli Feltrin (logo)</h1>
     </div>
     <br>
-    <div class="form-container">
+    <div class="form-container">  <!-- classe per il contenitore -->
         <form action="index.php" method="post">
 
               <!-- Campo di input per i dati -->
@@ -37,7 +37,7 @@
             <input type="password" id="password" name="password" placeholder="Inserisci" required>
 
             <!-- Menu a tendina per selezionare il genere -->
-            <div class="dropdown">
+            <div>
                 <label for="gender">Genere</label>
                 <select id="gender" name="gender">
                     <option value="men">Uomo</option>
@@ -48,7 +48,7 @@
         
             <label for="hair">Capelli</label>
 
-            <div class="buttons_select">
+            <div class="buttons_select"> <!--pulsanti "radio" per la selezione dei capelli-->
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="lunghi" value="long">
                     <label for="lunghi" class="img_label">

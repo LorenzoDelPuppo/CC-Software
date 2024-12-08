@@ -1,112 +1,109 @@
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-image: url('vetrina.jpg');
-    padding-top: 0px; /* Spazio per l'header */
+    font-family: Arial, sans-serif; /*font principale della pagina*/
+    display: flex; /*imposta il layout della pagina*/
+    justify-content: center; /*centra orizzontalmente*/
+    align-items: center; /*caentra verticalmente*/
+    margin: 0; /*rimuovo i margini definiti del browser*/
+    background-image: url('vetrina.jpg'); /*immagine di sfondo*/
     flex-direction: column; /* Disposizione verticale */
     align-items: center; /* Allinea gli elementi al centro */
     min-height: 100vh; /* Assicura che la pagina riempia almeno la finestra */
-    box-sizing: border-box;
 }
 
 .logo-container {
-    display: flex;
+    display: flex;/*layout flessibile del logo*/
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px; /* Distanza tra logo e form */
 }
 
 .logo {
-    width: 220px; /* Imposta la larghezza del logo */
-    height: 70px;
-    background-color: #333; /* Colore del logo, sostituisci con l'immagine */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
+    width: 220px; /*larghezza del logo*/
+    height: 70px; /*altezza del logo*/
+    background-color: #333; /* Colore del logo, da sostistuire con una immagine*/
+    display: flex; 
+    justify-content: center; 
+    align-items: center; /*sistemazione del testo*/ 
+    font-size: 20px; 
     color: white;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 5px;
+    font-weight: bold; 
+    text-align: center; 
+    border-radius: 5px; 
 }
 
 .form-container {
-    width: 320px; /* Larghezza uniforme per tutti gli elementi */
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Spaziatura tra sezioni */
+    width: 320px; /*imposta una larghezza fissa, anche se si riduce lo schermo*/
+    padding: 20px; /*aggiunge spazio tra gli elementi*/
+    background: #fff; /*colore del container*/
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /*sagomaturina intorno*/
+    display: flex; /*layout a griglia del container*/
+    flex-direction: column; /*disposizione verticale*/
+    gap: 20px; /*Spaziatura tra sezioni (login)*/
 }
 
 .form-container label {
-    font-size: 14px;
-    color: #333;
+    font-size: 14px; /*dimensione carattere*/
+    color: #333; /*colore*/
 }
 
 .form-container input,
 .form-container select {
     width: 100%; /* Larghezza uniforme */
-    padding: 10px;
+    padding: 10px; /*spazio casella*/
     margin-bottom: 15px; /* Aumenta lo spazio tra gli input */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;
+    border: 1px solid #ccc; /**/
+    border-radius: 4px; /**/
+    font-size: 14px; /**/
+    box-sizing: border-box; /*serve per adattarlo al contenitore*/
 }
 
 .form-container button {
     width: 100%; /* Larghezza uniforme */
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
+    padding: 10px; /*spazio interno bottone*/
+    background-color: #333; /*colore pulsante*/
+    color: #fff; 
+    border: none; /*toglie il bordo*/
+    border-radius: 4px; 
+    font-size: 16px; 
+    cursor: pointer; 
 }
 
 .form-container button:hover {
-    background-color: #555;
+    background-color: #555; /**quando passo sopra diventa più chiaro*/
 }
 
-.buttons_select {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+.buttons_select { /*dispone orizzontalmente e le centra*/
+    display: flex; 
+    justify-content: center; 
+    gap: 10px; 
 }
 
 .img_sceltacapelli {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: border 0.3s ease, transform 0.3s ease;
+    width: 75px; /*larghezza*/
+    height: 75px; /*altezza*/
+    border-radius: 50%; /**/
+    cursor: pointer; /**/
+    transition: border 0.3s ease, transform 0.3s ease; /*tansizione del bordo e immagine*/
 }
 
 input[type="radio"] {
-    display: none;
+    display: none; /*rende trasparente il pulsante*/
 }
 
-input[type="radio"]:checked + label .img_sceltacapelli {
+input[type="radio"]:checked + label .img_sceltacapelli { /*cambia il bordo e ingrandisce l'immagine*/
     border: 3px solid black;
     transform: scale(1.1);
 }
 
-.img_label {
+.img_label { /*assicurano che l'immagine siano centrati*/
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer; 
 }
 
-h2 {
+h2 { /*allineo in centro (login)*/
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
 }
