@@ -8,9 +8,9 @@
 
 ## Obiettivi Principali
 
-🧩 Offrire una piattaforma semplice.
-🗓️ Automatizzare la gestione degli appuntamenti.
-🔔 Fornire funzionalità di promemoria per gli appuntamenti.
+- 🧩 Offrire una piattaforma semplice.
+- 🗓️ Automatizzare la gestione degli appuntamenti.
+- 🔔 Fornire funzionalità di promemoria per gli appuntamenti.
 
 ## Funzionalità
 
