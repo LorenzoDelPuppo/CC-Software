@@ -19,6 +19,7 @@
     <br>
     <div class="form-container">
         <form action="index.php" method="post">
+
               <!-- Campo di input per i dati -->
             <label for="fName">Nome</label>
             <input type="text" id="fName" name="fName" placeholder="Inserisci" required>
@@ -34,7 +35,7 @@
         
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Inserisci" required>
-            
+
             <!-- Menu a tendina per selezionare il genere -->
             <div class="dropdown">
                 <label for="gender">Genere</label>
@@ -61,10 +62,7 @@
                     </label>
                 </div>
             </div>
-
-
             <br>
-
                 <button type="submit">Invia</button>
         </div>
 </body>
@@ -72,8 +70,8 @@
 
 <?php
 require_once 'connect.php';
-//richiesta http post
 
+//richiesta http post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     //crazione delle variabili per memorizzarele con il post
