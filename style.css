@@ -4,7 +4,7 @@ body {
     justify-content: center; /*centra orizzontalmente*/
     align-items: center; /*caentra verticalmente*/
     margin: 0; /*rimuovo i margini definiti del browser*/
-    background-image: url('vetrina.jpg'); /*immagine di sfondo*/
+    background-image: url('rullino/vetrina.jpg'); /*immagine di sfondo*/
     flex-direction: column; /* Disposizione verticale */
     align-items: center; /* Allinea gli elementi al centro */
     min-height: 100vh; /* Assicura che la pagina riempia almeno la finestra */

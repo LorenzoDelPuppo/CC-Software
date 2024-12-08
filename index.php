@@ -52,13 +52,13 @@
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="lunghi" value="long">
                     <label for="lunghi" class="img_label">
-                    <img src="capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
+                    <img src="rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
                     </label>
                 </div>
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="corti" value="short">
                     <label for="corti" class="img_label">
-                    <img src="CapelliCorti.png" class="img_sceltacapelli" alt="Corti">
+                    <img src="rullino/CapelliCorti.png" class="img_sceltacapelli" alt="Corti">
                     </label>
                 </div>
             </div>
