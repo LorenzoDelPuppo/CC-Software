@@ -81,8 +81,8 @@ body {
 .img_sceltacapelli {
     width: 75px; /*larghezza*/
     height: 75px; /*altezza*/
-    border-radius: 50%; /**/
-    cursor: pointer; /**/
+    border-radius: 50%; 
+    cursor: pointer; 
     transition: border 0.3s ease, transform 0.3s ease; /*tansizione del bordo e immagine*/
 }
 
