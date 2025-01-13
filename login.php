@@ -13,7 +13,7 @@
     <br>
     <div class = "form-container">
         <h2>Login</h2>
-        <form action="index.php" method="POST">
+        <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="POST">
             <label for="inserisci l'email">Email</label>
             <input type="email" name="email" required>
             <br>

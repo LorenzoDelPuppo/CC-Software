@@ -93,6 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         echo "Dati salvati con successo!";
+        header("location: login.php");
+        exit();
     } else {
         echo "Errore nel salvataggio dei dati.";
     }
