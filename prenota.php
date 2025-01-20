@@ -1,15 +1,5 @@
 <?php
-// Connessione al database
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'db_cc';
-
-$conn = new mysqli($host, $user, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connessione fallita: " . $conn->connect_error);
-}
+require_once 'connect.php';
 
 // Recupera i servizi dal database
 $sql = "SELECT service_id, nameS FROM serviceCC";
@@ -69,23 +59,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("i", $customer_id);
         $stmt->execute();
         $appointment_id = $stmt->insert_id; // Recupera l'ID dell'appuntamento appena inserito
+        echo "<p style='text-align:center; color:green;'>Appuntamento inserito con ID: $appointment_id per il cliente ID: $customer_id</p>";
 
-        // 2. Inserisci i servizi selezionati
-        foreach ($_POST['services'] as $service_id) {
+        // 2. Preparazione per inserire nella tabella mergeAS e servicesOfAppointment
+        $selected_services = $_POST['services'];
+        foreach ($selected_services as $service_id) {
             // Verifica se ci sono servizi obbligatori da aggiungere automaticamente
             if (in_array($service_id, array_column($required_services, 0))) {
                 // Trova il servizio obbligatorio associato
                 $key = array_search($service_id, array_column($required_services, 0));
                 $required_service = $required_services[$key][1];
-                if (!in_array($required_service, $_POST['services'])) {
-                    $_POST['services'][] = $required_service; // Aggiungi il servizio obbligatorio
+                if (!in_array($required_service, $selected_services)) {
+                    $selected_services[] = $required_service; // Aggiungi il servizio obbligatorio
+                    echo "<p style='text-align:center; color:blue;'>Aggiunto servizio obbligatorio con ID: $required_service</p>";
                 }
             }
 
-            // Inserisci il servizio selezionato nella tabella servicesOfAppointment
-            $stmt = $conn->prepare("INSERT INTO servicesOfAppointment (appointment_id, service_id) VALUES (?, ?)");
+            // Inserisci nella tabella mergeAS
+            $stmt = $conn->prepare("INSERT INTO mergeAS (appointment_id, service_id) VALUES (?, ?)");
             $stmt->bind_param("ii", $appointment_id, $service_id);
             $stmt->execute();
+            echo "<p style='text-align:center; color:green;'>Inserito nella tabella mergeAS: Appuntamento ID: $appointment_id, Servizio ID: $service_id</p>";
+        }
+
+        // 3. Inserire nella tabella servicesOfAppointment una stringa con tutti i servizi selezionati
+        $services_string = implode(", ", $selected_services); // Crea una stringa di servizi separati da virgole
+        foreach ($selected_services as $service_id) {
+            $stmt = $conn->prepare("INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)");
+            $stmt->bind_param("iis", $appointment_id, $service_id, $services_string);
+            $stmt->execute();
+            echo "<p style='text-align:center; color:green;'>Inserito nella tabella servicesOfAppointment: Appuntamento ID: $appointment_id, Servizio ID: $service_id, Servizi selezionati: $services_string</p>";
         }
 
         echo "<p style='text-align:center;'>Prenotazione completata con successo!</p>";

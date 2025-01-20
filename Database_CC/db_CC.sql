@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS servicesOfAppointment (
     sOa_id INT PRIMARY KEY AUTO_INCREMENT,
     appointment_id INT NOT NULL,
     service_id INT NOT NULL,
+    sPera VARCHAR(50) NOT NULL,
     FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id) ON DELETE CASCADE
 );
 
