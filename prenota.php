@@ -33,70 +33,6 @@ if ($result_incompat->num_rows > 0) {
     }
 }
 
-// Recupera i servizi obbligatori
-$sql_required = "SELECT requiredS_id1, requiredS_id2 FROM requiredS";
-$result_required = $conn->query($sql_required);
-
-if (!$result_required) {
-    die("Errore nella query dei servizi obbligatori: " . $conn->error);
-}
-
-$required_services = [];
-if ($result_required->num_rows > 0) {
-    while ($row = $result_required->fetch_assoc()) {
-        $required_services[] = [$row['requiredS_id1'], $row['requiredS_id2']];
-    }
-}
-
-// Se il form viene inviato
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['services']) && count($_POST['services']) > 0) {
-        // Ottieni l'ID del cliente (per esempio da una sessione o un campo nascosto)
-        $customer_id = 1; // Supponiamo che il cliente con ID 1 stia facendo la prenotazione
-
-        // 1. Inserisci l'appuntamento
-        $stmt = $conn->prepare("INSERT INTO appointment (customer_id) VALUES (?)");
-        $stmt->bind_param("i", $customer_id);
-        $stmt->execute();
-        $appointment_id = $stmt->insert_id; // Recupera l'ID dell'appuntamento appena inserito
-        echo "<p style='text-align:center; color:green;'>Appuntamento inserito con ID: $appointment_id per il cliente ID: $customer_id</p>";
-
-        // 2. Preparazione per inserire nella tabella mergeAS e servicesOfAppointment
-        $selected_services = $_POST['services'];
-        foreach ($selected_services as $service_id) {
-            // Verifica se ci sono servizi obbligatori da aggiungere automaticamente
-            if (in_array($service_id, array_column($required_services, 0))) {
-                // Trova il servizio obbligatorio associato
-                $key = array_search($service_id, array_column($required_services, 0));
-                $required_service = $required_services[$key][1];
-                if (!in_array($required_service, $selected_services)) {
-                    $selected_services[] = $required_service; // Aggiungi il servizio obbligatorio
-                    echo "<p style='text-align:center; color:blue;'>Aggiunto servizio obbligatorio con ID: $required_service</p>";
-                }
-            }
-
-            // Inserisci nella tabella mergeAS
-            $stmt = $conn->prepare("INSERT INTO mergeAS (appointment_id, service_id) VALUES (?, ?)");
-            $stmt->bind_param("ii", $appointment_id, $service_id);
-            $stmt->execute();
-            echo "<p style='text-align:center; color:green;'>Inserito nella tabella mergeAS: Appuntamento ID: $appointment_id, Servizio ID: $service_id</p>";
-        }
-
-        // 3. Inserire nella tabella servicesOfAppointment una stringa con tutti i servizi selezionati
-        $services_string = implode(", ", $selected_services); // Crea una stringa di servizi separati da virgole
-        foreach ($selected_services as $service_id) {
-            $stmt = $conn->prepare("INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)");
-            $stmt->bind_param("iis", $appointment_id, $service_id, $services_string);
-            $stmt->execute();
-            echo "<p style='text-align:center; color:green;'>Inserito nella tabella servicesOfAppointment: Appuntamento ID: $appointment_id, Servizio ID: $service_id, Servizi selezionati: $services_string</p>";
-        }
-
-        echo "<p style='text-align:center;'>Prenotazione completata con successo!</p>";
-    } else {
-        echo "<p style='color:red; text-align:center;'>Nessun servizio selezionato.</p>";
-    }
-}
-
 $conn->close();
 ?>
 
@@ -122,6 +58,10 @@ $conn->close();
             width: 150px;
             text-align: center;
         }
+        .service-checkbox.disabled {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
     </style>
     <script>
         const incompatibilities = <?php echo json_encode($incompatibilities); ?>;
@@ -129,10 +69,16 @@ $conn->close();
         function checkIncompatibilities(serviceId) {
             incompatibilities.forEach(pair => {
                 if (pair[0] == serviceId || pair[1] == serviceId) {
-                    let toRemove = pair[0] == serviceId ? pair[1] : pair[0];
-                    let checkboxDiv = document.getElementById('container-' + toRemove);
-                    if (checkboxDiv) {
-                        checkboxDiv.remove();
+                    let toDisable = pair[0] == serviceId ? pair[1] : pair[0];
+                    let checkboxDiv = document.getElementById('container-' + toDisable);
+                    let checkbox = document.getElementById('service-' + toDisable);
+
+                    if (checkbox.checked) {
+                        checkboxDiv.classList.add('disabled');
+                        checkbox.disabled = true;
+                    } else {
+                        checkboxDiv.classList.remove('disabled');
+                        checkbox.disabled = false;
                     }
                 }
             });
@@ -158,9 +104,47 @@ $conn->close();
                 <p style="text-align:center; color:red;">Nessun servizio disponibile.</p>
             <?php endif; ?>
         </div>
+
+        <!-- Aggiunta data e ora -->
+        <div style="text-align:center; margin-top:20px;">
+            <label for="appointmentDate">Seleziona la data e ora dell'appuntamento:</label><br>
+            <input type="datetime-local" id="appointmentDate" name="appointmentDate" required><br><br>
+        </div>
+
         <div style="text-align:center; margin-top:20px;">
             <button type="submit">Prenota</button>
         </div>
     </form>
+
+    <?php
+    // Se il form viene inviato
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['services']) && count($_POST['services']) > 0 && isset($_POST['appointmentDate'])) {
+            // Ottieni l'ID del cliente (per esempio da una sessione o un campo nascosto)
+            $customer_id = 1; // Supponiamo che il cliente con ID 1 stia facendo la prenotazione
+            $appointment_date = $_POST['appointmentDate'];
+
+            // 1. Inserisci l'appuntamento
+            $stmt = $conn->prepare("INSERT INTO appointment (customer_id, dateTime) VALUES (?, ?)");
+            $stmt->bind_param("is", $customer_id, $appointment_date);
+            $stmt->execute();
+            $appointment_id = $stmt->insert_id; // Recupera l'ID dell'appuntamento appena inserito
+
+            // 2. Inserisci i servizi selezionati
+            foreach ($_POST['services'] as $service_id) {
+                // Inserisci il servizio selezionato nella tabella servicesOfAppointment
+                $stmt = $conn->prepare("INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)");
+                // Usa un nome di servizio o un altro parametro per il campo sPera (facoltativo)
+                $selected_services = implode(", ", $_POST['services']); 
+                $stmt->bind_param("iis", $appointment_id, $service_id, $selected_services);
+                $stmt->execute();
+            }
+
+            echo "<p style='text-align:center;'>Prenotazione completata con successo!</p>";
+        } else {
+            echo "<p style='color:red; text-align:center;'>Nessun servizio selezionato o data mancante.</p>";
+        }
+    }
+    ?>
 </body>
 </html>
