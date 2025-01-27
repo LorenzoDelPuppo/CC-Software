@@ -9,6 +9,14 @@ body {
     align-items: center; /* Allinea gli elementi al centro */
     min-height: 100vh; /* Assicura che la pagina riempia almeno la finestra */
 }
+body {
+    display: flex; /* Rimane per il layout */
+    flex-direction: column; /* Disposizione verticale */
+    justify-content: center; /* Centra gli elementi */
+    align-items: center; /* Allinea gli elementi al centro */
+    padding-top: 50px; /* Sposta tutto verso il basso */
+    margin: 0;
+}
 
 .logo-container {
     display: flex;/*layout flessibile del logo*/
@@ -17,17 +25,10 @@ body {
 }
 
 .logo {
-    width: 220px; /*larghezza del logo*/
-    height: 70px; /*altezza del logo*/
-    background-color: #333; /* Colore del logo, da sostistuire con una immagine*/
-    display: flex; 
-    justify-content: center; 
-    align-items: center; /*sistemazione del testo*/ 
-    font-size: 20px; 
-    color: white;
-    font-weight: bold; 
-    text-align: center; 
-    border-radius: 5px; 
+    width: 180px; /* Riduce la larghezza */
+    height: auto; /* Mantiene le proporzioni */
+    border-radius: 5px; /* (facoltativo) se vuoi gli angoli arrotondati */
+    object-fit: contain; /* Assicura che l'immagine si adatti bene */
 }
 
 .form-container {
