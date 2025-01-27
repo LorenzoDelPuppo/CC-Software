@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class= "logo-cointainer">
-        <h1 class="logo">Che capelli Feltrin (logo)</h1>
-    </div>
-    <br>
+<div class="logo-container">
+    <img src="rullino/logo.png" alt="Che Capelli Logo" class="logo">
+</div>
     <div class = "form-container">
         <h2>Login</h2>
         <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="POST">

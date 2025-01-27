@@ -13,11 +13,12 @@
     <meta name="robots" content="index, follow">
 </head>
 <body>
-    <div class= "logo-cointainer">
-        <h1 class="logo">Che capelli Feltrin (logo)</h1>
-    </div>
-    <br>
+<div class="logo-container">
+    <img src="rullino/logo.png" alt="Che Capelli Logo" class="logo">
+</div>
+
     <div class="form-container">  <!-- classe per il contenitore -->
+    <br>
         <form action="index.php" method="post">
 
               <!-- Campo di input per i dati -->
