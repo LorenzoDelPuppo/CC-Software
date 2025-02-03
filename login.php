@@ -33,6 +33,7 @@ session_start(); // Avvia la sessione
 // Se l'utente è già loggato, reindirizza alla dashboard
 if (isset($_SESSION['email'])) {
     header("Location: dashboard.php");
+    //header("Location: prenotatest.php");
     exit();
 }
 

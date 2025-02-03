@@ -1,78 +1,62 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkbox Relazioni Multiple</title>
-    <script>
-        // Oggetto che definisce tutte le relazioni
-        const relations = {
-            1: [1],
-            2: [2],
-            3: [3, 5, 6, 7, 8],
-            4: [3, 4, 5, 6, 7, 8],
-            5: [3, 4, 5, 6, 7],
-            6: [3, 4, 5, 6, 7, 8],
-            7: [3, 4, 5, 6, 7, 8],
-            8: [3, 4, 5, 6, 7, 8],
-            9: [9],
-            10: [10]
-        };
+<?php
+session_start();
+include 'config.php'; // Connessione al database
 
-        // Funzione per aggiornare lo stato delle checkbox
-        function updateCheckboxStates(checkbox) {
-            const selectedValue = parseInt(checkbox.value); // Valore della checkbox selezionata
+// Controlla se il cliente è loggato
+if (!isset($_SESSION['customer_id'])) {
+    die("Errore: Devi effettuare il login per prenotare un appuntamento.");
+}
 
-            // Scorri tutte le checkbox
-            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                const cbValue = parseInt(cb.value); // Ottieni il valore della checkbox corrente
-                
-                // Se il valore della checkbox corrente è correlato alla checkbox selezionata
-                if (relations[selectedValue] && relations[selectedValue].includes(cbValue)) {
-                    // Disabilita o abilita in base allo stato della checkbox selezionata
-                    cb.disabled = checkbox.checked && cb !== checkbox;
-                }
-            });
-        }
-    </script>
-</head>
-<body>
-    <h1>Checkbox con Relazioni</h1>
-    
-    <!-- Modulo con le checkbox -->
-    <form method="post">
-        <input type="checkbox" name="checkboxes[]" value="1" onchange="updateCheckboxStates(this)"> Checkbox 1<br>
-        <input type="checkbox" name="checkboxes[]" value="2" onchange="updateCheckboxStates(this)"> Checkbox 2<br>
-        <input type="checkbox" name="checkboxes[]" value="3" onchange="updateCheckboxStates(this)"> Checkbox 3<br>
-        <input type="checkbox" name="checkboxes[]" value="4" onchange="updateCheckboxStates(this)"> Checkbox 4<br>
-        <input type="checkbox" name="checkboxes[]" value="5" onchange="updateCheckboxStates(this)"> Checkbox 5<br>
-        <input type="checkbox" name="checkboxes[]" value="6" onchange="updateCheckboxStates(this)"> Checkbox 6<br>
-        <input type="checkbox" name="checkboxes[]" value="7" onchange="updateCheckboxStates(this)"> Checkbox 7<br>
-        <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)"> Checkbox 8<br>
-        <input type="checkbox" name="checkboxes[]" value="9" onchange="updateCheckboxStates(this)"> Checkbox 9<br>
-        <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)"> Checkbox 10<br>
-        <button type="submit">Invia</button>
-    </form>
+$customer_id = $_SESSION['customer_id']; // Recupera ID cliente dalla sessione
 
-    <?php
-    // Controlla se il modulo è stato inviato
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Controlla se sono state selezionate checkbox
-        if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes'])) {
-            // Ottieni i valori delle checkbox selezionate
-            $selectedCheckboxes = $_POST['checkboxes'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes']) && isset($_POST['appointment_date'])) {
+        $appointment_date = $_POST['appointment_date'];
 
-            // Converte l'array in una stringa separata da virgole
-            $result = implode(", ", $selectedCheckboxes);
+        // Inserisce un nuovo appuntamento
+        $sql = "INSERT INTO appointment (customer_id, dateTime) VALUES (?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $customer_id, $appointment_date);
 
-            // Mostra il risultato
-            echo "<h2>Checkbox selezionate:</h2>";
-            echo "<p>$result</p>";
+        if ($stmt->execute()) {
+            $appointment_id = $stmt->insert_id; // Ottiene l'ID dell'appuntamento
+            echo "Appuntamento prenotato con successo!<br>";
+
+            // Inserisce i servizi associati
+            $sql = "INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            foreach ($_POST['checkboxes'] as $service_id) {
+                $service_id = intval($service_id);
+                $sPera = "default_value"; // Valore predefinito
+                $stmt->bind_param("iis", $appointment_id, $service_id, $sPera);
+                $stmt->execute();
+            }
+
+            echo "Servizi registrati con successo!";
         } else {
-            // Nessuna checkbox selezionata
-            echo "<h2>Nessuna checkbox selezionata.</h2>";
+            echo "Errore nella prenotazione: " . $stmt->error;
         }
+
+        $stmt->close();
+    } else {
+        echo "Errore: seleziona almeno un servizio e una data.";
     }
-    ?>
-</body>
-</html>
+}
+
+$conn->close();
+?>
+
+<!-- Form di prenotazione -->
+<form method="post">
+    <label for="appointment_date">Seleziona data:</label>
+    <input type="datetime-local" name="appointment_date" required><br><br>
+
+    <label>Seleziona i servizi:</label><br>
+    <input type="checkbox" name="checkboxes[]" value="1"> Servizio 1<br>
+    <input type="checkbox" name="checkboxes[]" value="2"> Servizio 2<br>
+    <input type="checkbox" name="checkboxes[]" value="3"> Servizio 3<br>
+    <input type="checkbox" name="checkboxes[]" value="4"> Servizio 4<br>
+
+    <button type="submit">Prenota</button>
+</form>
