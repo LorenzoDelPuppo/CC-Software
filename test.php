@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <form action="logout.php" method="post">
+    <button type="submit">Logout</button>
+    </form>
     <title>Checkbox con Relazioni Multiple</title>
     <script>
         // Relazioni obbligatorie (se seleziono una, anche l'altra si seleziona)
