@@ -55,16 +55,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $user = $result->fetch_assoc();
 
         // Verifica la password
-        if ($password == $user["password"]) {
-            // Salva l'email dell'utente nella sessione
-            $_SESSION['customer_id'] = $customer_id;
+        $hashedPassword = $user["password"]; // Prendiamo la password hashata dal database
+
+        if (password_verify($password, $hashedPassword)) {
+            // Salva i dati dell'utente nella sessione
+            $_SESSION['customer_id'] = $user["customer_id"];
             $_SESSION['email'] = $email;
-
-            if (password_verify($password, $hashedPassword)) {
-                // Salva i dati dell'utente nella sessione
-                $_SESSION['customer_id'] = $customer_id;
-                $_SESSION['email'] = $email;
-
+        
             // Reindirizza alla dashboard
             header("Location: dashboard.php");
             exit();
