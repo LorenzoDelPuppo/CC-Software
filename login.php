@@ -56,6 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Verifica la password
         if ($password == $user["password"]) {
             // Salva l'email dell'utente nella sessione
+            $_SESSION['customer_id'] = $customer_id;
             $_SESSION['email'] = $email;
 
             // Reindirizza alla dashboard
@@ -71,6 +72,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $stmt->close();
     $conn->close();
 }
-
-
 ?>
