@@ -37,6 +37,7 @@ if (isset($_SESSION['email'])) {
 }
 
 require_once "connect.php";
+require_once "cript.php";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     //recupero dati dal form 
@@ -58,6 +59,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Salva l'email dell'utente nella sessione
             $_SESSION['customer_id'] = $customer_id;
             $_SESSION['email'] = $email;
+
+            if (password_verify($password, $hashedPassword)) {
+                // Salva i dati dell'utente nella sessione
+                $_SESSION['customer_id'] = $customer_id;
+                $_SESSION['email'] = $email;
 
             // Reindirizza alla dashboard
             header("Location: dashboard.php");
