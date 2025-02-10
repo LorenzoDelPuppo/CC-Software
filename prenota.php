@@ -1,150 +1,93 @@
 <?php
-require_once 'connect.php';
+session_start(); // Avvia la sessione
 
-// Recupera i servizi dal database
-$sql = "SELECT service_id, nameS FROM serviceCC";
-$result = $conn->query($sql);
-
-if (!$result) {
-    die("Errore nella query: " . $conn->error);
+// Se l'utente è già loggato, reindirizza alla pagina prenotatest.php
+if (isset($_SESSION['email'])) {
+    header("Location: prenotatest.php");
+    exit();
 }
 
-$services = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $services[] = $row;
+require_once "connect.php"; // Include il file di connessione al database
+
+// Gestione dell'invio del form
+if (isset($_POST['submit'])) {
+    // Recupera le checkbox selezionate e la data
+    $selectedCheckboxes = isset($_POST['checkboxes']) ? $_POST['checkboxes'] : array();
+    $selectedDate = trim($_POST['data_prenotazione']);
+
+    // Salva i dati nella sessione (opzionale, per utilizzi futuri)
+    $_SESSION['checkboxes'] = $selectedCheckboxes;
+    $_SESSION['data_prenotazione'] = $selectedDate;
+
+    // Converte l'array delle checkbox in una stringa (ad es. CSV) per salvarlo nel database
+    $checkboxesSerialized = implode(',', $selectedCheckboxes);
+
+    // Query parametrizzata per inserire i dati nella tabella "prenotazioni"
+    $query = "INSERT INTO prenotazioni (checkboxes, data_prenotazione) VALUES (?, ?)";
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("ss", $checkboxesSerialized, $selectedDate);
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            $message = "Prenotazione inserita con successo!";
+        } else {
+            $message = "Errore durante l'inserimento.";
+        }
+        $stmt->close();
+    } else {
+        $message = "Errore nella preparazione della query.";
     }
-} else {
-    echo "<p style='color:red; text-align:center;'>Nessun servizio disponibile. Controlla i dati nel database.</p>";
 }
-
-// Recupera le incompatibilità
-$sql_incompat = "SELECT service_id1, service_id2 FROM incompatible";
-$result_incompat = $conn->query($sql_incompat);
-
-if (!$result_incompat) {
-    die("Errore nella query delle incompatibilità: " . $conn->error);
-}
-
-$incompatibilities = [];
-if ($result_incompat->num_rows > 0) {
-    while ($row = $result_incompat->fetch_assoc()) {
-        $incompatibilities[] = [$row['service_id1'], $row['service_id2']];
-    }
-}
-
-$conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Prenotazione Servizi</title>
-    <style>
-        .service-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            max-width: 600px;
-            margin: 20px auto;
-            justify-content: center;
-        }
-        .service-checkbox {
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 150px;
-            text-align: center;
-        }
-        .service-checkbox.disabled {
-            background-color: #f0f0f0;
-            cursor: not-allowed;
-        }
-    </style>
+    <title>Prenotazione</title>
+    <!-- Includi i CSS e JS necessari per il calendario (ad es. jQuery UI) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script>
-        const incompatibilities = <?php echo json_encode($incompatibilities); ?>;
-
-        function checkIncompatibilities(serviceId) {
-            incompatibilities.forEach(pair => {
-                if (pair[0] == serviceId || pair[1] == serviceId) {
-                    let toDisable = pair[0] == serviceId ? pair[1] : pair[0];
-                    let checkboxDiv = document.getElementById('container-' + toDisable);
-                    let checkbox = document.getElementById('service-' + toDisable);
-
-                    if (checkbox.checked) {
-                        checkboxDiv.classList.add('disabled');
-                        checkbox.disabled = true;
-                    } else {
-                        checkboxDiv.classList.remove('disabled');
-                        checkbox.disabled = false;
-                    }
-                }
+        $(document).ready(function(){
+            // Inizializza il datepicker sul campo della data
+            $("#data_prenotazione").datepicker({
+                dateFormat: 'yy-mm-dd'
             });
-        }
+        });
     </script>
 </head>
 <body>
-    <h1 style="text-align:center;">Seleziona i Servizi</h1>
-    <form method="POST" action="">
-        <div class="service-container">
-            <?php if (count($services) > 0): ?>
-                <?php foreach ($services as $service): ?>
-                    <div class="service-checkbox" id="container-<?php echo $service['service_id']; ?>">
-                        <input type="checkbox" id="service-<?php echo $service['service_id']; ?>" 
-                               name="services[]" value="<?php echo $service['service_id']; ?>" 
-                               onclick="checkIncompatibilities(<?php echo $service['service_id']; ?>)">
-                        <label for="service-<?php echo $service['service_id']; ?>">
-                            <?php echo htmlspecialchars($service['nameS']); ?>
-                        </label>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p style="text-align:center; color:red;">Nessun servizio disponibile.</p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Aggiunta data e ora -->
-        <div style="text-align:center; margin-top:20px;">
-            <label for="appointmentDate">Seleziona la data e ora dell'appuntamento:</label><br>
-            <input type="datetime-local" id="appointmentDate" name="appointmentDate" required><br><br>
-        </div>
-
-        <div style="text-align:center; margin-top:20px;">
-            <button type="submit">Prenota</button>
-        </div>
-    </form>
-
     <?php
-    // Se il form viene inviato
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['services']) && count($_POST['services']) > 0 && isset($_POST['appointmentDate'])) {
-            // Ottieni l'ID del cliente (per esempio da una sessione o un campo nascosto)
-            $customer_id = 1; // Supponiamo che il cliente con ID 1 stia facendo la prenotazione
-            $appointment_date = $_POST['appointmentDate'];
-
-            // 1. Inserisci l'appuntamento
-            $stmt = $conn->prepare("INSERT INTO appointment (customer_id, dateTime) VALUES (?, ?)");
-            $stmt->bind_param("is", $customer_id, $appointment_date);
-            $stmt->execute();
-            $appointment_id = $stmt->insert_id; // Recupera l'ID dell'appuntamento appena inserito
-
-            // 2. Inserisci i servizi selezionati
-            foreach ($_POST['services'] as $service_id) {
-                // Inserisci il servizio selezionato nella tabella servicesOfAppointment
-                $stmt = $conn->prepare("INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)");
-                // Usa un nome di servizio o un altro parametro per il campo sPera (facoltativo)
-                $selected_services = implode(", ", $_POST['services']); 
-                $stmt->bind_param("iis", $appointment_id, $service_id, $selected_services);
-                $stmt->execute();
-            }
-
-            echo "<p style='text-align:center;'>Prenotazione completata con successo!</p>";
-        } else {
-            echo "<p style='color:red; text-align:center;'>Nessun servizio selezionato o data mancante.</p>";
-        }
+    // Visualizza eventuali messaggi di conferma o errore
+    if (isset($message)) {
+        echo "<p>$message</p>";
     }
     ?>
+    <!-- Form per la prenotazione -->
+    <form method="POST" action="">
+        <fieldset>
+            <legend>Seleziona le opzioni</legend>
+            <?php
+            // Recupera le opzioni dal database per generare le checkbox (funzionalità di test.php)
+            $queryOptions = "SELECT id, nome FROM opzioni";
+            if ($result = $conn->query($queryOptions)) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<label>';
+                    echo '<input type="checkbox" name="checkboxes[]" value="' . $row['id'] . '"> ' . htmlspecialchars($row['nome']);
+                    echo '</label><br>';
+                }
+                $result->free();
+            } else {
+                echo "Errore nel recupero delle opzioni.";
+            }
+            ?>
+        </fieldset>
+        <fieldset>
+            <legend>Seleziona la data</legend>
+            <label for="data_prenotazione">Data Prenotazione:</label>
+            <input type="text" id="data_prenotazione" name="data_prenotazione" autocomplete="off">
+        </fieldset>
+        <button type="submit" name="submit">Prenota</button>
+    </form>
 </body>
 </html>

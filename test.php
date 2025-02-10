@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -74,6 +76,7 @@
         <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)"> Checkbox 10<br>
         <button type="submit">Invia</button>
     </form>
+>>>>>>> ab63ace58cd388e30fe43bff35376ffd50017e28
 
     <?php
     require_once 'connect.php';
@@ -101,7 +104,6 @@
         } 
 
     ?>
-</body>
-</html>
+
 
 
