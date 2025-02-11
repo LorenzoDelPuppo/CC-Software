@@ -24,15 +24,6 @@ CREATE TABLE IF NOT EXISTS appointment (
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON DELETE CASCADE
 );
 
--- Tabella servizi
-CREATE TABLE IF NOT EXISTS serviceCC(
-
-    service_id INT PRIMARY KEY AUTO_INCREMENT, 
-    timeTOT INT,
-    freeTime INT,
-    engageTime INT,
-    nameS VARCHAR (50) NOT NULL
-); 
 
 -- Tabella di marge
 CREATE TABLE IF NOT EXISTS mergeAS (
@@ -44,15 +35,6 @@ CREATE TABLE IF NOT EXISTS mergeAS (
     FOREIGN KEY (service_id) REFERENCES serviceCC(service_id) ON DELETE CASCADE
 );
 
--- Tabelle di incompatibilità
-CREATE TABLE IF NOT EXISTS incompatible (
-
-    incompatible_id INT PRIMARY KEY AUTO_INCREMENT, 
-    service_id1 INT NOT NULL,
-    service_id2 INT NOT NULL,
-    FOREIGN KEY (service_id1) REFERENCES serviceCC(service_id) ON DELETE CASCADE,
-    FOREIGN KEY (service_id2) REFERENCES serviceCC(service_id) ON DELETE CASCADE
-);
 
 -- Tabella serivci per ogni appuntamento 
 CREATE TABLE IF NOT EXISTS servicesOfAppointment (
@@ -62,6 +44,26 @@ CREATE TABLE IF NOT EXISTS servicesOfAppointment (
     service_id INT NOT NULL,
     sPera VARCHAR(50) NOT NULL,
     FOREIGN KEY (appointment_id) REFERENCES appointment(appointment_id) ON DELETE CASCADE
+);
+
+-- Tabella servizi
+CREATE TABLE IF NOT EXISTS serviceCC(
+
+    service_id INT PRIMARY KEY AUTO_INCREMENT, 
+    timeTOT INT,
+    freeTime INT,
+    engageTime INT,
+    nameS VARCHAR (50) NOT NULL
+); 
+
+-- Tabelle di incompatibilità
+CREATE TABLE IF NOT EXISTS incompatible (
+
+    incompatible_id INT PRIMARY KEY AUTO_INCREMENT, 
+    service_id1 INT NOT NULL,
+    service_id2 INT NOT NULL,
+    FOREIGN KEY (service_id1) REFERENCES serviceCC(service_id) ON DELETE CASCADE,
+    FOREIGN KEY (service_id2) REFERENCES serviceCC(service_id) ON DELETE CASCADE
 );
 
 -- Tabella servizi obbligatori
