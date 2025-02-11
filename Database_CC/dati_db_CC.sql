@@ -1,3 +1,4 @@
+USE db_cc;
 INSERT INTO serviceCC (nameS, timeTOT, freeTime, engageTime)
 VALUES 
     ('Piega', 55, 0, 45),
