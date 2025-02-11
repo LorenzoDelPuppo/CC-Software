@@ -16,15 +16,26 @@
     require 'connect.php'; // Inclusione della connessione al database
     require 'showAll.php'; // Inclusione del file con la funzione showAllAppuntamenti
 
-    $customer_id = $_SESSION['customer_id'];
-    echo "<h1>Benvenuto! Il tuo ID cliente è: " . $customer_id . "</h1>";
-    
     // Mostra tutti gli appuntamenti nella dashboard
+    echo "<br>";
     showAllAppuntamenti($conn);
+    echo "<br>";
+    $conn->close();
     ?>
+
+    <div class="button-container" style="display: flex; gap: 10px;">
+        <form action="prenotatest.php" method="post">
+            <button type="submit">Aggiungi Appuntamento</button>
+        </form>
+        <form action="calendario.php" method="post">
+            <button type="submit">Calendario</button>
+        </form>
+        <form action="clienti.php" method="post">
+            <button type="submit">Gestione Clienti</button>
+        </form>
+        <form action="report.php" method="post">
+            <button type="submit">Report</button>
+        </form>
+    </div>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
