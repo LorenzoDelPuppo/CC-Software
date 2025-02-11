@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Customer (
     phoneN VARCHAR(15),
     password VARCHAR(255),
     gender ENUM ('maschio', 'femmina') NOT NULL,
+    preference ENUM ('Barbara', 'Giulia','Casuale'), 
     email VARCHAR(254)
 );
 
