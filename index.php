@@ -71,6 +71,7 @@
 
 <?php
 require_once 'connect.php';
+require_once 'cript.php';
 
 //richiesta http post
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -84,13 +85,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hairType = $_POST['lunghezzaCapelli'];
     $gender = $_POST['gender'];
 
+    //hashing delle password
+    $hashedPassword = hashPassword($password);
+
     //query inserimento
     $sql = "INSERT INTO customer (fName, lName, phoneN, email, password, hair, gender)
-            VALUES (?,?,?,?,?,?,?)";
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     //connessione 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('sssssss', $firstName,$lastName,$phoneNumber,$email,$password,$hairType,$gender);
+    $stmt->bind_param('sssssss', $firstName, $lastName, $phoneNumber, $email, $hashedPassword, $hairType, $gender);
 
     if ($stmt->execute()) {
         echo "Dati salvati con successo!";
@@ -99,5 +103,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Errore nel salvataggio dei dati.";
     }
+
+    $stmt->close();
+    $conn->close();
+    
 }
 ?>
