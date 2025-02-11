@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS Customer (
     password VARCHAR(255),
     gender ENUM ('maschio', 'femmina') NOT NULL,
     preference ENUM ('Barbara', 'Giulia','Casuale'), 
-    email VARCHAR(254)
+    email VARCHAR(254),
     wants_notification TINYINT(1) NOT NULL DEFAULT 1 
 );
 
