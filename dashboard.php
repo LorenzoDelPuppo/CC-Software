@@ -24,7 +24,7 @@
     ?>
 
     <div class="button-container" style="display: flex; gap: 10px;">
-        <form action="prenotatest.php" method="post">
+        <form action="prenota.php" method="post">
             <button type="submit">Aggiungi Appuntamento</button>
         </form>
         <form action="calendario.php" method="post">
