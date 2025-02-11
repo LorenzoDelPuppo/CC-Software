@@ -3,6 +3,8 @@ session_start();
 require 'connect.php'; // Collegamento al database
 require 'session.php'; // Include il file session.php
 
+check_login();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_email = $_SESSION['email']; // Usa l'email per identificare l'utente
     $old_password = $_POST['old_password'];
