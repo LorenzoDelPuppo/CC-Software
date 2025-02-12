@@ -2,7 +2,7 @@
 session_start();
 require_once 'connect.php'; // Includi il file di connessione al DB
 
-// --- Funzioni Helper ---
+// === Funzioni Helper ===
 function timeToMinutes(string $timeStr): int {
     [$hours, $minutes] = explode(":", $timeStr);
     return ((int)$hours * 60) + (int)$minutes;
@@ -10,11 +10,11 @@ function timeToMinutes(string $timeStr): int {
 
 function minutesToTime(int $minutes): string {
     $hours = floor($minutes / 60);
-    $mins = $minutes % 60;
+    $mins  = $minutes % 60;
     return sprintf("%02d:%02d", $hours, $mins);
 }
 
-// --- Verifica se l'utente è loggato ---
+// === Verifica se l'utente è loggato ===
 if (!isset($_SESSION['email'])) {
     die("Errore: Devi effettuare il login per prenotare un appuntamento.");
 }
@@ -40,7 +40,7 @@ if (!isset($_SESSION['customer_id'])) {
 $customer_id = $_SESSION['customer_id'];
 $message = "";
 
-// --- Gestione del form (POST) ---
+// === Gestione del form (POST) ===
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['appointment_date']) && !empty($_POST['appointment_date'])) {
         $appointment_date_only = $_POST['appointment_date']; // formato "YYYY-MM-DD"
@@ -72,6 +72,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $slotStart = timeToMinutes($time_slot);
             $slotEnd   = $slotStart + $requiredDuration;
             
+            // Determino l'orario di chiusura della sessione in base al giorno
+            $dayNumber = (int)date('N', strtotime($appointment_date_only));
+            if ($dayNumber === 6) { // Sabato
+                $sessionClosing = timeToMinutes("17:00");
+            } else { // Martedì - Venerdì (lunedì e domenica non sono disponibili)
+                if ($slotStart < timeToMinutes("12:30")) {
+                    $sessionClosing = timeToMinutes("12:30");
+                } else {
+                    $sessionClosing = timeToMinutes("19:00");
+                }
+            }
+            // Se l'appuntamento terminerebbe dopo il termine della sessione, blocca la prenotazione
+            if ($slotEnd > $sessionClosing) {
+                $message .= "Errore: l'appuntamento terminerebbe oltre l'orario di chiusura della sessione.<br>";
+            }
+            
+            // Controllo le sovrapposizioni (max 2 appuntamenti per lo stesso intervallo)
             $sql = "SELECT a.dateTime, SUM(sc.timeTOT) as duration 
                     FROM appointment a 
                     JOIN mergeAS mas ON a.appointment_id = mas.appointment_id
@@ -170,18 +187,18 @@ $conn->close();
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
   <script>
-    // Mappa delle durate (in minuti) per ciascun servizio
+    // Mappa delle durate (in minuti) per ciascun servizio (AGGIORNATA)
     var serviceDurations = {
-      1: 55,
-      2: 85,
-      3: 115,
-      4: 145,
-      5: 125,
-      6: 80,
-      7: 210,
-      8: 205,
-      9: 80,
-      10: 25
+      1: 55,    // Piega
+      2: 45,    // Taglio
+      3: 70,    // Colore
+      4: 100,   // Mèche - Schiariture
+      5: 70,    // Permanente
+      6: 70,    // Stiratura
+      7: 135,   // Keratina
+      8: 125,   // Colori - Mèche
+      9: 30,    // Ricostruzione
+      10: 25    // Trattamento
     };
 
     // Calcola la durata totale in base ai servizi selezionati
@@ -296,7 +313,7 @@ $conn->close();
       echo "<p>$message</p>";
     }
   ?>
-  <form method="post" action="prenotatest.php">
+  <form method="post" action="prenota.php">
     <fieldset>
       <legend>Seleziona i servizi</legend>
       <input type="checkbox" name="checkboxes[]" value="1" onchange="updateCheckboxStates(this)"> Piega<br>
@@ -306,7 +323,7 @@ $conn->close();
       <input type="checkbox" name="checkboxes[]" value="5" onchange="updateCheckboxStates(this)"> Permanente<br>
       <input type="checkbox" name="checkboxes[]" value="6" onchange="updateCheckboxStates(this)"> Stiratura<br>
       <input type="checkbox" name="checkboxes[]" value="7" onchange="updateCheckboxStates(this)"> Keratina<br>
-      <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)"> Colore - Mèche<br>
+      <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)"> Colori - Mèche<br>
       <input type="checkbox" name="checkboxes[]" value="9" onchange="updateCheckboxStates(this)"> Ricostruzione<br>
       <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)"> Trattamento<br>
     </fieldset>
