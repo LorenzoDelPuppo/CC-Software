@@ -2,7 +2,7 @@
 session_start();
 require_once 'connect.php'; // Includi qui il file di connessione al database
 
-// Verifica che l'utente sia loggato
+/*// Verifica che l'utente sia loggato
 if (!isset($_SESSION['email'])) {
     // Se non è loggato, reindirizza alla pagina di login oppure mostra un messaggio di errore
     header("Location: login.php");
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
-$conn->close();
+$conn->close();*/
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -60,62 +60,38 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impostazioni Preferenza</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 2em;
-        }
-        form {
-            margin-top: 1em;
-        }
-        label, select {
-            font-size: 1.1em;
-        }
-        input[type="submit"] {
-            margin-top: 1em;
-            padding: 0.5em 1em;
-            font-size: 1em;
-        }
-        .message {
-            padding: 1em;
-            background-color: #e0ffe0;
-            border: 1px solid #00a000;
-            margin-bottom: 1em;
-        }
-        /* Stile per il pulsante "Torna al Menu" */
-        .menu-button {
-            margin-top: 20px;
-            padding: 0.7em 1.5em;
-            font-size: 1.1em;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .menu-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css"> <!-- Collegamento al file CSS -->
 </head>
 <body>
-    <h1>Impostazioni Preferenza</h1>
-    <?php if (!empty($message)): ?>
-        <div class="message"><?php echo htmlspecialchars($message); ?></div>
-    <?php endif; ?>
-    <form action="impostazioni.php" method="post">
-        <label for="preference">Seleziona la tua preferenza:</label>
-        <select name="preference" id="preference">
-            <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
-            <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
-            <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
-        </select>
-        <br><br>
-        <input type="submit" value="Salva Impostazioni">
-    </form>
-    
-    <!-- Pulsante per tornare al Menu -->
-    <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <span class="menu-icon">☰ Menu</span>
+    </div>
+
+    <!-- Contenitore Impostazioni -->
+    <div class="settings-container">
+        <h1>Impostazioni Preferenza</h1>
+
+        <!-- Messaggio di conferma/successo -->
+        <?php if (!empty($message)): ?>
+            <div class="message"><?php echo htmlspecialchars($message); ?></div>
+        <?php endif; ?>
+
+        <form action="impostazioni.php" method="post">
+            <label for="preference">Seleziona la tua preferenza:</label>
+            <select name="preference" id="preference">
+                <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
+                <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
+                <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
+            </select>
+
+            <button type="submit">Salva Impostazioni</button>
+        </form>
+
+        <!-- Pulsante per tornare al Menu -->
+        <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
+    </div>
+
 </body>
 </html>
