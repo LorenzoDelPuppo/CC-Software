@@ -22,6 +22,7 @@
           
             <button type="submit">Accedi</button>
             <a href="password_dimenticata.php" class="forgot-password">Password dimenticata?</a>
+            <a href="index.php" class="forgot-password">Non hai un account? Registrati</a>
         </form>
     </div>
 </body>
