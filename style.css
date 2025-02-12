@@ -1,3 +1,4 @@
+/* Stile generale */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -5,70 +6,160 @@ body {
     justify-content: center; /* Centra il form verticalmente */
     align-items: center;
     margin: 0;
-    background-image: url('rullino/vetrina.jpg');
-    background-size: cover;  /* Adatta l'immagine a tutto lo schermo */
-    background-position: center; /* Centra l'immagine */
-    background-repeat: no-repeat; /* Evita la ripetizione */
-    background-attachment: fixed; /* Mantiene l'immagine fissa mentre si scorre */
-    width: 100vw; /* Assicura che copra tutta la larghezza */
-    height: 100vh; /* Assicura che copra tutta l'altezza */
-    padding-top: 40px; /* Spazio dall'alto per il logo */
+    background-image: url('rullino/vetrina.jpg'); /* Immagine di sfondo */
+    background-size: cover;  
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    width: 100vw; 
+    height: 100vh; 
+    padding-top: 40px; 
 }
 
-
+/* Contenitore logo */
 .logo-container {
     width: 80%;
-    max-width: 150px; /* Dimensione del logo */
-    margin-bottom: 20px; /* Distanza tra il logo e il form */
+    max-width: 150px;
+    margin-bottom: 20px;
 }
 
 .logo-container img {
     width: auto;
-    max-width: 140px; /* Riduci questo valore, prova 100px o meno */
+    max-width: 140px;
     height: auto;
 }
 
-
-.form-container {
-    width: 320px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
+/* Contenitore principale del form */
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    width: 400px;
+    text-align: center;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.form-container label {
-    font-size: 14px;
-    color: #333;
+/* Titolo */
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.form-container input,
-.form-container select {
+/* Testo descrittivo */
+p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Stili per etichette e input */
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+input {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 14px;
+    background-color: #f5f5f5;
     box-sizing: border-box;
 }
 
-.form-container button {
+/* Bottone principale */
+button {
     width: 100%;
-    padding: 10px;
-    background-color: #333;
-    color: #fff;
+    padding: 12px;
+    background-color: black;
+    color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
 }
 
+button:hover {
+    background-color: #333;
+}
+
+/* Bottone di riprova */
+#retryButton {
+    display: none;
+    width: 100%;
+    padding: 12px;
+    background-color: #666;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#retryButton:hover {
+    background-color: #888;
+}
+
+/* Messaggio di errore/successo */
+#message {
+    display: none;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.form-container {
+    width: 350px;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container input,
+.form-container select  {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f5f5f5;
+}
+
+/* Bottone allineato alla grafica originale */
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Bottone in stato hover */
 .form-container button:hover {
-    background-color: #555;
+    background-color: #333;
 }
 
 .buttons_select {
@@ -85,15 +176,18 @@ body {
     transition: border 0.3s ease, transform 0.3s ease;
 }
 
+/* Nasconde i radio button */
 input[type="radio"] {
     display: none;
 }
 
+/* Evidenziazione immagine selezionata */
 input[type="radio"]:checked + label .img_sceltacapelli {
     border: 3px solid black;
     transform: scale(1.1);
 }
 
+/* Stili per il contenitore delle immagini cliccabili */
 .img_label {
     display: flex;
     justify-content: center;
@@ -101,8 +195,16 @@ input[type="radio"]:checked + label .img_sceltacapelli {
     cursor: pointer;
 }
 
-h2 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333; /* Cambia il colore se vuoi */
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: #000; /* Colore più scuro al passaggio del mouse */
 }

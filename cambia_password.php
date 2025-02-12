@@ -72,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Cambia Password</title>
     <script>
         function changePassword(event) {
@@ -79,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             let formData = new FormData(document.getElementById("passwordForm"));
 
-            fetch("change_password.php", {
+            fetch("cambia_password.php", {
                 method: "POST",
                 body: formData
             })
@@ -109,21 +110,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-    <form id="passwordForm" onsubmit="changePassword(event)">
-        <label>Password attuale:</label>
-        <input type="password" name="old_password" required><br>
+    <!-- Contenitore per il logo -->
+    <div class="logo-container">
+        <img src="rullino/logo.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->
+    </div>
 
-        <label>Nuova password:</label>
-        <input type="password" name="new_password" required><br>
+    <!-- Contenitore principale -->
+    <div class="form-container">
+        <h2>Cambia password</h2>
+        <label>Inserisci la tua vecchia password e poi la nuova</label>
 
-        <label>Conferma nuova password:</label>
-        <input type="password" name="confirm_password" required><br>
+        <form id="passwordForm" onsubmit="changePassword(event)">
+            <label for="old_password">Vecchia Password</label>
+            <input type="password" id="old_password" name="old_password" required placeholder="Inserisci">
 
-        <button type="submit">Cambia Password</button>
-        <button type="button" id="retryButton" style="display: none;" onclick="retry()">Riprova</button>
-    </form>
+            <label for="new_password">Nuova Password</label>
+            <input type="password" id="new_password" name="new_password" required placeholder="Inserisci">
 
-    <div id="message" style="display: none; font-weight: bold;"></div>
+            <label for="confirm_password">Conferma Nuova Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required placeholder="Inserisci">
+
+            <button type="submit">Cambia</button>
+            <button type="button" id="retryButton" style="display: none;" onclick="retry()">Riprova</button>
+        </form>
+
+        <div id="message"></div>
+    </div>
 
 </body>
 </html>

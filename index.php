@@ -64,7 +64,7 @@
                 </div>
             </div>
             <br>
-                <button type="submit">Invia</button>
+                <button type="submit">Registrati</button>
         </div>
 </body>
 </html>
