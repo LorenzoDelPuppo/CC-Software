@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $conn->close();
-    echo ($response);
+    echo json_encode($response);
     exit;
 }
 ?>
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             let formData = new FormData(document.getElementById("passwordForm"));
 
-            fetch("change_password.php", {
+            fetch("cambia_password.php", {
                 method: "POST",
                 body: formData
             })
