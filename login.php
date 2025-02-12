@@ -14,13 +14,14 @@
         <h2>Login</h2>
         <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="POST">
             <label for="inserisci l'email">Email</label>
-            <input type="email" name="email" required>
+            <input type="email" name="email" required placeholder="Inserisci" >
             <br>
             <label for="inserisci la password">Password</label>
-            <input type="password" name="password" required>
+            <input type="password" name="password" required placeholder="Inserisci">
             <br>
           
             <button type="submit">Accedi</button>
+            <a href="password_dimenticata.php" class="forgot-password">Password dimenticata?</a>
         </form>
     </div>
 </body>
