@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once 'connect.php'; // Includi qui il file di connessione al DB
+require_once 'connect.php'; // Assicurati che questo file contenga i dati per la connessione al DB
 
-// === Funzioni Helper per la gestione degli orari ===
+// --- Funzioni Helper ---
 function timeToMinutes(string $timeStr): int {
     [$hours, $minutes] = explode(":", $timeStr);
     return ((int)$hours * 60) + (int)$minutes;
@@ -16,7 +16,7 @@ function minutesToTime(int $minutes): string {
 
 function generateSlots(string $startTime, string $endTime, int $interval): array {
     $startMinutes = timeToMinutes($startTime);
-    $endMinutes = timeToMinutes($endTime);
+    $endMinutes   = timeToMinutes($endTime);
     $slots = [];
     for ($time = $startMinutes; $time + $interval <= $endMinutes; $time += $interval) {
         $slots[] = minutesToTime($time);
@@ -24,7 +24,7 @@ function generateSlots(string $startTime, string $endTime, int $interval): array
     return $slots;
 }
 
-// Classe per gestire gli orari in base al giorno della settimana
+// --- Classe per gestire gli orari in base al giorno ---
 class WeekDay {
     public const MONDAY    = 1;
     public const TUESDAY   = 2;
@@ -34,22 +34,22 @@ class WeekDay {
     public const SATURDAY  = 6;
     public const SUNDAY    = 7;
     
-    // Restituisce gli slot in base al giorno
     public static function getSlots(int $day): array {
+        // Supponiamo che lunedì e domenica non siano disponibili
         if ($day === self::MONDAY || $day === self::SUNDAY) {
-            return []; // Nessun appuntamento il lunedì e la domenica
+            return [];
         }
         if ($day === self::SATURDAY) {
             return generateSlots("08:00", "17:00", 15);
         }
-        // Per martedì - venerdì: due fasce (mattina e pomeriggio)
-        $morning = generateSlots("08:30", "12:30", 15);
+        // Martedì - Venerdì: due fasce (mattina e pomeriggio)
+        $morning   = generateSlots("08:30", "12:30", 15);
         $afternoon = generateSlots("15:00", "19:00", 15);
         return array_merge($morning, $afternoon);
     }
 }
 
-// === Ricezione e validazione dei parametri ===
+// --- Ricezione e validazione dei parametri ---
 $date = $_GET['date'] ?? '';
 $requiredDuration = isset($_GET['duration']) ? intval($_GET['duration']) : 0;
 
@@ -63,11 +63,12 @@ if (!$timestamp) {
     echo json_encode(['error' => 'Data non valida']);
     exit;
 }
+
 $dayNumber = (int)date('N', $timestamp);
 $allSlots = WeekDay::getSlots($dayNumber);
 
-// === Recupero degli appuntamenti già prenotati per la data ===
-// Per ciascun appuntamento, la durata viene calcolata sommando il campo "timeTOT" dei servizi associati.
+// --- Recupero degli appuntamenti già prenotati per la data ---
+// Per ciascun appuntamento la durata viene calcolata sommando il campo "timeTOT" dei servizi prenotati
 $sql = "SELECT a.dateTime, SUM(sc.timeTOT) as duration 
         FROM appointment a 
         JOIN mergeAS mas ON a.appointment_id = mas.appointment_id
@@ -82,7 +83,7 @@ $result = $stmt->get_result();
 $appointments = [];
 while ($row = $result->fetch_assoc()) {
     $startTime = date("H:i", strtotime($row['dateTime']));
-    $duration = intval($row['duration']);
+    $duration  = intval($row['duration']);
     $appointments[] = [
         'start' => timeToMinutes($startTime),
         'end'   => timeToMinutes($startTime) + $duration
@@ -90,20 +91,20 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-// === Filtraggio degli slot disponibili ===
+// --- Filtraggio degli slot disponibili ---
+// Per ciascun slot, se il numero di appuntamenti che si sovrappongono (calcolati in base alla durata richiesta)
+// è minore di 2, allora lo slot è disponibile
 $availableSlots = [];
 foreach ($allSlots as $slot) {
     $slotStart = timeToMinutes($slot);
-    $slotEnd = $slotStart + $requiredDuration;
-    $conflict = false;
+    $slotEnd   = $slotStart + $requiredDuration;
+    $overlapCount = 0;
     foreach ($appointments as $appt) {
-        // Se l'intervallo [slotStart, slotEnd] si sovrappone ad un appuntamento già presente, lo scarto
         if ($slotStart < $appt['end'] && $slotEnd > $appt['start']) {
-            $conflict = true;
-            break;
+            $overlapCount++;
         }
     }
-    if (!$conflict) {
+    if ($overlapCount < 2) {  // se già prenotati 0 o 1 appuntamenti, lo slot è disponibile
         $availableSlots[] = $slot;
     }
 }
@@ -111,3 +112,4 @@ foreach ($allSlots as $slot) {
 echo json_encode($availableSlots);
 $conn->close();
 ?>
+    

@@ -1,13 +1,25 @@
 <?php  
 session_start();
-require_once 'connect.php'; // Connessione al database
+require_once 'connect.php'; // Includi il file di connessione al DB
 
-// Verifica se l'utente è loggato
+// --- Funzioni Helper ---
+function timeToMinutes(string $timeStr): int {
+    [$hours, $minutes] = explode(":", $timeStr);
+    return ((int)$hours * 60) + (int)$minutes;
+}
+
+function minutesToTime(int $minutes): string {
+    $hours = floor($minutes / 60);
+    $mins = $minutes % 60;
+    return sprintf("%02d:%02d", $hours, $mins);
+}
+
+// --- Verifica se l'utente è loggato ---
 if (!isset($_SESSION['email'])) {
     die("Errore: Devi effettuare il login per prenotare un appuntamento.");
 }
 
-// Se il customer_id non è già in sessione, recuperalo dal database usando l'email
+// Se il customer_id non è in sessione, lo recupero dal DB
 if (!isset($_SESSION['customer_id'])) {
     $email = $_SESSION['email'];
     $query = "SELECT customer_id FROM Customer WHERE email = ?";
@@ -28,89 +40,67 @@ if (!isset($_SESSION['customer_id'])) {
 $customer_id = $_SESSION['customer_id'];
 $message = "";
 
-/* ======================
-   Funzioni Helper per la gestione degli orari
-   ====================== */
-
-// Converte una stringa "HH:MM" in minuti totali dal mezzanotte
-function timeToMinutes(string $timeStr): int {
-    [$hours, $minutes] = explode(":", $timeStr);
-    return ((int)$hours * 60) + (int)$minutes;
-}
-
-// Converte minuti totali in una stringa "HH:MM" formattata
-function minutesToTime(int $minutes): string {
-    $hours = floor($minutes / 60);
-    $mins = $minutes % 60;
-    return sprintf("%02d:%02d", $hours, $mins);
-}
-
-// Genera una serie di slot (orari) dati l'orario di inizio e fine, con un intervallo (in minuti).
-// L'ultimo slot viene generato solo se, aggiungendo l'intervallo, non si supera l'orario di chiusura.
-function generateSlots(string $startTime, string $endTime, int $interval): array {
-    $startMinutes = timeToMinutes($startTime);
-    $endMinutes = timeToMinutes($endTime);
-    $slots = [];
-    for ($time = $startMinutes; $time + $interval <= $endMinutes; $time += $interval) {
-        $slots[] = minutesToTime($time);
-    }
-    return $slots;
-}
-
-/* ======================
-   Classe WeekDay (per PHP <8.1, sostituisce l'enum)
-   ====================== */
-class WeekDay {
-    public const MONDAY    = 1;
-    public const TUESDAY   = 2;
-    public const WEDNESDAY = 3;
-    public const THURSDAY  = 4;
-    public const FRIDAY    = 5;
-    public const SATURDAY  = 6;
-    public const SUNDAY    = 7;
-    
-    // Restituisce gli slot di appuntamento in base al giorno:
-    // - Lunedì e Domenica: array vuoto
-    // - Sabato: slot dalle 08:00 alle 17:00 (intervallo 15 minuti)
-    // - Martedì-Venerdì: due fasce (08:30-12:30 e 15:00-19:00)
-    public static function getSlots(int $day): array {
-        if ($day === self::MONDAY || $day === self::SUNDAY) {
-            return [];
-        }
-        if ($day === self::SATURDAY) {
-            return generateSlots("08:00", "17:00", 15);
-        }
-        // Per TUESDAY, WEDNESDAY, THURSDAY, FRIDAY:
-        $morning = generateSlots("08:30", "12:30", 15);
-        $afternoon = generateSlots("15:00", "19:00", 15);
-        return array_merge($morning, $afternoon);
-    }
-}
-
-/* ======================
-   Gestione del form
-   ====================== */
-
-// La logica distingue due step tramite il campo "action":
-// - 'view' per mostrare il dropdown degli orari (senza inviare dati)
-// - 'submit' per inviare la prenotazione (quando data, servizi e orario sono selezionati)
+// --- Gestione del form (POST) ---
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $action = $_POST['action'] ?? '';
     if (isset($_POST['appointment_date']) && !empty($_POST['appointment_date'])) {
         $appointment_date_only = $_POST['appointment_date']; // formato "YYYY-MM-DD"
         
-        if ($action === 'view') {
-            // L'utente vuole solo visualizzare gli orari; non esegue azioni sul DB
-        } else if ($action === 'submit') {
-            // Se è stato selezionato anche un orario, invia i dati
-            if (!isset($_POST['time_slot']) || empty($_POST['time_slot'])) {
-                $message .= "Devi selezionare l'orario dell'appuntamento.<br>";
+        // Calcolo la durata totale dei servizi selezionati (server-side)
+        if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes']) && count($_POST['checkboxes']) > 0) {
+            $ids = array_map('intval', $_POST['checkboxes']);
+            $in = implode(',', $ids);
+            $queryDur = "SELECT SUM(timeTOT) as total FROM serviceCC WHERE service_id IN ($in)";
+            $resultDur = $conn->query($queryDur);
+            if ($resultDur && $rowDur = $resultDur->fetch_assoc()) {
+                $requiredDuration = intval($rowDur['total']);
             } else {
-                $time_slot = $_POST['time_slot']; // formato "HH:MM"
-                // Combina la data e l'orario; il formato finale è "YYYY-MM-DD HH:MM:SS"
+                $requiredDuration = 0;
+            }
+        } else {
+            $requiredDuration = 0;
+        }
+        
+        if ($requiredDuration <= 0) {
+            $message .= "Errore: seleziona almeno un servizio valido.<br>";
+        }
+        
+        if (isset($_POST['time_slot']) && !empty($_POST['time_slot'])) {
+            $time_slot = $_POST['time_slot']; // formato "HH:MM"
+            
+            // --- Controllo di disponibilità lato server ---
+            // Converto l'orario scelto in minuti e calcolo l'intervallo occupato dall'appuntamento
+            $slotStart = timeToMinutes($time_slot);
+            $slotEnd   = $slotStart + $requiredDuration;
+            
+            $sql = "SELECT a.dateTime, SUM(sc.timeTOT) as duration 
+                    FROM appointment a 
+                    JOIN mergeAS mas ON a.appointment_id = mas.appointment_id
+                    JOIN serviceCC sc ON mas.service_id = sc.service_id
+                    WHERE DATE(a.dateTime) = ?
+                    GROUP BY a.appointment_id";
+            if ($stmt = $conn->prepare($sql)) {
+                $stmt->bind_param("s", $appointment_date_only);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $overlapCount = 0;
+                while ($row = $result->fetch_assoc()) {
+                    $apptStart = timeToMinutes(date("H:i", strtotime($row['dateTime'])));
+                    $apptEnd   = $apptStart + intval($row['duration']);
+                    if ($slotStart < $apptEnd && $slotEnd > $apptStart) {
+                        $overlapCount++;
+                    }
+                }
+                $stmt->close();
+                if ($overlapCount >= 2) {
+                    $message .= "Errore: non ci sono posti disponibili in questo orario.<br>";
+                }
+            } else {
+                $message .= "Errore nella preparazione della query per verificare la disponibilità.<br>";
+            }
+            
+            // --- Inserimento dell'appuntamento (solo se non sono stati rilevati errori) ---
+            if (empty($message)) {
                 $appointment_datetime = $appointment_date_only . " " . $time_slot . ":00";
-                
-                // Inserimento nella tabella appointment (non modificare se non strettamente necessario)
                 $sql = "INSERT INTO appointment (customer_id, dateTime) VALUES (?, ?)";
                 if ($stmt = $conn->prepare($sql)) {
                     $stmt->bind_param("is", $customer_id, $appointment_datetime);
@@ -118,13 +108,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $appointment_id = $stmt->insert_id;
                         $message .= "Appuntamento prenotato con successo!<br>";
                         
-                        // Inserimento dei servizi selezionati per l'appuntamento in servicesOfAppointment
+                        // Inserimento nella tabella servicesOfAppointment
                         if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes'])) {
                             $sql2 = "INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)";
                             if ($stmt2 = $conn->prepare($sql2)) {
                                 foreach ($_POST['checkboxes'] as $service_id) {
                                     $service_id = intval($service_id);
-                                    $sPera = ""; // Valore di default per sPera
+                                    $sPera = "";
                                     $stmt2->bind_param("iis", $appointment_id, $service_id, $sPera);
                                     $stmt2->execute();
                                 }
@@ -136,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             $message .= "Nessun servizio selezionato per servicesOfAppointment.<br>";
                         }
                         
-                        // Inserimento dei servizi nella tabella mergeAS
+                        // Inserimento nella tabella mergeAS
                         if (isset($_POST['checkboxes']) && is_array($_POST['checkboxes'])) {
                             $sql3 = "INSERT INTO mergeAS (appointment_id, service_id) VALUES (?, ?)";
                             if ($stmt3 = $conn->prepare($sql3)) {
@@ -152,7 +142,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         } else {
                             $message .= "Nessun servizio selezionato per mergeAS.<br>";
                         }
-                        
                     } else {
                         $message .= "Errore durante l'inserimento dell'appuntamento: " . $stmt->error . "<br>";
                     }
@@ -161,6 +150,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $message .= "Errore nella preparazione della query per appointment.<br>";
                 }
             }
+        } else {
+            $message .= "Devi selezionare l'orario dell'appuntamento.<br>";
         }
     } else {
         $message .= "Devi selezionare la data dell'appuntamento.<br>";
@@ -174,25 +165,83 @@ $conn->close();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prenotazione Appuntamenti</title>
-  <!-- Includi jQuery e jQuery UI per il datepicker -->
+  <!-- Includo jQuery e jQuery UI per il datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
   <script>
-    // Funzione per gestire le relazioni obbligatorie/incompatibili per le checkbox
+    // Mappa delle durate (in minuti) per ciascun servizio
+    var serviceDurations = {
+      1: 55,
+      2: 85,
+      3: 115,
+      4: 145,
+      5: 125,
+      6: 80,
+      7: 210,
+      8: 205,
+      9: 80,
+      10: 25
+    };
+
+    // Calcola la durata totale in base ai servizi selezionati
+    function calcolaDurataTotale() {
+      var total = 0;
+      $("input[name='checkboxes[]']:checked").each(function(){
+        var id = $(this).val();
+        total += serviceDurations[id] || 0;
+      });
+      return total;
+    }
+
+    // Aggiorna il dropdown degli orari disponibili tramite AJAX (chiamata a get_slots.php)
+    function updateAvailableSlots() {
+      var dateVal = $("#appointment_date").val();
+      if(dateVal === "") {
+        return;
+      }
+      var totalDuration = calcolaDurataTotale();
+      if(totalDuration === 0) {
+        return;
+      }
+      $.ajax({
+        url: 'get_slots.php',
+        method: 'GET',
+        data: { date: dateVal, duration: totalDuration },
+        dataType: 'json',
+        success: function(response) {
+          $("#time_slot").empty();
+          if(response.error) {
+            $("#time_slot").append($('<option>', { value: '', text: response.error }));
+          } else if(response.length === 0) {
+            $("#time_slot").append($('<option>', { value: '', text: 'Nessun orario disponibile' }));
+          } else {
+            $("#time_slot").append($('<option>', { value: '', text: '-- Seleziona un orario --' }));
+            $.each(response, function(index, time) {
+              $("#time_slot").append($('<option>', { value: time, text: time }));
+            });
+          }
+        },
+        error: function() {
+          alert("Errore nel recupero degli orari disponibili.");
+        }
+      });
+    }
+
+    // Funzione per gestire relazioni obbligatorie/incompatibili fra checkbox (personalizzabile)
     function updateCheckboxStates(checkbox) {
       const selectedValue = parseInt(checkbox.value);
       const mandatoryRelations = { 2: [1], 3: [1], 4: [1], 5: [1], 7: [1], 8: [1], 9: [1] };
       const incompatibleRelations = { 3: [7], 4: [7,8], 5: [6,7], 6: [5,8], 7: [3,4,5,6], 8: [3,4,6] };
       if (checkbox.checked && mandatoryRelations[selectedValue]) {
-        mandatoryRelations[selectedValue].forEach(value => {
-          const relatedCheckbox = document.querySelector(`input[value="${value}"]`);
+        mandatoryRelations[selectedValue].forEach(function(value) {
+          var relatedCheckbox = document.querySelector('input[value="'+value+'"]');
           if (relatedCheckbox) {
             relatedCheckbox.checked = true;
           }
         });
       }
-      document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      document.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
         const cbValue = parseInt(cb.value);
         if (incompatibleRelations[selectedValue] && incompatibleRelations[selectedValue].includes(cbValue)) {
           if (checkbox.checked) {
@@ -220,81 +269,60 @@ $conn->close();
       $("#appointment_date").datepicker({
         dateFormat: 'yy-mm-dd'
       });
-      $("input[name='checkboxes[]']").on("change", checkForm);
-      $("#appointment_date").on("change", checkForm);
+      $("input[name='checkboxes[]']").on("change", function(){
+        checkForm();
+        updateAvailableSlots();
+      });
+      $("#appointment_date").on("change", function(){
+        checkForm();
+        updateAvailableSlots();
+      });
       checkForm();
-
-      // Se il dropdown degli orari è presente, aggiorna dinamicamente il pulsante al cambio selezione
       $(document).on("change", "#time_slot", function(){
           var selectedTime = $(this).val();
           if(selectedTime !== ""){
               $("#submitButton").text("Invia");
-              $("#submitButton").val("submit");
           } else {
               $("#submitButton").text("Visualizza orari disponibili");
-              $("#submitButton").val("view");
           }
       });
     });
   </script>
 </head>
 <body>
-  <h1>Servizi</h1>
+  <h1>Prenotazione Appuntamenti</h1>
   <?php
     if (!empty($message)) {
-        echo "<p>$message</p>";
+      echo "<p>$message</p>";
     }
   ?>
-  <form method="post">
+  <form method="post" action="prenotatest.php">
     <fieldset>
       <legend>Seleziona i servizi</legend>
-      <input type="checkbox" name="checkboxes[]" value="1" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('1', $_POST['checkboxes'])) echo "checked"; ?>> Piega<br>
-      <input type="checkbox" name="checkboxes[]" value="2" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('2', $_POST['checkboxes'])) echo "checked"; ?>> Taglio<br>
-      <input type="checkbox" name="checkboxes[]" value="3" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('3', $_POST['checkboxes'])) echo "checked"; ?>> Colore<br>
-      <input type="checkbox" name="checkboxes[]" value="4" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('4', $_POST['checkboxes'])) echo "checked"; ?>> Mèche/Schiariture<br>
-      <input type="checkbox" name="checkboxes[]" value="5" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('5', $_POST['checkboxes'])) echo "checked"; ?>> Permanente<br>
-      <input type="checkbox" name="checkboxes[]" value="6" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('6', $_POST['checkboxes'])) echo "checked"; ?>> Stiratura<br>
-      <input type="checkbox" name="checkboxes[]" value="7" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('7', $_POST['checkboxes'])) echo "checked"; ?>> Keratina<br>
-      <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('8', $_POST['checkboxes'])) echo "checked"; ?>> Colore - Mèche<br>
-      <input type="checkbox" name="checkboxes[]" value="9" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('9', $_POST['checkboxes'])) echo "checked"; ?>> Ricostruzione<br>
-      <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)" <?php if(isset($_POST['checkboxes']) && in_array('10', $_POST['checkboxes'])) echo "checked"; ?>> Trattamento<br>
+      <input type="checkbox" name="checkboxes[]" value="1" onchange="updateCheckboxStates(this)"> Piega<br>
+      <input type="checkbox" name="checkboxes[]" value="2" onchange="updateCheckboxStates(this)"> Taglio<br>
+      <input type="checkbox" name="checkboxes[]" value="3" onchange="updateCheckboxStates(this)"> Colore<br>
+      <input type="checkbox" name="checkboxes[]" value="4" onchange="updateCheckboxStates(this)"> Mèche/Schiariture<br>
+      <input type="checkbox" name="checkboxes[]" value="5" onchange="updateCheckboxStates(this)"> Permanente<br>
+      <input type="checkbox" name="checkboxes[]" value="6" onchange="updateCheckboxStates(this)"> Stiratura<br>
+      <input type="checkbox" name="checkboxes[]" value="7" onchange="updateCheckboxStates(this)"> Keratina<br>
+      <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)"> Colore - Mèche<br>
+      <input type="checkbox" name="checkboxes[]" value="9" onchange="updateCheckboxStates(this)"> Ricostruzione<br>
+      <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)"> Trattamento<br>
     </fieldset>
     <fieldset>
       <legend>Seleziona la data dell'appuntamento</legend>
       <label for="appointment_date">Data Appuntamento:</label>
-      <input type="text" id="appointment_date" name="appointment_date" autocomplete="off" value="<?= isset($_POST['appointment_date']) ? htmlspecialchars($_POST['appointment_date']) : '' ?>">
+      <input type="text" id="appointment_date" name="appointment_date" autocomplete="off">
     </fieldset>
-    <?php
-      // Se sono stati selezionati data e almeno un servizio, mostra il dropdown degli orari
-      if (isset($_POST['appointment_date']) && !empty($_POST['appointment_date']) &&
-          isset($_POST['checkboxes']) && !empty($_POST['checkboxes'])):
-          $selectedDate = $_POST['appointment_date'];
-          $timestamp = strtotime($selectedDate);
-          if ($timestamp !== false) {
-              $dayNumber = (int)date('N', $timestamp);
-              $availableSlots = WeekDay::getSlots($dayNumber);
-              if (!empty($availableSlots)) {
-                  echo '<fieldset>';
-                  echo '<legend>Seleziona l\'orario dell\'appuntamento</legend>';
-                  echo '<label for="time_slot">Orario:</label>';
-                  echo '<select name="time_slot" id="time_slot">';
-                  echo '<option value="">-- Seleziona un orario --</option>';
-                  foreach ($availableSlots as $slot) {
-                      $sel = (isset($_POST['time_slot']) && $_POST['time_slot'] == $slot) ? ' selected' : '';
-                      echo "<option value='" . htmlspecialchars($slot) . "'$sel>" . htmlspecialchars($slot) . "</option>";
-                  }
-                  echo '</select>';
-                  echo '</fieldset>';
-              } else {
-                  echo "<p>Nessun appuntamento disponibile per il giorno selezionato.</p>";
-              }
-          }
-      endif;
-    ?>
-    <!-- Il pulsante ha id="submitButton" e il suo testo/valore viene aggiornato dinamicamente -->
-    <button type="submit" name="action" value="<?php echo (isset($_POST['time_slot']) && !empty($_POST['time_slot'])) ? 'submit' : 'view'; ?>" id="submitButton">
-      <?php echo (isset($_POST['time_slot']) && !empty($_POST['time_slot'])) ? 'Invia' : 'Visualizza orari disponibili'; ?>
-    </button>
+    <fieldset>
+      <legend>Seleziona l'orario dell'appuntamento</legend>
+      <label for="time_slot">Orario:</label>
+      <select name="time_slot" id="time_slot">
+        <option value="">-- Seleziona un orario --</option>
+      </select>
+    </fieldset>
+    <button type="submit" id="submitButton" disabled>Visualizza orari disponibili</button>
   </form>
 </body>
 </html>
