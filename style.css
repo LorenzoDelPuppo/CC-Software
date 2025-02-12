@@ -18,6 +18,8 @@ body {
 
 /* Contenitore logo */
 .logo-container {
+    display: block;
+    margin: 0 auto;
     width: 80%;
     max-width: 150px;
     margin-bottom: 20px;
@@ -27,6 +29,7 @@ body {
     width: auto;
     max-width: 140px;
     height: auto;
+    justify-content: center;
 }
 
 /* Contenitore principale del form */

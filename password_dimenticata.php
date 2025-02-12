@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $to = $email;
         $subject = "Recupero Password";
         $message = "Clicca su questo link per reimpostare la password: $reset_link";
-        $headers = "From: noreply@tuodominio.com";
+        $headers = "From: tommaso05poletto@gmail.com";
 
         if (mail($to, $subject, $message, $headers)) {
             echo "Email inviata con successo!";
@@ -41,8 +41,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<link rel="stylesheet" href="style.css">
 
-<form method="post">
-    <input type="email" name="email" placeholder="Inserisci la tua email" required>
-    <button type="submit">Invia</button>
+<div class="logo-container">
+        <img src="rullino/logo.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->
+</div>
+
+<div class="form-container">
+    <h2>Password Dimenticata?</h2>
+    <div class="logo-container">
+        <img src="rullino/password.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->   
+    </div>
+    <label>Inserisci il tuo indirizzo email Che Capelli qui sotto. Ti invieremo via email i dettagli per la reimpostazione della tua password.</label>
+    <form method="post">
+        <input type="email" name="email" placeholder="Inserisci la tua email" required>
+        <button type="submit">Invia</button>
+</div>
 </form>
