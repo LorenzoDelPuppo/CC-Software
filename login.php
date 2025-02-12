@@ -65,7 +65,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
             // Reindirizza alla dashboard
             header("Location: dashboard.php");
-            header("Location: test.php");
             
             exit();
         } else {
