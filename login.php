@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $_SESSION['email'] = $email;
         
             // Reindirizza alla dashboard
-            header("Location: dashboard.php");
+            header("Location: menu.php");
             
             exit();
         } else {
