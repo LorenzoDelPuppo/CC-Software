@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 require_once 'connect.php'; // Assicurati che questo file contenga la corretta configurazione per il DB
 
@@ -61,6 +61,22 @@ if ($stmt = $conn->prepare($query)) {
             margin-top: 2em;
             font-size: 1.2em;
         }
+        /* Stile per il pulsante per tornare al menu */
+        .menu-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .menu-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +97,10 @@ if ($stmt = $conn->prepare($query)) {
     <?php else: ?>
         <p class="no-data">Non hai prenotato nessun appuntamento.</p>
     <?php endif; ?>
+
+    <!-- Pulsante per tornare al Menu -->
+    <button class="menu-button" onclick="window.location.href='menu.php'">
+        Torna al Menu
+    </button>
 </body>
 </html>
-        

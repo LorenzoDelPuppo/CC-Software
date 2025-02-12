@@ -82,6 +82,21 @@ $conn->close();
             border: 1px solid #00a000;
             margin-bottom: 1em;
         }
+        /* Stile per il pulsante "Torna al Menu" */
+        .menu-button {
+            margin-top: 20px;
+            padding: 0.7em 1.5em;
+            font-size: 1.1em;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -99,5 +114,8 @@ $conn->close();
         <br><br>
         <input type="submit" value="Salva Impostazioni">
     </form>
+    
+    <!-- Pulsante per tornare al Menu -->
+    <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
 </body>
 </html>

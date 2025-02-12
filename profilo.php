@@ -1,8 +1,8 @@
-<?php
+<?php 
 session_start();
 require_once 'connect.php'; // Includi qui il file di connessione al database
 
-// Verifica che l'utente sia loggato
+// Verifica che l'utente sia loggato: controlla se esiste il customer_id in sessione
 if (!isset($_SESSION['customer_id'])) {
     header("Location: login.php"); // reindirizza alla pagina di login se non è loggato
     exit;
@@ -49,9 +49,9 @@ $conn->close();
       border: 1px solid #ccc;
       padding: 1.5em;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
     }
     h1 {
-      text-align: center;
       color: #333;
     }
     table {
@@ -66,6 +66,13 @@ $conn->close();
     }
     th {
       background-color: #eee;
+    }
+    /* Stile semplice per il pulsante */
+    .menu-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -102,6 +109,9 @@ $conn->close();
         <td><?php echo htmlspecialchars($profile['email']); ?></td>
       </tr>
     </table>
+    
+    <!-- Pulsante semplice per tornare al menu -->
+    <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
   </div>
 </body>
 </html>
