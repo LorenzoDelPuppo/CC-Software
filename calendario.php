@@ -71,8 +71,9 @@
 
         function selectDate(year, month, day) {
             let formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            window.location.href = `dashboard.php?date=${formattedDate}`;
+            window.location.href = `blocchi_calendar.php?date=${formattedDate}`;
         }
+
 
         function prevMonth() {
             currentDate.setMonth(currentDate.getMonth() - 1);
