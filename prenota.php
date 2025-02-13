@@ -176,7 +176,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 $conn->close();
-
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -193,8 +192,22 @@ $conn->close();
   </div>
 
   <div class="right-section">
-    <!-- Icona utente -->
-    <span class="user-icon">&#128100;</span>
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="settings.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
+
   </div>
 </div>
 
@@ -207,8 +220,9 @@ $conn->close();
 
   <!-- Link al file CSS esterno -->
   <link rel="stylesheet" href="style/style_prenota.css">
-
+  <script src="menu_profilo.js" defer></script>
   <script>
+
     // Mappa delle durate (in minuti) per ciascun servizio (AGGIORNATA)
     var serviceDurations = {
       1: 55,    // Piega
