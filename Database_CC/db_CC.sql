@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS Customer (
     gender ENUM ('maschio', 'femmina') NOT NULL,
     preference ENUM ('Barbara', 'Giulia','Casuale'), 
     email VARCHAR(254),
-    wants_notification TINYINT(1) NOT NULL DEFAULT 1 
+    wants_notification TINYINT(1) NOT NULL DEFAULT 1,
+    user_tipe ENUM ('cliente','ammministratore','operatrice') DEFAULT 'cliente'
 );
 
 -- Tabella appuntamenti
