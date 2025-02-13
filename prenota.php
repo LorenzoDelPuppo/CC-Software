@@ -346,7 +346,7 @@ $conn->close();
   
 <div class="prenota-container">
 <div class="container">
-  <h1>Prenota il tuo Appuntamento</h1>
+  <h1>Prenota l'Appuntamento</h1>
   <?php
     if (!empty($message)) {
       echo "<p>$message</p>";
