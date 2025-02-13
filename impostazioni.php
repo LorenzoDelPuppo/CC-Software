@@ -1,97 +1,110 @@
 <?php
 session_start();
-require_once 'connect.php'; // Includi qui il file di connessione al database
+require_once 'connect.php';
 
-/*// Verifica che l'utente sia loggato
+// Verifica che l'utente sia loggato
 if (!isset($_SESSION['email'])) {
-    // Se non è loggato, reindirizza alla pagina di login oppure mostra un messaggio di errore
     header("Location: login.php");
     exit;
 }
 
 $email = $_SESSION['email'];
-$message = "";
+$messagePreference = "";
 
-// Recupera dal database il record del cliente in base all'email
-$query = "SELECT customer_id, preference FROM Customer WHERE email = ?";
-if ($stmt = $conn->prepare($query)) {
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_assoc()) {
-        $customer_id = $row['customer_id'];
-        $current_preference = $row['preference'];
-    } else {
-        die("Errore: Cliente non trovato.");
-    }
-    $stmt->close();
-} else {
-    die("Errore nella preparazione della query.");
-}
-
-// Se il form viene inviato, aggiorna il campo preference
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+// Gestione dell'aggiornamento della preferenza (azione tradizionale via POST)
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['action'] === 'update_preference') {
     $new_preference = $_POST['preference'] ?? '';
-    // Verifica che il valore inviato sia tra quelli consentiti
     $allowed = ['Barbara', 'Giulia', 'Casuale'];
+    
     if (!in_array($new_preference, $allowed)) {
-        $message = "Preferenza non valida.";
+        $messagePreference = "Preferenza non valida.";
     } else {
-        $updateQuery = "UPDATE Customer SET preference = ? WHERE customer_id = ?";
-        if ($stmt = $conn->prepare($updateQuery)) {
-            $stmt->bind_param("si", $new_preference, $customer_id);
-            if ($stmt->execute()) {
-                $message = "Preferenza aggiornata correttamente.";
-                $current_preference = $new_preference;
+        // Recupera l'ID del cliente
+        $stmt = $conn->prepare("SELECT customer_id FROM Customer WHERE email = ?");
+        if ($stmt) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->bind_result($customer_id);
+            if ($stmt->fetch()) {
+                $stmt->close();
+                // Aggiorna la preferenza
+                $updateStmt = $conn->prepare("UPDATE Customer SET preference = ? WHERE customer_id = ?");
+                if ($updateStmt) {
+                    $updateStmt->bind_param("si", $new_preference, $customer_id);
+                    if ($updateStmt->execute()) {
+                        $messagePreference = "Preferenza aggiornata correttamente.";
+                    } else {
+                        $messagePreference = "Errore durante l'aggiornamento: " . $updateStmt->error;
+                    }
+                    $updateStmt->close();
+                } else {
+                    $messagePreference = "Errore nella preparazione della query di aggiornamento.";
+                }
             } else {
-                $message = "Errore durante l'aggiornamento: " . $stmt->error;
+                $messagePreference = "Cliente non trovato.";
             }
-            $stmt->close();
         } else {
-            $message = "Errore nella preparazione della query di aggiornamento.";
+            $messagePreference = "Errore nella preparazione della query.";
         }
     }
 }
-$conn->close();*/
+
+// Recupera la preferenza attuale
+$stmt = $conn->prepare("SELECT preference FROM Customer WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->bind_result($current_preference);
+$stmt->fetch();
+$stmt->close();
+
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impostazioni Preferenza</title>
-    <link rel="stylesheet" href="style.css"> <!-- Collegamento al file CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impostazioni</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <span class="menu-icon">☰ Menu</span>
+  </div>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <span class="menu-icon">☰ Menu</span>
-    </div>
+  <!-- Contenitore Impostazioni -->
+  <div class="settings-container">
+    <h1>Impostazioni</h1>
+    
+    <!-- Sezione per la Preferenza -->
+    <section>
+      <h2>Preferenza</h2>
+      <?php if (!empty($messagePreference)): ?>
+        <div class="message"><?php echo htmlspecialchars($messagePreference); ?></div>
+      <?php endif; ?>
+      <form action="impostazioni.php" method="post">
+        <!-- Campo nascosto per identificare l'azione -->
+        <input type="hidden" name="action" value="update_preference">
+        <label for="preference">Seleziona la tua preferenza:</label>
+        <select name="preference" id="preference">
+          <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
+          <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
+          <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
+        </select>
+        <button type="submit">Salva Impostazioni</button>
+      </form>
+    </section>
 
-    <!-- Contenitore Impostazioni -->
-    <div class="settings-container">
-        <h1>Impostazioni Preferenza</h1>
+    <!-- Sezione per il Cambio Password -->
+    <section>
+      <h2>Password</h2>
+      <!-- Pulsante che reindirizza alla pagina per il cambio password -->
+      <button type="button" onclick="window.location.href='cambia_password.php'">Cambia Password</button>
+    </section>
 
-        <!-- Messaggio di conferma/successo -->
-        <?php if (!empty($message)): ?>
-            <div class="message"><?php echo htmlspecialchars($message); ?></div>
-        <?php endif; ?>
-
-        <form action="impostazioni.php" method="post">
-            <label for="preference">Seleziona la tua preferenza:</label>
-            <select name="preference" id="preference">
-                <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
-                <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
-                <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
-            </select>
-
-            <button type="submit">Salva Impostazioni</button>
-        </form>
-
-        <!-- Pulsante per tornare al Menu -->
-        <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
-    </div>
-
+    <!-- Pulsante per tornare al Menu -->
+    <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
+  </div>
 </body>
 </html>
