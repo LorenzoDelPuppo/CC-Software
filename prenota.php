@@ -334,9 +334,9 @@ $conn->close();
       $(document).on("change", "#time_slot", function(){
           var selectedTime = $(this).val();
           if(selectedTime !== ""){
-              $("#submitButton").text("Invia");
+              $("#submitButton").text("prenota");
           } else {
-              $("#submitButton").text("Visualizza orari disponibili");
+              $("#submitButton").text("prenota");
           }
       });
     });

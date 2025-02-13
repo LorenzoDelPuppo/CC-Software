@@ -80,7 +80,9 @@ if (isset($_SESSION['email'])) {
     <button class="menu-button" onclick="window.location.href='aggiungi_utente.php'">Aggiungi Utente</button>
     <button class="menu-button" onclick="window.location.href='login.php'">Login</button>
     <button class="menu-button" onclick="window.location.href='profilo.php'">Profilo</button>
+    <button class="menu-button" onclick="window.location.href='miei_appuntamenti.php'">Miei Appuntamenti</button>
     
+  
   <?php elseif ($userType === "operatrice"): ?>
     <h1>Menu Operatrice</h1>
     <button class="menu-button" onclick="window.location.href='dashboard.php'">Dashboard</button>
