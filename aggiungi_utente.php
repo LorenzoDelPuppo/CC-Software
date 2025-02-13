@@ -1,7 +1,31 @@
 <?php
 ob_start();
+session_start();
 require_once 'connect.php';
 require_once 'cript.php';
+
+// Blocco di controllo accessi: solo amministratore e operatrice possono accedere
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$email = $_SESSION['email'];
+$sql = "SELECT user_tipe FROM Customer WHERE email = ?";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Errore nella preparazione della query: " . $conn->error);
+}
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->bind_result($userType);
+$stmt->fetch();
+$stmt->close();
+
+if ($userType !== 'amministratore' && $userType !== 'operatrice') {
+    header("Location: access_denied.php");
+    exit;
+}
 
 $success = "";
 $error   = "";
@@ -11,24 +35,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName   = trim($_POST['fName']);
     $lastName    = trim($_POST['sName']);
     $phoneNumber = trim($_POST['phoneN']);
-    $email       = trim($_POST['email']);
+    $emailNew    = trim($_POST['email']); // Email del nuovo utente
     $password    = $_POST['password'];
     $hairType    = $_POST['lunghezzaCapelli']; // 'lunghi' oppure 'corti'
     $gender      = $_POST['gender'];           // 'maschio' o 'femmina'
-    $userType    = $_POST['user_tipe'];          // 'cliente', 'amministratore' o 'operatrice'
+    $userTypeNew = $_POST['user_tipe'];          // 'cliente', 'amministratore' o 'operatrice'
 
     // Validazione minima
-    if(empty($firstName) || empty($lastName) || empty($email) || empty($password)) {
+    if(empty($firstName) || empty($lastName) || empty($emailNew) || empty($password)) {
         $error = "Compila tutti i campi obbligatori.";
     } else {
         // Hash della password
         $hashedPassword = hashPassword($password);
 
         // Query di inserimento
-        $sql = "INSERT INTO Customer (fName, lName, phoneN, email, password, hair, gender, user_tipe)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        if ($stmt = $conn->prepare($sql)) {
-            $stmt->bind_param("ssssssss", $firstName, $lastName, $phoneNumber, $email, $hashedPassword, $hairType, $gender, $userType);
+        $sqlInsert = "INSERT INTO Customer (fName, lName, phoneN, email, password, hair, gender, user_tipe)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        if ($stmt = $conn->prepare($sqlInsert)) {
+            $stmt->bind_param("ssssssss", $firstName, $lastName, $phoneNumber, $emailNew, $hashedPassword, $hairType, $gender, $userTypeNew);
             if ($stmt->execute()) {
                 $success = "Utente aggiunto con successo!";
             } else {
@@ -79,7 +103,7 @@ ob_end_flush();
 </head>
 <body>
   <div class="form-container">
-    <!-- Mostra eventuali messaggi -->
+    <!-- Visualizzazione dei messaggi -->
     <?php if (!empty($success)) : ?>
       <p class="success"><?php echo htmlspecialchars($success); ?></p>
     <?php endif; ?>
@@ -130,7 +154,7 @@ ob_end_flush();
         <option value="femmina">Femmina</option>
       </select>
       
-      <!-- Selezione del tipo di utente -->
+      <!-- Selezione del tipo di utente per il nuovo account -->
       <label for="user_tipe">Tipo di Utente</label>
       <select id="user_tipe" name="user_tipe" required>
         <option value="cliente">Cliente</option>
