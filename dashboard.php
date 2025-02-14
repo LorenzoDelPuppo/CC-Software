@@ -117,7 +117,7 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
         <form action="calendario.php" method="get">
             <button type="submit">Calendario</button>
         </form>
-        <form action="clienti.php" method="post">
+        <form action="visualizza_clienti.php" method="get">
             <button type="submit">Gestione Clienti</button>
         </form>
         <form action="aggiungi_utente.php" method="get">

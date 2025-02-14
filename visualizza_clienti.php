@@ -3,9 +3,14 @@ session_start();
 require_once 'connect.php';
 
 // Verifica se l'utente è loggato e ha i permessi
-if (!isset($_SESSION['email']) || $_SESSION['user_tipe'] != 'amministratore'|| $_SESSION['user_tipe'] != 'operatrice') {
+if (!isset($_SESSION['email']) || $_SESSION['user_tipe'] != 'amministratore') {
     header("Location: login.php");
     exit();
+}
+
+// Controllo se la connessione è attiva
+if ($conn->connect_error) {
+    die("Connessione fallita: " . $conn->connect_error);
 }
 
 $searchTerm = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
@@ -16,9 +21,18 @@ $sql = "SELECT customer_id, fName, lName, phoneN, email, hair, gender, preferenc
         WHERE fName LIKE ? OR lName LIKE ?";
 
 $stmt = $conn->prepare($sql);
+
+if ($stmt === false) {
+    die("Errore nella preparazione della query: " . $conn->error);
+}
+
 $stmt->bind_param("ss", $searchTerm, $searchTerm);
 $stmt->execute();
 $result = $stmt->get_result();
+
+if ($result === false) {
+    die("Errore nell'esecuzione della query: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
