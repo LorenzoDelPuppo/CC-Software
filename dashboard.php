@@ -120,8 +120,11 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
         <form action="clienti.php" method="post">
             <button type="submit">Gestione Clienti</button>
         </form>
-        <form action="aggiungi_cliente.php" method="post">
+        <form action="aggiungi_utente.php" method="get">
             <button type="submit">Aggiungi Cliente</button>
+        </form>
+        <form action="cerca_appuntamento.php" method="get">
+            <button type="submit">modifica appuntamento</button>
         </form>
     </div>
 </body>
