@@ -1,5 +1,5 @@
 <?php  
-
+/*
 session_start();
 require_once 'connect.php'; // Includi il file di connessione al DB
 
@@ -175,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $message .= "Devi selezionare la data dell'appuntamento.<br>";
     }
 }
-$conn->close();
+$conn->close();*/
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -216,7 +216,7 @@ $conn->close();
   <!-- Includo jQuery e jQuery UI per il datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
   <!-- Link al file CSS esterno -->
   <link rel="stylesheet" href="style/style_prenota.css">
@@ -334,9 +334,9 @@ $conn->close();
       $(document).on("change", "#time_slot", function(){
           var selectedTime = $(this).val();
           if(selectedTime !== ""){
-              $("#submitButton").text("prenota");
+              $("#submitButton").text("Prenota");
           } else {
-              $("#submitButton").text("prenota");
+              $("#submitButton").text("Prenota");
           }
       });
     });
