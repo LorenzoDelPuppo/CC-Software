@@ -261,33 +261,45 @@ p {
   }
 
 
-/* =========================
-   OVERRIDE JQUERY UI DATEPICKER - Nuovi Colori e Allineamento Frecce
-   ========================= */
+/* ====================================
+   DATEPICKER OVERLAY (in italiano)
+   ==================================== */
+
+/* Sfondo scuro semitrasparente che copre la pagina quando il datepicker è aperto */
+.ui-datepicker.ui-widget {
+  position: relative;
+  z-index: 9999;
+}
 
 /* Contenitore principale del calendario */
 .ui-datepicker {
-  background: #f9f9f9;              /* Sfondo grigio molto chiaro */
+  background: #fff;               /* sfondo bianco */
   border: none;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   font-family: 'Arial', sans-serif;
-  width: auto;
   text-align: center;
 }
 
 /* Titolo (mese + anno) */
 .ui-datepicker .ui-datepicker-title {
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
   color: #333;
   position: relative;
-  padding: 0 50px; /* Spazio per le frecce laterali */
+  padding: 0 60px; /* Spazio per eventuali frecce ai lati */
+  line-height: 1.5;
 }
 
-/* Frecce di navigazione: ingrandite e centrate verticalmente rispetto al titolo */
+/* Rimuove lo sfondo di default dell'header */
+.ui-datepicker-header {
+  background: none;
+  border: none;
+}
+
+/* Frecce di navigazione */
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
   border: none;
@@ -296,12 +308,12 @@ p {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  text-indent: 0;
   width: auto;
   height: auto;
-  text-indent: 0;
 }
 
-/* Posizionamento delle frecce */
+/* Posizione frecce */
 .ui-datepicker .ui-datepicker-prev {
   left: 10px;
 }
@@ -309,22 +321,22 @@ p {
   right: 10px;
 }
 
-/* Icone delle frecce personalizzate */
+/* Sostituiamo le icone di default con simboli testuali */
 .ui-datepicker .ui-icon {
   display: none;
 }
 .ui-datepicker .ui-datepicker-prev::after {
-  content: "<";
-  font-size: 1.5rem;  /* Freccia ingrandita */
+  content: "◄";
+  font-size: 1.5rem;
   color: #555;
 }
 .ui-datepicker .ui-datepicker-next::after {
-  content: ">";
-  font-size: 1.5rem;  /* Freccia ingrandita */
+  content: "►";
+  font-size: 1.5rem;
   color: #555;
 }
 
-/* Header con i giorni della settimana */
+/* Giorni della settimana (SU, MO, TU, ecc.) */
 .ui-datepicker thead th {
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -333,22 +345,27 @@ p {
   font-weight: normal;
 }
 
-/* Celle dei giorni */
-.ui-datepicker table.ui-datepicker-calendar td {
-  padding: 2px;
-  border: none;
+/* Tabelle del calendario */
+.ui-datepicker table.ui-datepicker-calendar {
+  border-collapse: collapse;
+  width: 100%;
 }
 
-/* Stile base per i numeri dei giorni */
+/* Celle dei giorni */
+.ui-datepicker table.ui-datepicker-calendar td {
+  padding: 5px;
+  border: none;
+  vertical-align: middle;
+}
+
+/* Giorni cliccabili di base */
 .ui-datepicker .ui-state-default {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2em;
-  height: 2em;
-  line-height: normal;
+  width: 2.2em;
+  height: 2.2em;
   margin: 0 auto;
-  text-align: center;
   color: #333;
   background: none;
   border-radius: 50%;
@@ -358,17 +375,17 @@ p {
 
 /* Hover sui giorni */
 .ui-datepicker .ui-state-default:hover {
-  background-color: #e0e0e0;
+  background-color: #eee;
 }
 
-/* Giorno di oggi (evidenziato) - grigio chiaro */
+/* Giorno di oggi (ui-state-highlight) -> sfondo grigio chiaro */
 .ui-datepicker .ui-state-highlight {
   background-color: #e0e0e0;
   color: #333;
   border-radius: 50%;
 }
 
-/* Giorno selezionato - grigio scuro */
+/* Giorno selezionato (ui-state-active) -> sfondo grigio scuro */
 .ui-datepicker .ui-state-active {
   background-color: #555;
   color: #fff;
@@ -380,7 +397,11 @@ p {
   opacity: 0.4;
 }
 
-/* Pulsanti aggiuntivi (se si usa showButtonPanel) */
+/* Pulsanti aggiuntivi (se usi showButtonPanel) */
+.ui-datepicker .ui-datepicker-buttonpane {
+  margin-top: 10px;
+  text-align: center;
+}
 .ui-datepicker .ui-datepicker-buttonpane button {
   background: #555;
   border: none;
