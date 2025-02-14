@@ -1,3 +1,34 @@
+<?php
+session_start();
+require_once 'connect.php';
+
+// Verifica se l'utente è loggato
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$email = $_SESSION['email'];
+
+// Recupera il ruolo dell'utente dal database
+$sql = "SELECT user_tipe FROM Customer WHERE email = ?";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Errore nella preparazione della query: " . $conn->error);
+}
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->bind_result($userType);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
+
+// Controllo di accesso: solo amministratore e operatrice possono accedere
+if ($userType !== 'amministratore' && $userType !== 'operatrice') {
+    header("Location: access_denied.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -71,8 +102,9 @@
 
         function selectDate(year, month, day) {
             let formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            window.location.href = `dashboard.php?date=${formattedDate}`;
+            window.location.href = `blocchi_calendar.php?date=${formattedDate}`;
         }
+
 
         function prevMonth() {
             currentDate.setMonth(currentDate.getMonth() - 1);

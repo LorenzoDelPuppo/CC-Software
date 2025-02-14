@@ -41,16 +41,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style/style_input.css">
 
 <div class="logo-container">
-        <img src="rullino/logo.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->
+        <img src="style/rullino/logo.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->
 </div>
 
 <div class="form-container">
     <h2>Password Dimenticata?</h2>
     <div class="logo-container">
-        <img src="rullino/password.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->   
+        <img src="style/rullino/password.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->   
     </div>
     <label>Inserisci il tuo indirizzo email Che Capelli qui sotto. Ti invieremo via email i dettagli per la reimpostazione della tua password.</label>
     <form method="post">

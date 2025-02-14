@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Che Capelli</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/style_input.css">
 </head>
 <body>
 <div class="logo-container">
-    <img src="rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    <img src="style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
 </div>
     <div class = "form-container">
         <h2>Login</h2>
@@ -65,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $_SESSION['email'] = $email;
         
             // Reindirizza alla dashboard
-            header("Location: dashboard.php");
+            header("Location: menu.php");
             
             exit();
         } else {

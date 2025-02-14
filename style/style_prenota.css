@@ -1,0 +1,395 @@
+/* Reset / Impostazioni di base */
+* {
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    background: url('rullino/vetrina.jpg'); 
+    color: #000;  
+    background-position: center; 
+}
+
+/* Barra in alto */
+.top-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 1px solid #000; /* Riga nera */
+    padding: 5px 20px;            /* Padding verticale ridotto */
+}
+.left-section {
+    flex: 0 0 auto;
+}
+.center-section {
+    flex: 1 1 auto;
+    text-align: center;
+}
+.right-section {
+    flex: 0 0 auto;
+}
+.menu-icon, .user-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+/* Logo al centro, dimensione aumentata */
+.logo {
+    height: 70px;    /* Logo grande */
+    width: auto;
+    cursor: pointer;
+}
+
+/* Contenitore principale */
+.container {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Box “prenota” centrato */
+.prenota-container {
+    align-items: center;
+    max-width: 900px;  
+    margin: 80px auto;       /* Centra orizzontalmente, 80px dall’alto */
+    background-color: #fff;  /* Box bianco */
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Campi e form generali */
+fieldset {
+    border: none;
+    margin-bottom: 20px;
+    padding: 0;
+}
+legend {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+/* Stile "pill" per i servizi (checkbox) */
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;      /* Spaziatura fra i "pulsanti" */
+    margin-top: 10px;
+}
+
+/* Ogni label parte con sfondo chiaro */
+.services-container label {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Hover effect: tutto il label diventa grigetto */
+.services-container label:hover {
+    background-color: #ddd;
+}
+
+/* Checkbox nascosti */
+.services-container input[type="checkbox"] {
+    display: none;  
+}
+
+/* Stato checked: colora TUTTO il label di grigio scuro */
+.services-container label:has(input[type="checkbox"]:checked) {
+    background-color: #888;
+    color: #fff;
+}
+
+/* Stato disabled: label più chiaro */
+.services-container label:has(input[type="checkbox"]:disabled) {
+    background-color: #eee;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Selettore data e orario */
+#appointment_date,
+#time_slot {
+    display: block;
+    width: 200px;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Pulsante finale (più piccolo e centrato) */
+#submitButton {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;  /* Più spazio interno, pulsante più grande */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    width: auto;        
+    margin: 0 auto;     
+    text-align: center;
+    font-size: 16px;    /* Testo leggermente più grande */
+  }
+  
+  #submitButton:hover {
+    background-color: #444;
+  }
+  #submitButton:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+
+/* Messaggi di output (errori o conferme) */
+p {
+    background-color: #ffe;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+.user-menu {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Icona utente */
+  .user-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* Dropdown di base (scuro) nascosto */
+  .dropdown-menu {
+    display: none;             
+    position: absolute;
+    top: 100%;                 
+    right: 0;                  
+    width: 220px;             
+    
+    background-color: #333;    /* Sfondo scuro */
+    color: #fff;               /* Testo bianco */
+    
+    border: 1px solid #444;    
+    border-radius: 8px;        
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 999;              
+    
+    padding: 8px 0;            
+  }
+  
+  /* Mostra il dropdown se ha la classe "show" (gestita via JS) */
+  .dropdown-menu.show {
+    display: block;
+  }
+  
+  /* Voci di menu */
+  .dropdown-item {
+    display: block;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #fff;               /* Testo bianco di base */
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  /* Hover su voci generiche: sfondo grigio più scuro */
+  .dropdown-item:hover {
+    background-color: #444;
+  }
+  
+  /* Separatore orizzontale */
+  .dropdown-separator {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 4px 0;
+  }
+  
+  /* Logout in un rosso più scuro di base */
+  .logout-item {
+    color: #b00;        /* Rosso cupo */
+    font-weight: bold;
+  }
+  
+  /* Al passaggio del mouse su Logout: sfondo rosso cupo, testo bianco */
+  .logout-item:hover {
+    background-color: #b00;
+    color: #fff;
+  }
+
+  .button-row {
+    display: flex;               /* Disposizione orizzontale */
+    justify-content: center;     /* Centra orizzontalmente */
+    gap: 20px;                   /* Spazio fra i pulsanti */
+    margin-top: 20px;            /* Un po’ di spazio dall’alto */
+  }
+  
+  /* Pulsanti più grandi */
+  .menu-button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 15px 30px;          /* Aumenta dimensione pulsante */
+    font-size: 18px;             /* Aumenta font */
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .menu-button:hover {
+    background-color: #444;      /* Effetto hover */
+  }
+
+
+/* =========================
+   OVERRIDE JQUERY UI DATEPICKER - Nuovi Colori e Allineamento Frecce
+   ========================= */
+
+/* Contenitore principale del calendario */
+.ui-datepicker {
+  background: #f9f9f9;              /* Sfondo grigio molto chiaro */
+  border: none;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  width: auto;
+  text-align: center;
+}
+
+/* Titolo (mese + anno) */
+.ui-datepicker .ui-datepicker-title {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  padding: 0 50px; /* Spazio per le frecce laterali */
+}
+
+/* Frecce di navigazione: ingrandite e centrate verticalmente rispetto al titolo */
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+  border: none;
+  background: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  height: auto;
+  text-indent: 0;
+}
+
+/* Posizionamento delle frecce */
+.ui-datepicker .ui-datepicker-prev {
+  left: 10px;
+}
+.ui-datepicker .ui-datepicker-next {
+  right: 10px;
+}
+
+/* Icone delle frecce personalizzate */
+.ui-datepicker .ui-icon {
+  display: none;
+}
+.ui-datepicker .ui-datepicker-prev::after {
+  content: "<";
+  font-size: 1.5rem;  /* Freccia ingrandita */
+  color: #555;
+}
+.ui-datepicker .ui-datepicker-next::after {
+  content: ">";
+  font-size: 1.5rem;  /* Freccia ingrandita */
+  color: #555;
+}
+
+/* Header con i giorni della settimana */
+.ui-datepicker thead th {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #666;
+  padding-bottom: 8px;
+  font-weight: normal;
+}
+
+/* Celle dei giorni */
+.ui-datepicker table.ui-datepicker-calendar td {
+  padding: 2px;
+  border: none;
+}
+
+/* Stile base per i numeri dei giorni */
+.ui-datepicker .ui-state-default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  line-height: normal;
+  margin: 0 auto;
+  text-align: center;
+  color: #333;
+  background: none;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+  text-decoration: none;
+}
+
+/* Hover sui giorni */
+.ui-datepicker .ui-state-default:hover {
+  background-color: #e0e0e0;
+}
+
+/* Giorno di oggi (evidenziato) - grigio chiaro */
+.ui-datepicker .ui-state-highlight {
+  background-color: #e0e0e0;
+  color: #333;
+  border-radius: 50%;
+}
+
+/* Giorno selezionato - grigio scuro */
+.ui-datepicker .ui-state-active {
+  background-color: #555;
+  color: #fff;
+  border-radius: 50%;
+}
+
+/* Giorni del mese precedente/successivo */
+.ui-datepicker .ui-datepicker-other-month .ui-state-default {
+  opacity: 0.4;
+}
+
+/* Pulsanti aggiuntivi (se si usa showButtonPanel) */
+.ui-datepicker .ui-datepicker-buttonpane button {
+  background: #555;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  margin: 5px;
+  cursor: pointer;
+}
+.ui-datepicker .ui-datepicker-buttonpane button:hover {
+  background: #444;
+}

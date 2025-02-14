@@ -1,4 +1,5 @@
 <?php  
+
 session_start();
 require_once 'connect.php'; // Includi il file di connessione al DB
 
@@ -16,7 +17,7 @@ function minutesToTime(int $minutes): string {
 
 // === Verifica se l'utente è loggato ===
 if (!isset($_SESSION['email'])) {
-    die("Errore: Devi effettuare il login per prenotare un appuntamento.");
+  header("Location: login.php");
 }
 
 // Se il customer_id non è in sessione, lo recupero dal DB
@@ -68,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $time_slot = $_POST['time_slot']; // formato "HH:MM"
             
             // --- Controllo di disponibilità lato server ---
-            // Converto l'orario scelto in minuti e calcolo l'intervallo occupato dall'appuntamento
             $slotStart = timeToMinutes($time_slot);
             $slotEnd   = $slotStart + $requiredDuration;
             
@@ -76,7 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $dayNumber = (int)date('N', strtotime($appointment_date_only));
             if ($dayNumber === 6) { // Sabato
                 $sessionClosing = timeToMinutes("17:00");
-            } else { // Martedì - Venerdì (lunedì e domenica non sono disponibili)
+            } else {
+                // Martedì - Venerdì (lunedì e domenica non sono disponibili)
                 if ($slotStart < timeToMinutes("12:30")) {
                     $sessionClosing = timeToMinutes("12:30");
                 } else {
@@ -180,13 +181,48 @@ $conn->close();
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="settings.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
+
+  </div>
+</div>
+
+
   <title>Prenotazione Appuntamenti</title>
   <!-- Includo jQuery e jQuery UI per il datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+  <!-- Link al file CSS esterno -->
+  <link rel="stylesheet" href="style/style_prenota.css">
+  <script src="menu_profilo.js" defer></script>
   <script>
+
     // Mappa delle durate (in minuti) per ciascun servizio (AGGIORNATA)
     var serviceDurations = {
       1: 55,    // Piega
@@ -298,16 +334,19 @@ $conn->close();
       $(document).on("change", "#time_slot", function(){
           var selectedTime = $(this).val();
           if(selectedTime !== ""){
-              $("#submitButton").text("Invia");
+              $("#submitButton").text("prenota");
           } else {
-              $("#submitButton").text("Visualizza orari disponibili");
+              $("#submitButton").text("prenota");
           }
       });
     });
   </script>
 </head>
 <body>
-  <h1>Prenotazione Appuntamenti</h1>
+  
+<div class="prenota-container">
+<div class="container">
+  <h1>Prenota l'Appuntamento</h1>
   <?php
     if (!empty($message)) {
       echo "<p>$message</p>";
@@ -316,22 +355,57 @@ $conn->close();
   <form method="post" action="prenota.php">
     <fieldset>
       <legend>Seleziona i servizi</legend>
-      <input type="checkbox" name="checkboxes[]" value="1" onchange="updateCheckboxStates(this)"> Piega<br>
-      <input type="checkbox" name="checkboxes[]" value="2" onchange="updateCheckboxStates(this)"> Taglio<br>
-      <input type="checkbox" name="checkboxes[]" value="3" onchange="updateCheckboxStates(this)"> Colore<br>
-      <input type="checkbox" name="checkboxes[]" value="4" onchange="updateCheckboxStates(this)"> Mèche/Schiariture<br>
-      <input type="checkbox" name="checkboxes[]" value="5" onchange="updateCheckboxStates(this)"> Permanente<br>
-      <input type="checkbox" name="checkboxes[]" value="6" onchange="updateCheckboxStates(this)"> Stiratura<br>
-      <input type="checkbox" name="checkboxes[]" value="7" onchange="updateCheckboxStates(this)"> Keratina<br>
-      <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)"> Colori - Mèche<br>
-      <input type="checkbox" name="checkboxes[]" value="9" onchange="updateCheckboxStates(this)"> Ricostruzione<br>
-      <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)"> Trattamento<br>
+      <div class="services-container">
+        <!-- Ogni servizio racchiuso in label + span per stile "pill" -->
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="1" onchange="updateCheckboxStates(this)">
+          <span>Piega</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="2" onchange="updateCheckboxStates(this)">
+          <span>Taglio</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="3" onchange="updateCheckboxStates(this)">
+          <span>Colore</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="4" onchange="updateCheckboxStates(this)">
+          <span>Mèche/Schiariture</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="5" onchange="updateCheckboxStates(this)">
+          <span>Permanente</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="6" onchange="updateCheckboxStates(this)">
+          <span>Stiratura</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="7" onchange="updateCheckboxStates(this)">
+          <span>Keratina</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="8" onchange="updateCheckboxStates(this)">
+          <span>Colori - Mèche</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="9" onchange="updateCheckboxStates(this)">
+          <span>Ricostruzione</span>
+        </label>
+        <label>
+          <input type="checkbox" name="checkboxes[]" value="10" onchange="updateCheckboxStates(this)">
+          <span>Trattamento</span>
+        </label>
+      </div>
     </fieldset>
+
     <fieldset>
       <legend>Seleziona la data dell'appuntamento</legend>
       <label for="appointment_date">Data Appuntamento:</label>
       <input type="text" id="appointment_date" name="appointment_date" autocomplete="off">
     </fieldset>
+
     <fieldset>
       <legend>Seleziona l'orario dell'appuntamento</legend>
       <label for="time_slot">Orario:</label>
@@ -339,7 +413,10 @@ $conn->close();
         <option value="">-- Seleziona un orario --</option>
       </select>
     </fieldset>
+
     <button type="submit" id="submitButton" disabled>Visualizza orari disponibili</button>
   </form>
+  </div>
+</div>
 </body>
 </html>

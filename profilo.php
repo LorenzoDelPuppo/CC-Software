@@ -35,83 +35,52 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/style_profilo.css">
   <title>Profilo Cliente</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2em;
-      background-color: #f5f5f5;
-    }
-    .profile-container {
-      max-width: 600px;
-      margin: 0 auto;
-      background-color: #fff;
-      border: 1px solid #ccc;
-      padding: 1.5em;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    h1 {
-      color: #333;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1em;
-    }
-    th, td {
-      padding: 0.8em;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
-    th {
-      background-color: #eee;
-    }
-    /* Stile semplice per il pulsante */
-    .menu-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1em;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <div class="profile-container">
-    <h1>Il Mio Profilo</h1>
-    <table>
-      <tr>
-        <th>Nome</th>
-        <td><?php echo htmlspecialchars($profile['fName']); ?></td>
-      </tr>
-      <tr>
-        <th>Cognome</th>
-        <td><?php echo htmlspecialchars($profile['lName']); ?></td>
-      </tr>
-      <tr>
-        <th>Tipo di Capelli</th>
-        <td><?php echo htmlspecialchars($profile['hair']); ?></td>
-      </tr>
-      <tr>
-        <th>Telefono</th>
-        <td><?php echo htmlspecialchars($profile['phoneN']); ?></td>
-      </tr>
-      <tr>
-        <th>Genere</th>
-        <td><?php echo htmlspecialchars($profile['gender']); ?></td>
-      </tr>
-      <tr>
-        <th>Preferenza</th>
-        <td><?php echo htmlspecialchars($profile['preference']); ?></td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td><?php echo htmlspecialchars($profile['email']); ?></td>
-      </tr>
-    </table>
+  <img src="style/rullino/fotodefault.png" alt="fotoprofilo" class="profile-pic">
+
+
+  <h1>Il Mio Profilo</h1>
+    <!-- Immagine del profilo -->
     
-    <!-- Pulsante semplice per tornare al menu -->
-    <button class="menu-button" onclick="window.location.href='menu.php'">Torna al Menu</button>
+
+    <!-- Contenitore delle informazioni strutturate in "isolette" -->
+    <div class="profile-details">
+      <div class="profile-box">
+        <h3>Nome</h3>
+        <p><?php echo htmlspecialchars($profile['fName']); ?></p>
+      </div>
+      <div class="profile-box">
+        <h3>Cognome</h3>
+        <p><?php echo htmlspecialchars($profile['lName']); ?></p>
+      </div>
+      <div class="profile-box">
+        <h3>Tipo di Capelli</h3>
+        <p><?php echo htmlspecialchars($profile['hair']); ?></p>
+      </div>
+      <div class="profile-box">
+        <h3>Telefono</h3>
+        <p><?php echo htmlspecialchars($profile['phoneN']); ?></p>
+      </div>
+      <div class="profile-box">
+        <h3>Genere</h3>
+        <p><?php echo htmlspecialchars($profile['gender']); ?></p>
+      </div>
+      <div class="profile-box">
+        <h3>Preferenza</h3>
+        <p><?php echo htmlspecialchars($profile['preference']); ?></p>
+      </div>
+      <div class="profile-box">
+        <h3>Email</h3>
+        <p><?php echo htmlspecialchars($profile['email']); ?></p>
+      </div>
+    </div>
+
+    <!-- Pulsante di logout -->
+    <button class="menu-button" onclick="window.location.href='logout.php'">Logout</button>
   </div>
 </body>
 </html>

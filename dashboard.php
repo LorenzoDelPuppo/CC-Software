@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+<?php
+// Blocco di controllo accessi
+session_start();
+require_once 'connect.php';
+
+// Verifica se l'utente è loggato
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$email = $_SESSION['email'];
+
+// Recupera il ruolo dell'utente dal database
+$sql = "SELECT user_tipe FROM Customer WHERE email = ?";
+$stmt = $conn->prepare($sql);
+if (!$stmt) {
+    die("Errore nella preparazione della query: " . $conn->error);
+}
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->bind_result($userType);
+$stmt->fetch();
+$stmt->close();
+
+// Controllo: solo amministratore e operatrice possono accedere
+if ($userType !== 'amministratore' && $userType !== 'operatrice') {
+    header("Location: access_denied.php");
+    exit;
+}
+?>
+<!DOCTYPE html> 
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -7,15 +38,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Pulsante per il Logout -->
     <form action="logout.php" method="post">
         <button type="submit">Logout</button>
     </form>
 
     <?php
-    session_start();
-    require 'connect.php'; // Connessione al database
+    // La connessione al database è già stata aperta in cima; se serve riaprirla, richiedila
+    require 'connect.php';
 
-    // Recupero della data selezionata o uso quella di oggi
+    // Recupero della data selezionata oppure uso quella di oggi
     $selectedDate = isset($_GET['date']) ? $_GET['date'] : date("Y-m-d");
 
     echo "<h2>Appuntamenti per il giorno: " . date("d-m-Y", strtotime($selectedDate)) . "</h2>";
@@ -44,7 +76,7 @@
         while ($row = $result->fetch_assoc()) {
             $appointment_id = $row['appointment_id'];
 
-            // Query per ottenere i servizi associati a questo appuntamento (usiamo nameS invece di serviceName)
+            // Query per ottenere i servizi associati a questo appuntamento
             $sql_services = "
                 SELECT s.nameS 
                 FROM mergeAS m
@@ -77,6 +109,7 @@
     $conn->close();
     ?>
 
+    <!-- Sezione pulsanti -->
     <div class="button-container" style="display: flex; gap: 10px;">
         <form action="prenota.php" method="post">
             <button type="submit">Aggiungi Appuntamento</button>
