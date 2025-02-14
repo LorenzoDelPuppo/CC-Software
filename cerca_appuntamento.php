@@ -47,17 +47,35 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <title>Cerca Appuntamento</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-    .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 5px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    table, th, td { border: 1px solid #ccc; }
-    th, td { padding: 10px; text-align: center; }
-    .search-form { margin-bottom: 20px; }
-    .btn { padding: 8px 12px; background: #007BFF; color: #fff; border: none; border-radius: 3px; cursor: pointer; }
-    .btn:hover { background: #0056b3; }
-  </style>
+  <script src="menu_profilo.js" defer></script>
+    <link rel="stylesheet" href="style/barra_alta.css">
+
 </head>
+<div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
 <body>
 <div class="container">
   <h1>Cerca Appuntamento</h1>

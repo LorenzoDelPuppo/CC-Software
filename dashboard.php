@@ -28,20 +28,42 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
     header("Location: access_denied.php");
     exit;
 }
-?>
+?> 
 <!DOCTYPE html> 
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="menu_profilo.js" defer></script>
+    <link rel="stylesheet" href="style/barra_alta.css">
 </head>
 <body>
-    <!-- Pulsante per il Logout -->
-    <form action="logout.php" method="post">
-        <button type="submit">Logout</button>
-    </form>
+<div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
 
     <?php
     // La connessione al database è già stata aperta in cima; se serve riaprirla, richiedila
