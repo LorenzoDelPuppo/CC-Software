@@ -87,8 +87,8 @@
         <form action="clienti.php" method="post">
             <button type="submit">Gestione Clienti</button>
         </form>
-        <form action="report.php" method="post">
-            <button type="submit">Report</button>
+        <form action="aggiungi_cliente.php" method="post">
+            <button type="submit">Aggiungi Cliente</button>
         </form>
     </div>
 </body>
