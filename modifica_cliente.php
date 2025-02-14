@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- Dropdown -->
   <div class="dropdown-menu">
     <a href="profilo.php" class="dropdown-item">Profilo</a>
-    <a href="settings.php" class="dropdown-item">Impostazioni</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
     <hr class="dropdown-separator">
     <a href="logout.php" class="dropdown-item logout-item">Logout</a>
   </div>

@@ -1,4 +1,4 @@
-<?php /*
+<?php 
 session_start();
 require_once 'connect.php'; // Includi qui il file di connessione al database
 
@@ -28,7 +28,7 @@ if ($stmt = $conn->prepare($query)) {
     die("Errore nella preparazione della query: " . $conn->error);
 }
 
-$conn->close();*/
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -49,7 +49,7 @@ $conn->close();*/
   <!-- Dropdown -->
   <div class="dropdown-menu">
     <a href="profilo.php" class="dropdown-item">Profilo</a>
-    <a href="settings.php" class="dropdown-item">Impostazioni</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
     <hr class="dropdown-separator">
     <a href="logout.php" class="dropdown-item logout-item">Logout</a>
   </div>
