@@ -81,9 +81,9 @@ if (isset($_SESSION['email'])) {
     
   <?php else: ?>
     <h1>Menu Ospite</h1>
-    <button class="menu-button" onclick="window.location.href='index.php'">Home</button>
+    <button class="menu-button" onclick="window.location.href='home.php'">Home</button>
     <button class="menu-button" onclick="window.location.href='login.php'">Login</button>
-    <button class="menu-button" onclick="window.location.href='registrazione.php'">Registrati</button>
+    <button class="menu-button" onclick="window.location.href='index.php'">Registrati</button>
   <?php endif; ?>
 </div>
 </body>
