@@ -147,6 +147,6 @@ INSERT INTO requiredS(requiredS_id1,requiredS_id2)
         
 INSERT INTO Customer (fName, lName, hair, phoneN, password, gender, preference, email, user_tipe)
 VALUES
-    ('Tommaso', 'Poletto', 'corti', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'maschio', 'Casuale', 'tommaso05poletto@gmail.com', 'amministratore'),
+    ('nAdmin', 'cAdmin', 'corti', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'maschio', 'Casuale', 'admin@gmail.com', 'amministratore'),
     ('Barbara', 'Feltrin', 'lunghi', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'femmina', 'Casuale', 'barbarafeltrin73@gmail.com', 'operatrice'),
     ('Luca', 'Panotin', 'corti', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'maschio', 'Casuale', 'panontinluca05@gmail.com', 'cliente');
