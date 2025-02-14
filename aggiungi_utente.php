@@ -1,5 +1,5 @@
 <?php
-ob_start();
+/*ob_start();
 session_start();
 require_once 'connect.php';
 require_once 'cript.php';
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $conn->close();
 }
-ob_end_flush();
+ob_end_flush();*/
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -74,32 +74,12 @@ ob_end_flush();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aggiungi Utente</title>
   <link rel="stylesheet" href="style/style_input.css">
-  <style>
-    /* Stili per la selezione dei capelli con immagini */
-    .buttons_select {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 10px;
-    }
-    .radio_menu {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .img_label {
-        cursor: pointer;
-    }
-    .img_sceltacapelli {
-        width: 100px;
-        height: auto;
-        border: 2px solid transparent;
-        transition: border-color 0.3s;
-    }
-    /* Evidenzia l'immagine quando viene selezionata */
-    input[type="radio"]:checked + .img_label img {
-        border-color: #007BFF;
-    }
-  </style>
+
+  <div class="logo-container">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
 </head>
 <body>
   <div class="form-container">
