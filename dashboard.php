@@ -279,7 +279,7 @@ $conn->close();
         <form action="calendario.php" method="get">
             <button type="submit">Calendario</button>
         </form>
-        <form action="visualizza_clienti.php" method="get">
+        <form action="lista_clienti.php" method="get">
             <button type="submit">Gestione Clienti</button>
         </form>
         <form action="aggiungi_utente.php" method="get">
