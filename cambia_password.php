@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <!-- Contenitore per il logo -->
   <div class="logo-container">
-    <img src="rullino/logo.png" alt="Logo">
+    <img src="style/rullino/logo.png" alt="Logo">
   </div>
   
   <!-- Contenitore principale -->

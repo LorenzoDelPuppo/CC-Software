@@ -1,5 +1,5 @@
 <?php
-/*ob_start();
+ob_start();
 session_start();
 require_once 'connect.php';
 require_once 'cript.php';
@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $conn->close();
 }
-ob_end_flush();*/
+ob_end_flush();
 ?>
 <!DOCTYPE html>
 <html lang="it">

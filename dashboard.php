@@ -12,7 +12,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 // Recupera il ruolo dell'utente dal database
-$sql = "SELECT user_tipe FROM Customer WHERE email = ?";
+$sql = "SELECT user_tipe FROM customer WHERE email = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Errore nella preparazione della query: " . $conn->error);
@@ -28,7 +28,99 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
     header("Location: access_denied.php");
     exit;
 }
+
+// Selezione preferenza (modifica)
+if (isset($_POST['update_preference'])) {
+    $appointmentId = $_POST['appointment_id'];
+    $newPreference = $_POST['preference'];
+
+    // Ottieni il customer_id per l'appuntamento
+    $customerSql = "SELECT customer_id FROM appointment WHERE appointment_id = ?";
+    $customerStmt = $conn->prepare($customerSql);
+    $customerStmt->bind_param("i", $appointmentId);
+    $customerStmt->execute();
+    $customerStmt->bind_result($customerId);
+    $customerStmt->fetch();
+    $customerStmt->close();
+
+    // Aggiorna la preferenza nel database per il cliente
+    $updateSql = "UPDATE customer SET preference = ? WHERE customer_id = ?";
+    $updateStmt = $conn->prepare($updateSql);
+    $updateStmt->bind_param("si", $newPreference, $customerId);
+    $updateStmt->execute();
+    $updateStmt->close();
+
+    echo "<p>Preferenza aggiornata con successo!</p>";
+}
+
+// Recupero degli appuntamenti
+$selectedDate = isset($_POST['search_date']) ? $_POST['search_date'] : null;
+
+// Se non viene fornita una data specifica, mostriamo tutti gli appuntamenti
+if ($selectedDate) {
+    $sql = "
+        SELECT 
+            a.appointment_id, 
+            a.dateTime AS appointment_date, 
+            CONCAT(c.fName, ' ', c.lName) AS cliente,
+            c.preference,
+            s.nameS, 
+            s.engageTime 
+        FROM appointment a
+        JOIN customer c ON a.customer_id = c.customer_id
+        LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id
+        LEFT JOIN serviceCC s ON m.service_id = s.service_id
+        WHERE DATE(a.dateTime) = ?
+        ORDER BY a.dateTime ASC
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $selectedDate);
+} else {
+    $sql = "
+        SELECT 
+            a.appointment_id, 
+            a.dateTime AS appointment_date, 
+            CONCAT(c.fName, ' ', c.lName) AS cliente,
+            c.preference,
+            s.nameS, 
+            s.engageTime 
+        FROM appointment a
+        JOIN customer c ON a.customer_id = c.customer_id
+        LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id
+        LEFT JOIN serviceCC s ON m.service_id = s.service_id
+        ORDER BY a.dateTime ASC
+    ";
+    $stmt = $conn->prepare($sql);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Organizza gli appuntamenti per preferenza
+$appointmentsByPreference = [
+    'Barbara' => [],
+    'Giulia' => [],
+    'Casuale' => []
+];
+
+// Raggruppa gli appuntamenti in base alla preferenza e orario
+while ($row = $result->fetch_assoc()) {
+    // Assicurati che la preferenza sia disponibile, altrimenti usiamo 'Casuale'
+    $preference = isset($row['preference']) && $row['preference'] ? $row['preference'] : 'Casuale';
+    $appointmentKey = $row['appointment_date']; // Raggruppiamo per data e ora
+
+    // Aggiungi il servizio per l'appuntamento
+    $appointmentsByPreference[$preference][$appointmentKey][] = [
+        'appointment_id' => $row['appointment_id'],
+        'cliente' => $row['cliente'],
+        'nameS' => $row['nameS'],
+        'engageTime' => $row['engageTime']
+    ];
+}
+
+$conn->close();
 ?>
+
 <!DOCTYPE html> 
 <html lang="it">
 <head>
@@ -36,6 +128,38 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Stile per le colonne */
+        .column {
+            width: 30%;
+            float: left;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            height: 600px;
+            overflow-y: auto;
+        }
+
+        .appointment-box {
+            margin-bottom: 10px;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .appointment-box strong {
+            font-size: 14px;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Pulsante per il Logout -->
@@ -43,71 +167,109 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
         <button type="submit">Logout</button>
     </form>
 
-    <?php
-    // La connessione al database è già stata aperta in cima; se serve riaprirla, richiedila
-    require 'connect.php';
+    <!-- Barra di ricerca per la data -->
+    <form action="" method="POST">
+        <input type="date" name="search_date" value="<?php echo $selectedDate ? $selectedDate : ''; ?>" placeholder="Seleziona una data">
+        <button type="submit">Cerca Appuntamenti</button>
+    </form>
+    <form action="" method="POST">
+        <button type="submit" name="search_date" value="">Mostra tutti gli appuntamenti</button>
+    </form>
 
-    // Recupero della data selezionata oppure uso quella di oggi
-    $selectedDate = isset($_GET['date']) ? $_GET['date'] : date("Y-m-d");
+    <h2>Appuntamenti per il giorno: <?php echo $selectedDate ? date("d-m-Y", strtotime($selectedDate)) : "Tutti i Giorni"; ?></h2>
 
-    echo "<h2>Appuntamenti per il giorno: " . date("d-m-Y", strtotime($selectedDate)) . "</h2>";
-
-    // Query per ottenere gli appuntamenti con nome cliente
-    $sql = "
-        SELECT 
-            a.appointment_id, 
-            TIME(a.dateTime) AS orario, 
-            CONCAT(c.fName, ' ', c.lName) AS cliente
-        FROM appointment a
-        JOIN customer c ON a.customer_id = c.customer_id
-        WHERE DATE(a.dateTime) = ?
-        ORDER BY a.dateTime ASC
-    ";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $selectedDate);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        echo "<table border='1' style='width:100%; text-align:center; border-collapse: collapse;'>";
-        echo "<tr><th>Orario</th><th>Cliente</th><th>Servizi Prenotati</th></tr>";
-
-        while ($row = $result->fetch_assoc()) {
-            $appointment_id = $row['appointment_id'];
-
-            // Query per ottenere i servizi associati a questo appuntamento
-            $sql_services = "
-                SELECT s.nameS 
-                FROM mergeAS m
-                JOIN serviceCC s ON m.service_id = s.service_id
-                WHERE m.appointment_id = ?
-            ";
-            $stmt_services = $conn->prepare($sql_services);
-            $stmt_services->bind_param("i", $appointment_id);
-            $stmt_services->execute();
-            $result_services = $stmt_services->get_result();
-
-            $services = [];
-            while ($service = $result_services->fetch_assoc()) {
-                $services[] = $service['nameS'];
+    <!-- Colonne per le preferenze -->
+    <div class="column" style="background-color: #f8d7da;">
+        <h3>Preferenza: Barbara</h3>
+        <?php
+        if (!empty($appointmentsByPreference['Barbara'])) {
+            foreach ($appointmentsByPreference['Barbara'] as $appointmentKey => $appointments) {
+                echo "<div class='appointment-box'>";
+                // Stampa il nome cliente solo una volta per ogni appuntamento
+                echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
+                echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
+                foreach ($appointments as $appt) {
+                    echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>"; // Stampa solo il servizio
+                }
+                // Aggiungi il form di modifica della preferenza una sola volta
+                echo "<form action='' method='POST'>
+                        <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
+                        <select name='preference'>
+                            <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
+                            <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
+                            <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
+                        </select>
+                        <button type='submit' name='update_preference'>Modifica Preferenza</button>
+                      </form>";
+                echo "</div>";
             }
-            $services_list = !empty($services) ? implode(", ", $services) : "Nessun servizio prenotato";
-
-            echo "<tr>";
-            echo "<td>" . $row['orario'] . "</td>";
-            echo "<td>" . $row['cliente'] . "</td>";
-            echo "<td>" . $services_list . "</td>";
-            echo "</tr>";
+        } else {
+            echo "<p>Nessun appuntamento.</p>";
         }
+        ?>
+    </div>
 
-        echo "</table>";
-    } else {
-        echo "<p>Nessun appuntamento trovato per questa data.</p>";
-    }
+    <div class="column" style="background-color: #d1ecf1;">
+        <h3>Preferenza: Giulia</h3>
+        <?php
+        if (!empty($appointmentsByPreference['Giulia'])) {
+            foreach ($appointmentsByPreference['Giulia'] as $appointmentKey => $appointments) {
+                echo "<div class='appointment-box'>";
+                // Stampa il nome cliente solo una volta per ogni appuntamento
+                echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
+                echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
+                foreach ($appointments as $appt) {
+                    echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>"; // Stampa solo il servizio
+                }
+                // Aggiungi il form di modifica della preferenza una sola volta
+                echo "<form action='' method='POST'>
+                        <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
+                        <select name='preference'>
+                            <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
+                            <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
+                            <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
+                        </select>
+                        <button type='submit' name='update_preference'>Modifica Preferenza</button>
+                      </form>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p>Nessun appuntamento.</p>";
+        }
+        ?>
+    </div>
 
-    $conn->close();
-    ?>
+    <div class="column" style="background-color: #d4edda;">
+        <h3>Preferenza: Casuale</h3>
+        <?php
+        if (!empty($appointmentsByPreference['Casuale'])) {
+            foreach ($appointmentsByPreference['Casuale'] as $appointmentKey => $appointments) {
+                echo "<div class='appointment-box'>";
+                // Stampa il nome cliente solo una volta per ogni appuntamento
+                echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
+                echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
+                foreach ($appointments as $appt) {
+                    echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>"; // Stampa solo il servizio
+                }
+                // Aggiungi il form di modifica della preferenza una sola volta
+                echo "<form action='' method='POST'>
+                        <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
+                        <select name='preference'>
+                            <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
+                            <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
+                            <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
+                        </select>
+                        <button type='submit' name='update_preference'>Modifica Preferenza</button>
+                      </form>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p>Nessun appuntamento.</p>";
+        }
+        ?>
+    </div>
+
+    <div class="clearfix"></div>
 
     <!-- Sezione pulsanti -->
     <div class="button-container" style="display: flex; gap: 10px;">
@@ -117,15 +279,16 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
         <form action="calendario.php" method="get">
             <button type="submit">Calendario</button>
         </form>
-        <form action="lista_clienti.php" method="get">
+        <form action="visualizza_clienti.php" method="get">
             <button type="submit">Gestione Clienti</button>
         </form>
         <form action="aggiungi_utente.php" method="get">
             <button type="submit">Aggiungi Cliente</button>
         </form>
         <form action="cerca_appuntamento.php" method="get">
-            <button type="submit">modifica appuntamento</button>
+            <button type="submit">Modifica Appuntamento</button>
         </form>
     </div>
+
 </body>
 </html>

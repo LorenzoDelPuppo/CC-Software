@@ -1,4 +1,4 @@
-<?php
+<?php 
 ob_start();
 session_start();
 require_once 'connect.php';
@@ -140,24 +140,38 @@ ob_end_flush();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modifica Appuntamento</title>
-  <link rel="stylesheet" href="style/style_input.css">
+  <link rel="stylesheet" href="style/prenota.css">
+  <script src="menu_profilo.js" defer></script>
+    <link rel="stylesheet" href="style/barra_alta.css">
   <!-- Includo jQuery e jQuery UI per il Datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-  <style>
-    .form-container { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 5px; }
-    .success { color: green; }
-    .error { color: red; }
-    fieldset { margin-bottom: 20px; }
-    legend { font-weight: bold; }
-    label { display: block; margin-top: 10px; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; }
-    .services-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-    .services-container label { border: 1px solid #ccc; border-radius: 4px; padding: 5px 10px; cursor: pointer; }
-    .button-container { text-align: center; }
-    button { padding: 10px 20px; font-size: 16px; }
-  </style>
+  <div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
   <script>
     // Mappa delle durate (in minuti) per ciascun servizio (stessa usata in prenota)
     var serviceDurations = {

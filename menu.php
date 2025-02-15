@@ -27,49 +27,35 @@ if (isset($_SESSION['email'])) {
 <head>
   <meta charset="UTF-8">
   <title>Menu</title>
+  <script src="menu_profilo.js" defer></script>
+  <link rel="stylesheet" href="style/barra_alta.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    /* Stili di base per il menu */
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-    .menu-container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-    .menu-container h1 {
-      margin-bottom: 20px;
-    }
-    .menu-button {
-      display: block;
-      width: 90%;
-      padding: 10px;
-      margin: 10px auto;
-      font-size: 16px;
-      background: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .menu-button:hover {
-      background: #0056b3;
-    }
-  </style>
 </head>
+<div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
 <body>
 <div class="menu-container">
   <?php if ($userType === "amministratore"): ?>
@@ -78,8 +64,6 @@ if (isset($_SESSION['email'])) {
     <button class="menu-button" onclick="window.location.href='calendario.php'">Calendario</button>
     <button class="menu-button" onclick="window.location.href='prenota.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='aggiungi_utente.php'">Aggiungi Utente</button>
-    <button class="menu-button" onclick="window.location.href='login.php'">Login</button>
-    <button class="menu-button" onclick="window.location.href='profilo.php'">Profilo</button>
     <button class="menu-button" onclick="window.location.href='miei_appuntamenti.php'">Miei Appuntamenti</button>
     
   
@@ -89,21 +73,17 @@ if (isset($_SESSION['email'])) {
     <button class="menu-button" onclick="window.location.href='calendario.php'">Calendario</button>
     <button class="menu-button" onclick="window.location.href='prenota.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='aggiungi_utente.php'">Aggiungi Utente</button>
-    <button class="menu-button" onclick="window.location.href='login.php'">Login</button>
-    <button class="menu-button" onclick="window.location.href='profilo.php'">Profilo</button>
     
   <?php elseif ($userType === "cliente"): ?>
     <h1>Menu Cliente</h1>
     <button class="menu-button" onclick="window.location.href='prenota.php'">Prenota</button>
     <button class="menu-button" onclick="window.location.href='miei_appuntamenti.php'">Miei Appuntamenti</button>
-    <button class="menu-button" onclick="window.location.href='login.php'">Login</button>
-    <button class="menu-button" onclick="window.location.href='profilo.php'">Profilo</button>
     
   <?php else: ?>
     <h1>Menu Ospite</h1>
-    <button class="menu-button" onclick="window.location.href='index.php'">Home</button>
+    <button class="menu-button" onclick="window.location.href='home.php'">Home</button>
     <button class="menu-button" onclick="window.location.href='login.php'">Login</button>
-    <button class="menu-button" onclick="window.location.href='registrazione.php'">Registrati</button>
+    <button class="menu-button" onclick="window.location.href='index.php'">Registrati</button>
   <?php endif; ?>
 </div>
 </body>
