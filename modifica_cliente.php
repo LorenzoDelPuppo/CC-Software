@@ -1,119 +1,143 @@
 <?php
 session_start();
-require_once 'connect.php';
-
-// Verifica se l'utente è loggato e ha i permessi
-if (!isset($_SESSION['email']) || $_SESSION['user_tipe'] != 'amministratore'|| $_SESSION['user_tipe'] != 'operatrice') {
+// Verifica che l'utente sia autenticato e che il ruolo sia amministratore o operatrice
+if (!isset($_SESSION['user_tipe']) || ($_SESSION['user_tipe'] != 'amministratore' && $_SESSION['user_tipe'] != 'operatrice')) {
     header("Location: login.php");
     exit();
 }
 
-// Verifica se l'ID cliente è passato nella query string
-if (!isset($_GET['customer_id']) || empty($_GET['customer_id'])) {
-    die("Cliente non trovato.");
-}
+require_once 'connect.php';
+require_once 'cript.php';
 
-$customer_id = intval($_GET['customer_id']);
-
-// Recupera i dati del cliente da modificare
-$sql = "SELECT * FROM Customer WHERE customer_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $customer_id);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($row = $result->fetch_assoc()) {
-    // Popola il form con i dati del cliente
-    $fName = $row['fName'];
-    $lName = $row['lName'];
-    $phoneN = $row['phoneN'];
-    $email = $row['email'];
-    $hair = $row['hair'];
-    $gender = $row['gender'];
-    $preference = $row['preference'];
-    $wants_notification = $row['wants_notification'];
-    $nota = $row['nota'];
-} else {
-    die("Cliente non trovato.");
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recupera i dati dal form
-    $fName = $_POST['fName'];
-    $lName = $_POST['lName'];
-    $phoneN = $_POST['phoneN'];
-    $email = $_POST['email'];
-    $hair = $_POST['hair'];
-    $gender = $_POST['gender'];
-    $preference = $_POST['preference'];
-    $wants_notification = isset($_POST['wants_notification']) ? 1 : 0;
-    $nota = $_POST['nota'];
-
-    // Aggiorna i dati del cliente
-    $sql = "UPDATE Customer SET fName = ?, lName = ?, phoneN = ?, email = ?, hair = ?, gender = ?, preference = ?, wants_notification = ?, nota = ? WHERE customer_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssssi", $fName, $lName, $phoneN, $email, $hair, $gender, $preference, $wants_notification, $nota, $customer_id);
-
-    if ($stmt->execute()) {
-        echo "Dati aggiornati con successo!";
-        header("Location: visualizza_clienti.php");
-        exit();
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Verifica che l'ID del cliente sia stato passato
+    if (isset($_GET['id']) && !empty($_GET['id'])) {
+        $customer_id = $_GET['id'];
+        $sql = "SELECT * FROM Customer WHERE customer_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $customer_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $customer = $result->fetch_assoc();
+            // Se viene passato anche un valore per la nota (da lista_clienti.php) lo sovrascrive
+            if (isset($_GET['nota'])) {
+                $customer['nota'] = $_GET['nota'];
+            }
+        } else {
+            echo "Cliente non trovato.";
+            exit();
+        }
+        $stmt->close();
     } else {
-        echo "Errore nell'aggiornamento dei dati.";
+        echo "ID cliente mancante.";
+        exit();
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Elaborazione del form per aggiornare il cliente
+    $customer_id = $_POST['customer_id'];
+    $fName       = $_POST['fName'];
+    $lName       = $_POST['lName'];
+    $phoneN      = $_POST['phoneN'];
+    $email       = $_POST['email'];
+    $hair        = $_POST['hair'];       // atteso "lunghi" o "corti"
+    $gender      = $_POST['gender'];     // atteso "maschio" o "femmina"
+    $nota        = $_POST['nota'];
+
+    // Se viene fornita una nuova password la aggiorniamo; altrimenti la lasciamo invariata
+    $password = $_POST['password'];
+    if (!empty($password)) {
+        $hashedPassword = hashPassword($password);
+        $sql = "UPDATE Customer 
+                SET fName = ?, lName = ?, phoneN = ?, email = ?, hair = ?, gender = ?, nota = ?, password = ?
+                WHERE customer_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssssi", $fName, $lName, $phoneN, $email, $hair, $gender, $nota, $hashedPassword, $customer_id);
+    } else {
+        $sql = "UPDATE Customer 
+                SET fName = ?, lName = ?, phoneN = ?, email = ?, hair = ?, gender = ?, nota = ?
+                WHERE customer_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssssi", $fName, $lName, $phoneN, $email, $hair, $gender, $nota, $customer_id);
     }
 
+    if ($stmt->execute()) {
+        echo "Cliente aggiornato con successo!";
+        header("Location: lista_clienti.php");
+        exit();
+    } else {
+        echo "Errore durante l'aggiornamento.";
+    }
     $stmt->close();
     $conn->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifica Cliente</title>
+    <link rel="stylesheet" href="style/style_input.css">
 </head>
 <body>
-    <h1>Modifica Cliente</h1>
-    <form method="POST" action="modifica_cliente.php?customer_id=<?php echo $customer_id; ?>">
-        <label for="fName">Nome</label>
-        <input type="text" id="fName" name="fName" value="<?php echo htmlspecialchars($fName); ?>" required>
-
-        <label for="lName">Cognome</label>
-        <input type="text" id="lName" name="lName" value="<?php echo htmlspecialchars($lName); ?>" required>
-
-        <label for="phoneN">Telefono</label>
-        <input type="text" id="phoneN" name="phoneN" value="<?php echo htmlspecialchars($phoneN); ?>" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
-
-        <label for="hair">Tipo di Capelli</label>
-        <select id="hair" name="hair">
-            <option value="lunghi" <?php echo $hair == 'lunghi' ? 'selected' : ''; ?>>Lunghi</option>
-            <option value="corti" <?php echo $hair == 'corti' ? 'selected' : ''; ?>>Corti</option>
-        </select>
-
-        <label for="gender">Genere</label>
-        <select id="gender" name="gender">
-            <option value="maschio" <?php echo $gender == 'maschio' ? 'selected' : ''; ?>>Maschio</option>
-            <option value="femmina" <?php echo $gender == 'femmina' ? 'selected' : ''; ?>>Femmina</option>
-        </select>
-
-        <label for="preference">Preferenza</label>
-        <select id="preference" name="preference">
-            <option value="Barbara" <?php echo $preference == 'Barbara' ? 'selected' : ''; ?>>Barbara</option>
-            <option value="Giulia" <?php echo $preference == 'Giulia' ? 'selected' : ''; ?>>Giulia</option>
-            <option value="Casuale" <?php echo $preference == 'Casuale' ? 'selected' : ''; ?>>Casuale</option>
-        </select>
-
-        <label for="wants_notification">Notifiche</label>
-        <input type="checkbox" id="wants_notification" name="wants_notification" <?php echo $wants_notification == 1 ? 'checked' : ''; ?>>
-
-        <label for="nota">Nota</label>
-        <textarea id="nota" name="nota"><?php echo htmlspecialchars($nota); ?></textarea>
-
-        <button type="submit">Aggiorna</button>
-    </form>
+    <div class="logo-container">
+        <img src="style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    </div>
+    <div class="form-container">
+        <h2>Modifica Cliente</h2>
+        <form action="modifica_cliente.php" method="post">
+            <!-- Campo nascosto per l'ID del cliente -->
+            <input type="hidden" name="customer_id" value="<?php echo isset($customer['customer_id']) ? $customer['customer_id'] : $customer_id; ?>">
+            
+            <label for="fName">Nome</label>
+            <input type="text" id="fName" name="fName" placeholder="Inserisci nome" 
+                   value="<?php echo isset($customer['fName']) ? htmlspecialchars($customer['fName']) : ''; ?>" required>
+            
+            <label for="lName">Cognome</label>
+            <input type="text" id="lName" name="lName" placeholder="Inserisci cognome" 
+                   value="<?php echo isset($customer['lName']) ? htmlspecialchars($customer['lName']) : ''; ?>" required>
+            
+            <label for="phoneN">Numero di Telefono</label>
+            <input type="tel" id="phoneN" name="phoneN" placeholder="Inserisci numero" 
+                   value="<?php echo isset($customer['phoneN']) ? htmlspecialchars($customer['phoneN']) : ''; ?>" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Inserisci email" 
+                   value="<?php echo isset($customer['email']) ? htmlspecialchars($customer['email']) : ''; ?>" required>
+            
+            <label for="password">Password (lascia vuoto per non cambiare)</label>
+            <input type="password" id="password" name="password" placeholder="Inserisci nuova password">
+            
+            <label>Capelli</label>
+            <div class="buttons_select">
+                <div class="radio_menu">
+                    <input type="radio" name="hair" id="lunghi" value="lunghi" 
+                        <?php if((isset($customer['hair']) && $customer['hair'] == 'lunghi')) echo 'checked'; ?>>
+                    <label for="lunghi" class="img_label">
+                        <img src="style/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
+                    </label>
+                </div>
+                <div class="radio_menu">
+                    <input type="radio" name="hair" id="corti" value="corti" 
+                        <?php if((isset($customer['hair']) && $customer['hair'] == 'corti')) echo 'checked'; ?>>
+                    <label for="corti" class="img_label">
+                        <img src="style/rullino/CapelliCorti.png" class="img_sceltacapelli" alt="Corti">
+                    </label>
+                </div>
+            </div>
+            
+            <label for="gender">Genere</label>
+            <select id="gender" name="gender">
+                <option value="maschio" <?php if((isset($customer['gender']) && $customer['gender'] == 'maschio')) echo 'selected'; ?>>Maschio</option>
+                <option value="femmina" <?php if((isset($customer['gender']) && $customer['gender'] == 'femmina')) echo 'selected'; ?>>Femmina</option>
+            </select>
+            
+            <label for="nota">Nota</label>
+            <textarea id="nota" name="nota" placeholder="Inserisci una nota"><?php echo isset($customer['nota']) ? htmlspecialchars($customer['nota']) : ''; ?></textarea>
+            
+            <button type="submit">Aggiorna Cliente</button>
+        </form>
+    </div>
 </body>
 </html>
