@@ -1,7 +1,8 @@
 <?php
 session_start();
-// Controllo della sessione: solo amministratori e operatrici possono accedere
-if (!isset($_SESSION['user_tipe']) || ($_SESSION['user_tipe'] != 'amministratore' && $_SESSION['user_tipe'] != 'operatrice')) {
+
+// Controllo della sessione: verifica se l'utente è loggato usando l'email
+if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
