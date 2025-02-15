@@ -28,99 +28,7 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
     header("Location: access_denied.php");
     exit;
 }
-
-// Selezione preferenza (modifica)
-if (isset($_POST['update_preference'])) {
-    $appointmentId = $_POST['appointment_id'];
-    $newPreference = $_POST['preference'];
-
-    // Ottieni il customer_id per l'appuntamento
-    $customerSql = "SELECT customer_id FROM appointment WHERE appointment_id = ?";
-    $customerStmt = $conn->prepare($customerSql);
-    $customerStmt->bind_param("i", $appointmentId);
-    $customerStmt->execute();
-    $customerStmt->bind_result($customerId);
-    $customerStmt->fetch();
-    $customerStmt->close();
-
-    // Aggiorna la preferenza nel database per il cliente
-    $updateSql = "UPDATE customer SET preference = ? WHERE customer_id = ?";
-    $updateStmt = $conn->prepare($updateSql);
-    $updateStmt->bind_param("si", $newPreference, $customerId);
-    $updateStmt->execute();
-    $updateStmt->close();
-
-    echo "<p>Preferenza aggiornata con successo!</p>";
-}
-
-// Recupero degli appuntamenti
-$selectedDate = isset($_POST['search_date']) ? $_POST['search_date'] : null;
-
-// Se non viene fornita una data specifica, mostriamo tutti gli appuntamenti
-if ($selectedDate) {
-    $sql = "
-        SELECT 
-            a.appointment_id, 
-            a.dateTime AS appointment_date, 
-            CONCAT(c.fName, ' ', c.lName) AS cliente,
-            c.preference,
-            s.nameS, 
-            s.engageTime 
-        FROM appointment a
-        JOIN customer c ON a.customer_id = c.customer_id
-        LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id
-        LEFT JOIN serviceCC s ON m.service_id = s.service_id
-        WHERE DATE(a.dateTime) = ?
-        ORDER BY a.dateTime ASC
-    ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $selectedDate);
-} else {
-    $sql = "
-        SELECT 
-            a.appointment_id, 
-            a.dateTime AS appointment_date, 
-            CONCAT(c.fName, ' ', c.lName) AS cliente,
-            c.preference,
-            s.nameS, 
-            s.engageTime 
-        FROM appointment a
-        JOIN customer c ON a.customer_id = c.customer_id
-        LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id
-        LEFT JOIN serviceCC s ON m.service_id = s.service_id
-        ORDER BY a.dateTime ASC
-    ";
-    $stmt = $conn->prepare($sql);
-}
-
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Organizza gli appuntamenti per preferenza
-$appointmentsByPreference = [
-    'Barbara' => [],
-    'Giulia' => [],
-    'Casuale' => []
-];
-
-// Raggruppa gli appuntamenti in base alla preferenza e orario
-while ($row = $result->fetch_assoc()) {
-    // Assicurati che la preferenza sia disponibile, altrimenti usiamo 'Casuale'
-    $preference = isset($row['preference']) && $row['preference'] ? $row['preference'] : 'Casuale';
-    $appointmentKey = $row['appointment_date']; // Raggruppiamo per data e ora
-
-    // Aggiungi il servizio per l'appuntamento
-    $appointmentsByPreference[$preference][$appointmentKey][] = [
-        'appointment_id' => $row['appointment_id'],
-        'cliente' => $row['cliente'],
-        'nameS' => $row['nameS'],
-        'engageTime' => $row['engageTime']
-    ];
-}
-
-$conn->close();
 ?>
-
 <!DOCTYPE html> 
 <html lang="it">
 <head>
@@ -128,44 +36,33 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Stile per le colonne */
-        .column {
-            width: 30%;
-            float: left;
-            margin: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            height: 600px;
-            overflow-y: auto;
-        }
-
-        .appointment-box {
-            margin-bottom: 10px;
-            background-color: #f0f0f0;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .appointment-box strong {
-            font-size: 14px;
-        }
-
-        .clearfix {
-            clear: both;
-        }
-
-        .button-container {
-            margin-top: 20px;
-        }
-    </style>
 </head>
 <body>
-    <!-- Pulsante per il Logout -->
-    <form action="logout.php" method="post">
-        <button type="submit">Logout</button>
-    </form>
+<div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
 
     <!-- Barra di ricerca per la data -->
     <form action="" method="POST">
@@ -279,7 +176,7 @@ $conn->close();
         <form action="calendario.php" method="get">
             <button type="submit">Calendario</button>
         </form>
-        <form action="clienti.php" method="post">
+        <form action="visualizza_clienti.php" method="get">
             <button type="submit">Gestione Clienti</button>
         </form>
         <form action="aggiungi_utente.php" method="get">

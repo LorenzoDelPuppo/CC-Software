@@ -3,7 +3,7 @@ session_start();
 require_once 'connect.php';
 
 // Verifica se l'utente è loggato e ha i permessi
-if (!isset($_SESSION['email']) || $_SESSION['user_tipe'] != 'amministratore') {
+if (!isset($_SESSION['email']) || $_SESSION['user_tipe'] != 'amministratore'|| $_SESSION['user_tipe'] != 'operatrice') {
     header("Location: login.php");
     exit();
 }
@@ -70,9 +70,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <script src="menu_profilo.js" defer></script>
+    <link rel="stylesheet" href="style/barra_alta.css">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifica Cliente</title>
 </head>
+<div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+</div>
 <body>
     <h1>Modifica Cliente</h1>
     <form method="POST" action="modifica_cliente.php?customer_id=<?php echo $customer_id; ?>">

@@ -33,52 +33,37 @@ if ($stmt = $conn->prepare($query)) {
 <!DOCTYPE html>
 <html lang="it">
 <head>
+<script src="menu_profilo.js" defer></script>
+<link rel="stylesheet" href="style/barra_alta.css">
     <meta charset="UTF-8">
     <title>I miei Appuntamenti</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 2em;
-        }
-        h1 {
-            text-align: center;
-        }
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin: auto;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 0.8em;
-            text-align: center;
-        }
-        th {
-            background-color: #eee;
-        }
-        .no-data {
-            text-align: center;
-            margin-top: 2em;
-            font-size: 1.2em;
-        }
-        /* Stile per il pulsante per tornare al menu */
-        .menu-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .menu-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
+
+<div class="top-bar">
+  <div class="left-section">
+  </div>
+  <div class="center-section">
+    <a href="menu.php">
+      <img src="style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
+  </div>
+
+  <div class="right-section">
+  <div class="user-menu">
+  <!-- Icona utente (o un'immagine) -->
+  <span class="user-icon">&#128100;</span>
+  
+  <!-- Dropdown -->
+  <div class="dropdown-menu">
+    <a href="profilo.php" class="dropdown-item">Profilo</a>
+    <a href="impostazioni.php" class="dropdown-item">Impostazioni</a>
+    <hr class="dropdown-separator">
+    <a href="logout.php" class="dropdown-item logout-item">Logout</a>
+  </div>
+</div>
+</div>
+
+</div>
 <body>
     <h1>I miei Appuntamenti</h1>
     <?php if ($result->num_rows > 0): ?>
