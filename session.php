@@ -5,7 +5,7 @@
     // Funzione per verificare se l'utente è autenticato
     function check_login() {
         if (!isset($_SESSION['email'])) {
-            header("Location: login.php"); // Reindirizza alla pagina di login se non è loggato
+            header("Location: .././add-edit/login.php"); // Reindirizza alla pagina di login se non è loggato
         exit;
         }
     }
