@@ -1,7 +1,8 @@
 <?php
 session_start();
+
 // Verifica che l'utente sia autenticato e che il ruolo sia amministratore o operatrice
-if (!isset($_SESSION['user_tipe']) || ($_SESSION['user_tipe'] != 'amministratore' && $_SESSION['user_tipe'] != 'operatrice')) {
+if (!isset($_SESSION['email'])) {
     header("Location: .././add-edit/login.php");
     exit();
 }
@@ -20,10 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
             $customer = $result->fetch_assoc();
-            // Se viene passato anche un valore per la nota (da .././view-get/lista_clienti.php) lo sovrascrive
-            if (isset($_GET['nota'])) {
-                $customer['nota'] = $_GET['nota'];
-            }
         } else {
             echo "Cliente non trovato.";
             exit();
@@ -78,34 +75,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     <meta charset="UTF-8">
     <script src=".././js/menu_profilo.js" defer></script>
     <link rel="stylesheet" href=".././style/barra_alta.css">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifica Cliente</title>
     <link rel="stylesheet" href=".././style/style_input.css">
 </head>
 <div class="top-bar">
-  <div class="left-section">
-  </div>
+  <div class="left-section"></div>
   <div class="center-section">
     <a href=".././view-get/menu.php">
       <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
     </a>
   </div>
-
   <div class="right-section">
-  <div class="user-menu">
-  <!-- Icona utente (o un'immagine) -->
-  <span class="user-icon">&#128100;</span>
-  
-  <!-- Dropdown -->
-  <div class="dropdown-menu">
-    <a href=".././view-get/profilo.php" class="dropdown-item">Profilo</a>
-    <a href=".././add-edit/impostazioni.php" class="dropdown-item">Impostazioni</a>
-    <hr class="dropdown-separator">
-    <a href=".././add-edit/logout.php" class="dropdown-item logout-item">Logout</a>
+    <div class="user-menu">
+      <span class="user-icon">&#128100;</span>
+      <div class="dropdown-menu">
+        <a href=".././view-get/profilo.php" class="dropdown-item">Profilo</a>
+        <a href=".././add-edit/impostazioni.php" class="dropdown-item">Impostazioni</a>
+        <hr class="dropdown-separator">
+        <a href=".././add-edit/logout.php" class="dropdown-item logout-item">Logout</a>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </div>
 <body>
     <div class="logo-container">

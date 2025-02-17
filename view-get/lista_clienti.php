@@ -2,9 +2,12 @@
 session_start();
 
 // Controllo della sessione: solo amministratori e operatrici possono accedere
-if (!isset($_SESSION['user_tipe']) || ($_SESSION['user_tipe'] != 'amministratore' && $_SESSION['user_tipe'] != 'operatrice')) 
-    header("Location: .././add-edit/login.php");    
-    require_once __DIR__ . '/../connect.php';
+if (!isset($_SESSION['email'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+require_once __DIR__ . '/../connect.php';
 
 // Se l'utente ha inviato un nuovo valore per la nota, aggiorniamo nel database
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nota']) && isset($_POST['customer_id'])) {
@@ -29,7 +32,7 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Clienti</title>
-    <link rel="stylesheet" href=".././style/style_input.css">
+    <link rel="stylesheet" href="../style/style_input.css">
     <style>
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; }
@@ -38,7 +41,7 @@ $result = $conn->query($sql);
 </head>
 <body>
     <div class="logo-container">
-        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+        <img src="../style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
     </div>
     <div class="content-container">
         <h2>Lista Clienti</h2>
@@ -60,24 +63,17 @@ $result = $conn->query($sql);
                             <td><?php echo htmlspecialchars($row['lName']); ?></td>
                             <td><?php echo htmlspecialchars($row['phoneN']); ?></td>
                             <td>
-<<<<<<< HEAD:view-get/lista_clienti.php
                                 <!-- Form inline per aggiornare la nota e passare l'ID alla pagina di modifica -->
-                                <form action=".././add-edit/modifica_cliente.php" method="get">
-                                    <input type="hidden" name="id" value="<?php echo $row['customer_id']; ?>">
-                                    <input type="text" name="nota" value="<?php echo htmlspecialchars($row['nota']); ?>">
-                                    <button type="submit">Modifica</button>
-=======
-                                <!-- Form inline per aggiornare la nota e passare l'ID alla stessa pagina -->
                                 <form action="lista_clienti.php" method="POST">
                                     <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
+                                    <!-- Aggiungi un controllo per evitare che la funzione htmlspecialchars() riceva un valore null -->
                                     <input type="text" name="nota" value="<?php echo htmlspecialchars($row['nota'] ?? ''); ?>">
-                                    <button type="submit">Salva nota</button>
->>>>>>> f694ca2418636bd1923f1ab0575623443fbca488:lista_clienti.php
+                                    <button type="submit">Modifica</button>
                                 </form>
                             </td>
                             <td>
                                 <!-- Link alternativo per modificare l'intero record -->
-                                <a href=".././add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>">Modifica Tutto</a>
+                                <a href="../add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>">Modifica Tutto</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
