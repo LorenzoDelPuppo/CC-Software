@@ -75,9 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <!-- Contenitore per il logo -->
   <div class="logo-container">
-    <img src=".././style/rullino/logo.png" alt="Logo">
+    <a href=".././view-get/menu.php">
+      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
+    </a>
   </div>
-  
   <!-- Contenitore principale -->
   <div class="form-container">
     <h2>Cambia Password</h2>

@@ -44,7 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <link rel="stylesheet" href=".././style/style_input.css">
 
 <div class="logo-container">
-        <img src=".././style/rullino/logo.png" alt="Logo"> <!-- Modifica il percorso dell'immagine se necessario -->
+    <a href=".././view-get/menu.php">
+        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    </a>
 </div>
 
 <div class="form-container">
