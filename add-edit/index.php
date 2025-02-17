@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="logo-container">
-    <img src="style/rullino/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
 </div>
 
     <div class="form-container">  <!-- classe per il contenitore -->
@@ -53,13 +53,13 @@
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="lunghi" value="long">
                     <label for="lunghi" class="img_label">
-                    <img src="style/rullino/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
+                    <img src=".././style/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
                     </label>
                 </div>
                 <div class="radio_menu">
                     <input type="radio" name="lunghezzaCapelli" id="corti" value="short">
                     <label for="corti" class="img_label">
-                    <img src="style/rullino/rullino/capellicorti.png" class="img_sceltacapelli" alt="Corti">
+                    <img src=".././style/rullino/capellicorti.png" class="img_sceltacapelli" alt="Corti">
                     </label>
                 </div>
             </div>

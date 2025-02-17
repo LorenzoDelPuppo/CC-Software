@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="logo-container">
-    <img src="style/rullino/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
 </div>
     <div class = "form-container">
         <h2>Login</h2>

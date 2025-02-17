@@ -47,7 +47,7 @@ $result = $conn->query($sql);
 </head>
 <body>
     <div class="logo-container">
-        <img src="style/rullino/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
     </div>
     <div class="content-container">
         <h2>Lista Clienti</h2>

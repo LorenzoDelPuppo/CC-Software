@@ -6,7 +6,7 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: #fff;
-    background: url('rullino/vetrina.jpg'); 
+    background: url('.././style/rullino/vetrina.jpg'); 
     color: #000;  
     background-position: center; 
 }

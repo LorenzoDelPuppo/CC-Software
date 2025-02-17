@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   </div>
   <div class="center-section">
     <a href=".././view-get/menu.php">
-      <img src="style/rullino/rullino/logo.png" alt="Logo" class="logo" />
+      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
     </a>
   </div>
 
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 </div>
 <body>
     <div class="logo-container">
-        <img src="style/rullino/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
     </div>
     <div class="form-container">
         <h2>Modifica Cliente</h2>
@@ -142,14 +142,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     <input type="radio" name="hair" id="lunghi" value="lunghi" 
                         <?php if((isset($customer['hair']) && $customer['hair'] == 'lunghi')) echo 'checked'; ?>>
                     <label for="lunghi" class="img_label">
-                        <img src="style/rullino/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
+                        <img src=".././style/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Lunghi">
                     </label>
                 </div>
                 <div class="radio_menu">
                     <input type="radio" name="hair" id="corti" value="corti" 
                         <?php if((isset($customer['hair']) && $customer['hair'] == 'corti')) echo 'checked'; ?>>
                     <label for="corti" class="img_label">
-                        <img src="style/rullino/rullino/capellicorti.png" class="img_sceltacapelli" alt="Corti">
+                        <img src=".././style/rullino/capellicorti.png" class="img_sceltacapelli" alt="Corti">
                     </label>
                 </div>
             </div>

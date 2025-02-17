@@ -37,7 +37,7 @@ $conn->close();
   </div>
   <div class="center-section">
     <a href=".././view-get/menu.php">
-      <img src="style/rullino/rullino/logo.png" alt="Logo" class="logo" />
+      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
     </a>
   </div>
 
@@ -70,7 +70,7 @@ $conn->close();
 <body>
   
   <div class="profile-container">
-  <img src="style/rullino/rullino/fotodefault.png" alt="fotoprofilo" class="profile-pic">
+  <img src=".././style/rullino/fotodefault.png" alt="fotoprofilo" class="profile-pic">
 
 
   <h1>Il Mio Profilo</h1>

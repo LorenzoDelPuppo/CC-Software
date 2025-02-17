@@ -49,7 +49,7 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
   </div>
   <div class="center-section">
     <a href=".././view-get/menu.php">
-      <img src="style/rullino/rullino/logo.png" alt="Logo" class="logo" />
+      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
     </a>
   </div>
 

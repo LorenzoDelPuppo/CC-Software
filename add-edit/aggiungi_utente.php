@@ -77,7 +77,7 @@ ob_end_flush();
 
   <div class="logo-container">
     <a href=".././view-get/menu.php">
-      <img src="style/rullino/rullino/logo.png" alt="Logo" class="logo" />
+      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
     </a>
   </div>
 </head>
@@ -114,14 +114,14 @@ ob_end_flush();
         <div class="radio_menu">
           <input type="radio" id="lunghi" name="lunghezzaCapelli" value="lunghi" required>
           <label for="lunghi" class="img_label">
-            <img src="style/rullino/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Capelli Lunghi">
+            <img src=".././style/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Capelli Lunghi">
           </label>
           <span>Lunghi</span>
         </div>
         <div class="radio_menu">
           <input type="radio" id="corti" name="lunghezzaCapelli" value="corti" required>
           <label for="corti" class="img_label">
-            <img src="style/rullino/rullino/capellicorti.png" class="img_sceltacapelli" alt="Capelli Corti">
+            <img src=".././style/rullino/capellicorti.png" class="img_sceltacapelli" alt="Capelli Corti">
           </label>
           <span>Corti</span>
         </div>
