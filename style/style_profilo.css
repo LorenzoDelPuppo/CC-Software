@@ -49,6 +49,7 @@ body {
   display: block;
   margin: 0 auto;
   object-fit: cover;
+  border: 1.5px solid black; /* Bordo nero sottile */
 }
 
 /* Griglia di dettagli (due colonne) */
@@ -78,7 +79,7 @@ body {
 
 /* Pulsante Logout */
 .menu-button {
-  background-color: #ff6b6b;
+  background-color: #b00;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -89,7 +90,8 @@ body {
   align-self: center; /* centrarlo orizzontalmente */
 }
 .menu-button:hover {
-  background-color: #ff5252;
+  background-color: #d70000;
+  
 }
 
 /* Responsive */
@@ -108,4 +110,15 @@ body {
   .profile-pic-container {
     justify-content: center;
   }
+}
+
+/* Icona logout di default */
+.logout-icon {
+  width: 25px;
+  height: 25px;
+}
+
+/* Cambio immagine quando passi sopra */
+.logout-item:hover .logout-icon {
+  content: url(".././style/rullino/logoutb.svg");
 }

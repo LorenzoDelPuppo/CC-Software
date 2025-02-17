@@ -109,3 +109,20 @@ body {
     background-color: #b00;
     color: #fff;
 }
+.logout-icon {
+    width: 16px; /* Modifica la dimensione se necessario */
+    height: 16px;
+    margin-right: 8px; /* Spazio tra icona e testo */
+    vertical-align: middle;
+}
+
+/* Icona logout di default */
+.logout-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Cambio immagine quando passi sopra */
+  .logout-item:hover .logout-icon {
+    content: url(".././style/rullino/logoutb.svg");
+  }
