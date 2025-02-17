@@ -38,7 +38,7 @@ if (isset($_SESSION['email'])) {
     exit();
 }
 
-require_once __DIR__ .  '.././connect.php';
+require_once __DIR__ .  '/../connect.php';
 require_once ".././add-edit/cript.php";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
