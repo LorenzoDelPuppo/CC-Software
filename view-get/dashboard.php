@@ -289,6 +289,9 @@ $conn->close();
         <form action=".././view-get/cerca_appuntamento.php" method="get">
             <button type="submit">Modifica Appuntamento</button>
         </form>
+        <form action=".././view-get/dashboarddef.php" method="post">
+            <button type="submit">dash</button>
+        </form>
     </div>
 
 </body>

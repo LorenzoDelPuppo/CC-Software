@@ -8,7 +8,9 @@
 </head>
 <body>
 <div class="logo-container">
-    <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    <a href=".././view-get/menu.php">
+        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    </a>
 </div>
     <div class = "form-container">
         <h2>Login</h2>
@@ -65,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $_SESSION['email'] = $email;
         
             // Reindirizza alla dashboard
-            header("Location: .././view-get/menu.php");
+            header("Location: .././view-get/dashboard.php");
             
             exit();
         } else {
