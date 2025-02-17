@@ -1,19 +1,10 @@
 <?php
 session_start();
-<<<<<<< HEAD:view-get/lista_clienti.php
+
 // Controllo della sessione: solo amministratori e operatrici possono accedere
-if (!isset($_SESSION['user_tipe']) || ($_SESSION['user_tipe'] != 'amministratore' && $_SESSION['user_tipe'] != 'operatrice')) {
-    header("Location: .././add-edit/login.php");
-=======
-
-// Controllo della sessione: verifica se l'utente è loggato usando l'email
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
->>>>>>> f694ca2418636bd1923f1ab0575623443fbca488:lista_clienti.php
-    exit();
-}
-
-require_once __DIR__ . '/../connect.php';
+if (!isset($_SESSION['user_tipe']) || ($_SESSION['user_tipe'] != 'amministratore' && $_SESSION['user_tipe'] != 'operatrice')) 
+    header("Location: .././add-edit/login.php");    
+    require_once __DIR__ . '/../connect.php';
 
 // Se l'utente ha inviato un nuovo valore per la nota, aggiorniamo nel database
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nota']) && isset($_POST['customer_id'])) {
