@@ -35,23 +35,24 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src=".././js/menu_profilo.js" defer></script>
-    <link rel="stylesheet" href=".././style/barra_alta.css">
+    <link rel="stylesheet" href=".././style/style_calendario.css">
     <title>Calendario</title>
-    <style>
-        table { width: 100%; border-collapse: collapse; }
-        td, th { border: 1px solid #ddd; text-align: center; padding: 10px; cursor: pointer; }
-        .current-day { background-color: #4CAF50; color: white; }
-        .nav { display: flex; justify-content: space-between; margin-bottom: 10px; }
-    </style>
+
 </head>
 <?php include '.././view-get/barra.php'; ?>
 <body>
-
+<div class="main-container">
+    <div class="calendar-container">
     <div class="nav">
-        <button onclick="prevMonth()">◀ Mese Precedente</button>
+    <button id="today-btn" onclick="goToToday()">Oggi</button>
+    <div class="nav-controls">
+        <button id="prev-month" onclick="prevMonth()">❮</button>
         <h2 id="month-year"></h2>
-        <button onclick="nextMonth()">Mese Successivo ▶</button>
+        <button id="next-month" onclick="nextMonth()">❯</button>
+        
     </div>
+</div>
+
 
     <table id="calendar">
         <thead>
@@ -120,7 +121,15 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
         }
 
         renderCalendar();
+
+        function goToToday() {
+    currentDate = new Date();
+    renderCalendar();
+}
+        
     </script>
+    </div>
+    </div>
 
 </body>
 </html>
