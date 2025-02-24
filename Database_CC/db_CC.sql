@@ -149,4 +149,4 @@ INSERT INTO Customer (fName, lName, hair, phoneN, password, gender, preference, 
 VALUES
     ('nAdmin', 'cAdmin', 'corti', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'maschio', 'Casuale', 'admin@gmail.com', 'amministratore'),
     ('Barbara', 'Feltrin', 'lunghi', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'femmina', 'Casuale', 'barbarafeltrin73@gmail.com', 'operatrice'),
-    ('Luca', 'Panotin', 'corti', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'maschio', 'Casuale', 'panontinluca05@gmail.com', 'cliente');
+    ('Luca', 'Panontin', 'corti', '12345', '$2y$10$AOvlRqqKO7MnhBMs5HioieoRbwicZMJGab7YaCjIyV1CseygrHbCK', 'maschio', 'Casuale', 'panontinluca05@gmail.com', 'cliente');

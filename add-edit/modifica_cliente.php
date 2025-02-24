@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 
 // Verifica che l'utente sia autenticato e che il ruolo sia amministratore o operatrice

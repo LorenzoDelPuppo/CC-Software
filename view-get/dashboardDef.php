@@ -141,7 +141,7 @@ function showAllAppuntamenti($conn) {
       font-size: 14px;
     }
   </style>
-
+ <?php include '.././view-get/barra.php'; ?>
 </head>
 <body>
   <div class="container mt-4">
@@ -154,7 +154,6 @@ function showAllAppuntamenti($conn) {
       <a href=".././view-get/lista_clienti.php" class="btn btn-warning">Schede Clienti</a>
     </div>
   </div>
-  <?php include '.././view-get/barra.php'; ?>
   <!-- Legenda dei servizi -->
   <div class="service-legend">
     <?php foreach($serviceColors as $serviceName => $color): ?>

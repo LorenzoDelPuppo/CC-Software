@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 ob_start();
 session_start();
 require_once __DIR__ . '/../connect.php';
@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 $conn->close();
-ob_end_flush();
+ob_end_flush();*/
 ?>
 <!DOCTYPE html>
 <html lang="it">
