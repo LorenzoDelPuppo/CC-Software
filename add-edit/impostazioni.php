@@ -1,4 +1,4 @@
-<?php /*
+<?php 
 session_start();
 require_once __DIR__ . '/../connect.php';
 
@@ -58,7 +58,7 @@ $stmt->fetch();
 $stmt->close();
 
 $conn->close();
-*/
+
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -80,6 +80,7 @@ $conn->close();
     <!-- Sezione per la Preferenza -->
     <section>
       <h2>Preferenze</h2>
+    
       <div class="switch-container">
     <label for="toggle">Promemoria</label>
       <label class="switch">
@@ -87,13 +88,14 @@ $conn->close();
         <span class="slider"></span>
       </label>
     </div>
+    
       <?php if (!empty($messagePreference)): ?>
         <div class="message"><?php echo htmlspecialchars($messagePreference); ?></div>
       <?php endif; ?>
       <form action=".././add-edit/impostazioni.php" method="post">
         <!-- Campo nascosto per identificare l'azione -->
         <input type="hidden" name="action" value="update_preference">
-        <label for="preference">Seleziona la tua preferenza:</label>
+        <label for="preference">Seleziona la tua operatrice preferita:</label>
         <select name="preference" id="preference">
           <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
           <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
@@ -106,7 +108,6 @@ $conn->close();
 
     <!-- Sezione per il Cambio Password -->
     <section>
-      <!-- Pulsante che reindirizza alla pagina per il cambio password -->
       <a href=".././add-edit/cambia_password.php" class="change-password">Cambia password</a>
     </section>
 
