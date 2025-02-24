@@ -1,7 +1,9 @@
 <link rel="stylesheet" href=".././style/barra_alta.css">
 <div class="top-bar">
   <div class="left-section">
-  <a href=".././view-get/menu.php">Menu</a>
+    <a href=".././view-get/menu.php">
+      <img src=".././style/rullino/tasto_home.svg" alt="Home" class="home-button">
+    </a>
   </div>
   <div class="center-section">
     <a href=".././view-get/menu.php">
@@ -12,7 +14,7 @@
   <div class="right-section">
     <div class="user-menu">
       <!-- Icona utente (o un'immagine) -->
-      <span class="user-icon">&#128100;</span>
+      <img src=".././style/rullino/fotodefault.png" alt="User Icon" class="user-icon">
 
       <!-- Dropdown -->
       <div class="dropdown-menu">

@@ -1,4 +1,4 @@
-<?php /*
+<?php 
 session_start();
 require_once __DIR__ . '/../connect.php'; // Includi qui il file di connessione al database
 
@@ -28,7 +28,7 @@ if ($stmt = $conn->prepare($query)) {
     die("Errore nella preparazione della query: " . $conn->error);
 }
 
-$conn->close();*/
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="it">

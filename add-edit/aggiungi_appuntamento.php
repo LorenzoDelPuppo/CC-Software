@@ -1,4 +1,4 @@
-<?php /*
+<?php 
 session_start();
 require_once __DIR__ . '/../connect.php';
 require_once '.././add-edit/cript.php';
@@ -162,7 +162,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
             $messaggioPrenotazione .= "Seleziona l'orario dell'appuntamento.<br>";
         }
     }
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="it">

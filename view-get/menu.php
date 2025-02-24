@@ -24,11 +24,13 @@ if (isset($_SESSION['email'])) {
 ?>
 <!DOCTYPE html>
 <html lang="it">
+  
 <head>
   <meta charset="UTF-8">
   <title>Menu</title>
   <script src=".././js/menu_profilo.js" defer></script>
-  <link rel="stylesheet" href=".././style/barra_alta.css">
+  <link rel="stylesheet" href=".././style/style_menu.css">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <?php include '.././view-get/barra.php'; ?>

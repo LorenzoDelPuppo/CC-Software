@@ -126,3 +126,19 @@ body {
   .logout-item:hover .logout-icon {
     content: url(".././style/rullino/logoutb.svg");
   }
+
+  .home-button {
+    width: 30px;  
+    height: auto;
+    cursor: pointer;
+}
+
+.user-icon {
+    width: auto;
+    height: 160%; /* Mantiene la proporzione del contenitore */
+    max-height: 40px; /* Stessa altezza del logo */
+    border-radius: 50%;
+    object-fit: cover;
+    
+  }
+  

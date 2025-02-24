@@ -1,238 +1,72 @@
-/* Reset / Impostazioni di base */
-* {
-    box-sizing: border-box;
-}
-body {
+/* Stile generale del menu */
+.menu-container {
+    width: 40%; /* Reso più stretto */
+    margin: 150px auto; /* Aumentato il margine per distanziarlo */
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #fff;
-    background: url('.././style/rullino/vetrina.jpg'); 
-    color: #000;  
-    background-position: center; 
-}
-
-/* Barra in alto */
-.top-bar {
-    display: flex;
     align-items: center;
-    background-color: #fff;
-    border-bottom: 1px solid #000; /* Riga nera */
-    padding: 5px 20px;            /* Padding verticale ridotto */
-}
-.left-section {
-    flex: 0 0 auto;
-}
-.center-section {
-    flex: 1 1 auto;
     text-align: center;
 }
-.right-section {
-    flex: 0 0 auto;
-}
-.menu-icon, .user-icon {
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-/* Logo al centro, dimensione aumentata */
-.logo {
-    height: 70px;    /* Logo grande */
-    width: auto;
-    cursor: pointer;
+
+/* Titolo centrale */
+.menu-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-/* Contenitore principale */
-.container {
-    width: 900px;
+/* Contenitore pulsanti */
+.menu-buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-/* Box “prenota” centrato */
-.prenota-container {
-    align-items: center;
-    max-width: 900px;  
-    margin: 80px auto;       /* Centra orizzontalmente, 80px dall’alto */
-    background-color: #fff;  /* Box bianco */
-    padding: 30px 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-h1 {
-    margin-top: 0;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Campi e form generali */
-fieldset {
-    border: none;
-    margin-bottom: 20px;
-    padding: 0;
-}
-legend {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: inline-block;
-}
-label {
-    display: inline-block;
-    margin-bottom: 5px;
-}
-
-/* Stile "pill" per i servizi (checkbox) */
-.services-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;      /* Spaziatura fra i "pulsanti" */
+    width: 80%; /* Reso più corto */
+    gap: 25px; /* Maggiore distanza tra i pulsanti */
     margin-top: 10px;
 }
 
-/* Ogni label parte con sfondo chiaro */
-.services-container label {
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-/* Hover effect: tutto il label diventa grigetto */
-.services-container label:hover {
-    background-color: #ddd;
-}
-
-/* Checkbox nascosti */
-.services-container input[type="checkbox"] {
-    display: none;  
-}
-
-/* Stato checked: colora TUTTO il label di grigio scuro */
-.services-container label:has(input[type="checkbox"]:checked) {
-    background-color: #888;
-    color: #fff;
-}
-
-/* Stato disabled: label più chiaro */
-.services-container label:has(input[type="checkbox"]:disabled) {
-    background-color: #eee;
-    color: #999;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Selettore data e orario */
-#appointment_date,
-#time_slot {
-    display: block;
-    width: 200px;
-    max-width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-
-/* Pulsante finale (più piccolo e centrato) */
-#submitButton {
-    background-color: #000;
-    color: #fff;
-    padding: 5px 10px;  
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: block;
-    width: auto;        
-    margin: 0 auto;     
-    text-align: center;
-    transition: background-color 0.2s;
-}
-#submitButton:hover {
-    background-color: #444;
-}
-#submitButton:disabled {
-    background-color: #555;
-    cursor: not-allowed;
-}
-
-/* Messaggi di output (errori o conferme) */
-p {
-    background-color: #ffe;
-    padding: 10px;
-    border: 1px solid #ccc;
-}
-.user-menu {
-    position: relative;
-    display: inline-block;
-  }
-  
-  /* Icona utente */
-  .user-icon {
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  /* Dropdown di base (scuro) nascosto */
-  .dropdown-menu {
-    display: none;             
-    position: absolute;
-    top: 100%;                 
-    right: 0;                  
-    width: 220px;             
-    
-    background-color: #333;    /* Sfondo scuro */
-    color: #fff;               /* Testo bianco */
-    
-    border: 1px solid #444;    
-    border-radius: 8px;        
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    z-index: 999;              
-    
-    padding: 8px 0;            
-  }
-  
-  /* Mostra il dropdown se ha la classe "show" (gestita via JS) */
-  .dropdown-menu.show {
-    display: block;
-  }
-  
-  /* Voci di menu */
-  .dropdown-item {
-    display: block;
-    padding: 10px 16px;
-    text-decoration: none;
-    color: #fff;               /* Testo bianco di base */
-    transition: background-color 0.2s, color 0.2s;
-  }
-  
-  /* Hover su voci generiche: sfondo grigio più scuro */
-  .dropdown-item:hover {
-    background-color: #444;
-  }
-  
-  /* Separatore orizzontale */
-  .dropdown-separator {
-    border: none;
-    border-top: 1px solid #444;
-    margin: 4px 0;
-  }
-  
-  /* Logout in un rosso più scuro di base */
-  .logout-item {
-    color: #b00;        /* Rosso cupo */
+/* Stile dei pulsanti */
+.menu-button {
+    width: 100%;
+    padding: 14px 20px; /* Aumentato leggermente per migliorare l'estetica */
+    font-size: 1.3rem;
     font-weight: bold;
-  }
-  
-  /* Al passaggio del mouse su Logout: sfondo rosso cupo, testo bianco */
-  .logout-item:hover {
-    background-color: #b00;
-    color: #fff;
-  }
+    color: white;
+    background: #333; /* Colore nero come nei pulsanti del form */
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px; /* Aggiunto ulteriore spazio tra i pulsanti */
+}
+
+/* Effetto al passaggio del mouse */
+.menu-button:hover {
+    background: #444; /* Grigio scuro come nei pulsanti hover del form */
+    transform: scale(1.05);
+}
+
+/* Effetto al click */
+.menu-button:active {
+    transform: scale(0.95);
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive per schermi piccoli */
+@media (max-width: 768px) {
+    .menu-container {
+        width: 80%;
+        margin-top: 120px;
+    }
+    .menu-buttons {
+        width: 90%;
+        gap: 30px; /* Maggiore distanza tra i pulsanti su mobile */
+    }
+}
