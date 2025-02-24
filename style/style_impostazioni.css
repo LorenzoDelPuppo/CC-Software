@@ -1,0 +1,190 @@
+/* Contenitore principale delle impostazioni */
+.settings-container {
+    width: 50%;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+/* Titolo principale */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Stile delle sezioni */
+.settings-section {
+    width: 100%;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Etichetta generale */
+label {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Dropdown stile */
+select {
+    width: 180px; /* Ridotto leggermente */
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    margin-right: 10px; /* Spazio tra dropdown e bottone */
+}
+
+/* Pulsanti */
+button {
+    padding: 8px 12px; /* Ridotto padding per diminuire la dimensione */
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+    margin-top: 5px; /* Aggiunto spazio per separare i bottoni */
+}
+
+/* Pulsante Cambia Password */
+button[type="button"] {
+    background-color: rgb(101, 101, 101);
+    color: white;
+}
+
+/* Pulsante Elimina Account */
+.delete-account {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #e57373;
+    color: black;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+}
+
+.delete-account:hover {
+    background-color: #d32f2f;
+}
+
+/* Stile dell'interruttore */
+.switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    margin-bottom: 10px; /* Distanza tra interruttore e altri elementi */
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 18px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: rgb(101, 101, 101);
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+/* Stile per il pulsante Salva Impostazioni */
+button[type="submit"] {
+    background-color: rgb(101, 101, 101);
+    color: white;
+}
+
+/* Effetto al passaggio del mouse */
+button[type="submit"]:hover {
+    background-color: #333;  
+    transform: scale(1.05);
+}
+
+button[type="button"]:hover {
+    background-color: #333;  
+    transform: scale(1.05);
+}
+
+/* Layout migliorato per allineare elementi */
+.settings-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Spazio tra gli elementi */
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .settings-container {
+        width: 80%;
+    }
+    .settings-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    select {
+        width: 100%;
+    }
+}
+
+.change-password {
+    font-size: 14px;
+    color: rgb(101, 101, 101);
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 20px; /* Aumentato lo spazio sopra */
+    transition: color 0.3s ease-in-out;
+}
+
+.change-password:hover {
+    color: #333;
+}
+

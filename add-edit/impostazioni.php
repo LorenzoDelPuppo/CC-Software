@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 session_start();
 require_once __DIR__ . '/../connect.php';
 
@@ -58,6 +58,8 @@ $stmt->fetch();
 $stmt->close();
 
 $conn->close();
+
+*/
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -65,9 +67,10 @@ $conn->close();
 <script src=".././js/menu_profilo.js" defer></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href=".././style/style_impostazioni.css">
   <title>Impostazioni</title>
 </head>
-  <?php include '.././view-get/barra.php'; ?>
+<?php include '.././view-get/barra.php'; ?>
 
 </div>
 <body>
@@ -77,7 +80,14 @@ $conn->close();
     
     <!-- Sezione per la Preferenza -->
     <section>
-      <h2>Preferenza</h2>
+      <h2>Preferenze</h2>
+      <div class="switch-container">
+    <label for="toggle">Promemoria</label>
+      <label class="switch">
+        <input type="checkbox" id="toggle">
+        <span class="slider"></span>
+      </label>
+    </div>
       <?php if (!empty($messagePreference)): ?>
         <div class="message"><?php echo htmlspecialchars($messagePreference); ?></div>
       <?php endif; ?>
@@ -92,13 +102,13 @@ $conn->close();
         </select>
         <button type="submit">Salva Impostazioni</button>
       </form>
+
     </section>
 
     <!-- Sezione per il Cambio Password -->
     <section>
-      <h2>Password</h2>
       <!-- Pulsante che reindirizza alla pagina per il cambio password -->
-      <button type="button" onclick="window.location.href='.././add-edit/cambia_password.php'">Cambia Password</button>
+      <a href=".././add-edit/cambia_password.php" class="change-password">Cambia password</a>
     </section>
 
     <!-- Pulsante per tornare al Menu -->

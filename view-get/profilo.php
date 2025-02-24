@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 session_start();
 require_once __DIR__ . '/../connect.php'; // Includi qui il file di connessione al database
 
@@ -28,7 +28,7 @@ if ($stmt = $conn->prepare($query)) {
     die("Errore nella preparazione della query: " . $conn->error);
 }
 
-$conn->close();
+$conn->close();*/
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -36,7 +36,6 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <script src=".././js/menu_profilo.js" defer></script>
-  <link rel="stylesheet" href=".././style/barra_alta.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href=".././style/style_profilo.css">
   <title>Profilo Cliente</title>
