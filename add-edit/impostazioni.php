@@ -1,4 +1,4 @@
-<?php 
+<?php /*
 session_start();
 require_once __DIR__ . '/../connect.php';
 
@@ -58,7 +58,7 @@ $stmt->fetch();
 $stmt->close();
 
 $conn->close();
-
+*/
 ?>
 <!DOCTYPE html>
 <html lang="it">

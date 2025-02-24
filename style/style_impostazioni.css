@@ -13,10 +13,11 @@
     text-align: left;
 }
 
-/* Titolo principale */
+/* Titolo principale - "Impostazioni" più grande */
 h1 {
-    font-size: 24px;
+    font-size: 36px; /* Aumentato per dare maggiore enfasi */
     font-weight: bold;
+    margin-bottom: 15px;
 }
 
 /* Stile delle sezioni */
@@ -27,6 +28,13 @@ h1 {
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Titolo sezione - "Preferenze" leggermente più piccolo */
+h2 {
+    font-size: 22px; /* Ridotto rispetto a h1 */
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 /* Etichetta generale */
@@ -54,15 +62,10 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s ease-in-out;
     margin-top: 5px; /* Aggiunto spazio per separare i bottoni */
 }
 
-/* Pulsante Cambia Password */
-button[type="button"] {
-    background-color: rgb(101, 101, 101);
-    color: white;
-}
+/* Pulsante Cambia Password (rimosso e sostituito con link) */
 
 /* Pulsante Elimina Account */
 .delete-account {
@@ -144,12 +147,10 @@ button[type="submit"] {
 /* Effetto al passaggio del mouse */
 button[type="submit"]:hover {
     background-color: #333;  
-    transform: scale(1.05);
 }
 
 button[type="button"]:hover {
     background-color: #333;  
-    transform: scale(1.05);
 }
 
 /* Layout migliorato per allineare elementi */
@@ -158,6 +159,21 @@ button[type="button"]:hover {
     align-items: center;
     gap: 10px; /* Spazio tra gli elementi */
     flex-wrap: wrap;
+}
+
+/* Stile del link "Cambia password" */
+.change-password {
+    font-size: 14px;
+    color: rgb(101, 101, 101);
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 30px; /* Maggiore distanza sopra */
+    transition: color 0.3s ease-in-out;
+}
+
+.change-password:hover {
+    color: #333;
 }
 
 /* Responsive */
@@ -173,18 +189,3 @@ button[type="button"]:hover {
         width: 100%;
     }
 }
-
-.change-password {
-    font-size: 14px;
-    color: rgb(101, 101, 101);
-    text-decoration: underline;
-    cursor: pointer;
-    display: inline-block;
-    margin-top: 20px; /* Aumentato lo spazio sopra */
-    transition: color 0.3s ease-in-out;
-}
-
-.change-password:hover {
-    color: #333;
-}
-
