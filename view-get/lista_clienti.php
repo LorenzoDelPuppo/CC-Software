@@ -39,6 +39,7 @@ $result = $conn->query($sql);
         th { background-color: #f2f2f2; }
     </style>
 </head>
+<?php include '.././view-get/barra.php'; ?>
 <body>
     <div class="logo-container">
         <img src="../style/rullino/logo.png" alt="Che Capelli Logo" class="logo">

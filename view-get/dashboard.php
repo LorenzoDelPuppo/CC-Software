@@ -162,6 +162,7 @@ $conn->close();
         }
     </style>
 </head>
+<?php include '.././view-get/barra.php'; ?>
 <body>
     <!-- Pulsante per il Logout -->
     <form action=".././add-edit/logout.php" method="post">

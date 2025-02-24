@@ -51,31 +51,7 @@ $conn->close();
     <link rel="stylesheet" href=".././style/barra_alta.css">
 
 </head>
-<div class="top-bar">
-  <div class="left-section">
-  </div>
-  <div class="center-section">
-    <a href=".././view-get/menu.php">
-      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
-    </a>
-  </div>
-
-  <div class="right-section">
-  <div class="user-menu">
-  <!-- Icona utente (o un'immagine) -->
-  <span class="user-icon">&#128100;</span>
-  
-  <!-- Dropdown -->
-  <div class="dropdown-menu">
-    <a href=".././view-get/profilo.php" class="dropdown-item">Profilo</a>
-    <a href=".././add-edit/impostazioni.php" class="dropdown-item">Impostazioni</a>
-    <hr class="dropdown-separator">
-    <a href=".././add-edit/logout.php" class="dropdown-item logout-item">Logout</a>
-  </div>
-</div>
-</div>
-
-</div>
+<?php include '.././view-get/barra.php'; ?>
 <body>
 <div class="container">
   <h1>Cerca Appuntamento</h1>
