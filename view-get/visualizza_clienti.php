@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../connect.php';
 
 // Verifica se l'utente è loggato e ha i permessi
-if (!isset($_SESSION['email']) || $_SESSION['user_tipe'] != 'amministratore') {
+if (!isset($_SESSION['email'])) {
     header("Location: .././add-edit/login.php");
     exit();
 }
