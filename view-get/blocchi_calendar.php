@@ -53,6 +53,7 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
         }
     </style>
 </head>
+<?php include '.././view-get/barra.php'; ?>
 <body>
 
 <div id="calendar-container">

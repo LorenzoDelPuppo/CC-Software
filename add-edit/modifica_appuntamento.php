@@ -147,31 +147,7 @@ ob_end_flush();
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-  <div class="top-bar">
-  <div class="left-section">
-  </div>
-  <div class="center-section">
-    <a href=".././view-get/menu.php">
-      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
-    </a>
-  </div>
-
-  <div class="right-section">
-  <div class="user-menu">
-  <!-- Icona utente (o un'immagine) -->
-  <span class="user-icon">&#128100;</span>
-  
-  <!-- Dropdown -->
-  <div class="dropdown-menu">
-    <a href=".././view-get/profilo.php" class="dropdown-item">Profilo</a>
-    <a href=".././add-edit/impostazioni.php" class="dropdown-item">Impostazioni</a>
-    <hr class="dropdown-separator">
-    <a href=".././add-edit/logout.php" class="dropdown-item logout-item">Logout</a>
-  </div>
-</div>
-</div>
-
-</div>
+  <?php include '.././view-get/barra.php'; ?>
   <script>
     // Mappa delle durate (in minuti) per ciascun servizio (stessa usata in prenota)
     var serviceDurations = {
