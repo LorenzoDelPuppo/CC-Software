@@ -1,0 +1,138 @@
+/* Contenitore principale */
+.client-container {
+    width: 60%;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+/* Titolo principale */
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Sezioni */
+.client-section {
+    width: 100%;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Titoli delle sezioni */
+h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Form di ricerca */
+.search-form {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.search-form input {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.search-form button {
+    padding: 8px 12px;
+    border: none;
+    background-color: rgb(101,101,101);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #333;
+}
+
+/* Tabella */
+.table-container {
+    overflow-x: auto;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: rgb(101,101,101);
+    color: white;
+}
+
+/* Alternanza colori */
+tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Pulsante modifica */
+.edit-btn {
+    padding: 6px 12px;
+    background-color: rgb(101,101,101);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #333;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .client-container {
+        width: 80%;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-form input {
+        width: 100%;
+    }
+
+    .search-form button {
+        width: 100%;
+    }
+
+    th, td {
+        font-size: 14px;
+    }
+}
+

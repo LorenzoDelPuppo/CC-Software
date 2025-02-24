@@ -26,66 +26,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nota']) && isset($_PO
 $sql = "SELECT customer_id, fName, lName, phoneN, nota FROM Customer";
 $result = $conn->query($sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Clienti</title>
-    <link rel="stylesheet" href="../style/style_input.css">
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; }
-        th { background-color: #f2f2f2; }
-    </style>
+    <link rel="stylesheet" href="../style/style_clienti.css"> <!-- Stile coerente -->
 </head>
-<?php include '.././view-get/barra.php'; ?>
 <body>
-    <div class="logo-container">
-        <img src="../style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+
+<?php include '.././view-get/barra.php'; ?>
+
+<div class="client-container">
+
+    <h1>Lista Clienti</h1>
+    <div class="client-section">
+        <h2>Ricerca Cliente</h2>
+        <form method="GET" action=".././view-get/visualizza_clienti.php" class="search-form">
+            <input type="text" name="search" placeholder="Cerca per nome" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+            <button type="submit">Cerca</button>
+        </form>
     </div>
-    <div class="content-container">
-        <h2>Lista Clienti</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>Telefono</th>
-                    <th>Nota</th>
-                    <th>Azioni</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while($row = $result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($row['fName']); ?></td>
-                            <td><?php echo htmlspecialchars($row['lName']); ?></td>
-                            <td><?php echo htmlspecialchars($row['phoneN']); ?></td>
-                            <td>
-                                <!-- Form inline per aggiornare la nota e passare l'ID alla pagina di modifica -->
-                                <form action="lista_clienti.php" method="POST">
-                                    <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
-                                    <!-- Aggiungi un controllo per evitare che la funzione htmlspecialchars() riceva un valore null -->
-                                    <input type="text" name="nota" value="<?php echo htmlspecialchars($row['nota'] ?? ''); ?>">
-                                    <button type="submit">Modifica</button>
-                                </form>
-                            </td>
-                            <td>
-                                <!-- Link alternativo per modificare l'intero record -->
-                                <a href="../add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>">Modifica Tutto</a>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
+
+    <div class="client-section">
+        <h2>Elenco Clienti</h2>
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td colspan="5">Nessun cliente trovato.</td>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Telefono</th>
+                        <th>Nota</th>
+                        <th>Modifica</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if ($result->num_rows > 0): ?>
+                        <?php while($row = $result->fetch_assoc()): ?>
+                            <tr class="clickable-row" data-href="../add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>">
+                                <td><?php echo htmlspecialchars($row['fName']); ?></td>
+                                <td><?php echo htmlspecialchars($row['lName']); ?></td>
+                                <td><?php echo htmlspecialchars($row['phoneN']); ?></td>
+                                <td>
+                                    <form action="lista_clienti.php" method="POST" class="nota-form">
+                                        <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
+                                        <input type="text" name="nota" value="<?php echo htmlspecialchars($row['nota'] ?? ''); ?>" class="nota-input">
+                                        <button type="submit" class="edit-btn" >Salva</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="../add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>" class="edit-btn">Modifica Tutto</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">Nessun cliente trovato.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <?php $conn->close(); ?>
+</div>
+
+<?php $conn->close(); ?>
+
+
 </body>
 </html>
