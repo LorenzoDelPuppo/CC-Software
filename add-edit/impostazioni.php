@@ -11,7 +11,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 $messagePreference = "";
 
-// Gestione dell'aggiornamento della preferenza (azione tradizionale via POST)
+// Gestione dell'aggiornamento della preferenza
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['action'] === 'update_preference') {
     $new_preference = $_POST['preference'] ?? '';
     $allowed = ['Barbara', 'Giulia', 'Casuale'];
@@ -58,60 +58,63 @@ $stmt->fetch();
 $stmt->close();
 
 $conn->close();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<script src=".././js/menu_profilo.js" defer></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href=".././style/style_impostazioni.css">
-  <title>Impostazioni</title>
+    <script src=".././js/menu_profilo.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href=".././style/style_impostazioni.css">
+    <title>Impostazioni</title>
 </head>
+<body>
+
 <?php include '.././view-get/barra.php'; ?>
 
-</div>
-<body>
-  <!-- Contenitore Impostazioni -->
-  <div class="settings-container">
+<div class="settings-container">
     <h1>Impostazioni</h1>
-    
-    <!-- Sezione per la Preferenza -->
-    <section>
-      <h2>Preferenze</h2>
-    
-      <div class="switch-container">
-    <label for="toggle">Promemoria</label>
-      <label class="switch">
-        <input type="checkbox" id="toggle">
-        <span class="slider"></span>
-      </label>
-    </div>
-    
-      <?php if (!empty($messagePreference)): ?>
-        <div class="message"><?php echo htmlspecialchars($messagePreference); ?></div>
-      <?php endif; ?>
-      <form action=".././add-edit/impostazioni.php" method="post">
-        <!-- Campo nascosto per identificare l'azione -->
-        <input type="hidden" name="action" value="update_preference">
-        <label for="preference">Seleziona la tua operatrice preferita:</label>
-        <select name="preference" id="preference">
-          <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
-          <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
-          <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
-        </select>
-        <button type="submit">Salva Impostazioni</button>
-      </form>
 
+    <hr class="settings-divider"> <!-- Linea nera -->
+
+    <!-- Sezione Preferenze -->
+    <section>
+        <h2>Preferenze</h2>
+
+        <div class="switch-container">
+            <label for="toggle">Promemoria</label>
+            <label class="switch">
+                <input type="checkbox" id="toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <?php if (!empty($messagePreference)): ?>
+            <div class="message"><?php echo htmlspecialchars($messagePreference); ?></div>
+        <?php endif; ?>
+
+        <form action=".././add-edit/impostazioni.php" method="post">
+            <input type="hidden" name="action" value="update_preference">
+            <label for="preference">Seleziona la tua operatrice preferita:</label>
+            <select name="preference" id="preference">
+                <option value="Barbara" <?php echo ($current_preference === 'Barbara') ? 'selected' : ''; ?>>Barbara</option>
+                <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
+                <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
+            </select>
+            <button type="submit">Salva Impostazioni</button>
+        </form>
+    </section>
+    <hr class="settings-divider">
+
+    <hr class="settings-divider"> <!-- Linea nera -->
+
+    <!-- Sezione Cambio Password -->
+    <section>
+        <a href=".././add-edit/cambia_password.php" class="change-password">Cambia password</a>
     </section>
 
-    <!-- Sezione per il Cambio Password -->
-    <section>
-      <a href=".././add-edit/cambia_password.php" class="change-password">Cambia password</a>
-    </section>
+</div>
 
-    <!-- Pulsante per tornare al Menu -->
-  </div>
 </body>
 </html>
