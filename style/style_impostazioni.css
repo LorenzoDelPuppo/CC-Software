@@ -15,29 +15,24 @@
 
 /* Titolo principale - "Impostazioni" più grande */
 h1 {
-    font-size: 36px;
+    font-size: 36px; /* Aumentato per dare maggiore enfasi */
     font-weight: bold;
     margin-bottom: 15px;
-}
-
-/* Linee divisorie - Adesso nere */
-.settings-divider {
-    width: 100%;
-    padding-bottom: 10px;
-    border-bottom: 2px solid black; /* Linea nera */
-    margin-bottom: 20px; /* Distanza tra sezioni */
 }
 
 /* Stile delle sezioni */
 .settings-section {
     width: 100%;
     margin-bottom: 20px;
+    background: #f9f9f9;
     padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Titolo sezione - "Preferenze" leggermente più piccolo */
 h2 {
-    font-size: 22px;
+    font-size: 22px; /* Ridotto rispetto a h1 */
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -51,30 +46,26 @@ label {
 
 /* Dropdown stile */
 select {
-    width: 180px;
+    width: 180px; /* Ridotto leggermente */
     padding: 6px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: white;
-    margin-right: 10px;
+    margin-right: 10px; /* Spazio tra dropdown e bottone */
 }
 
 /* Pulsanti */
 button {
-    padding: 8px 12px;
+    padding: 8px 12px; /* Ridotto padding per diminuire la dimensione */
     font-size: 14px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 5px;
+    margin-top: 5px; /* Aggiunto spazio per separare i bottoni */
 }
 
-/* Pulsante Salva Impostazioni */
-button[type="submit"] {
-    background-color: rgb(101, 101, 101);
-    color: white;
-}
+/* Pulsante Cambia Password (rimosso e sostituito con link) */
 
 /* Pulsante Elimina Account */
 .delete-account {
@@ -99,15 +90,75 @@ button[type="submit"] {
     align-items: center;
     gap: 10px;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Distanza tra interruttore e altri elementi */
 }
 
-/* Linee nere divisorie tra sezioni */
-.switch-container, 
-.settings-form, 
-.change-password-container {
-    padding-bottom: 10px;
-    border-bottom: 2px solid black; /* Linea separatrice nera */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 18px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: rgb(101, 101, 101);
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+/* Stile per il pulsante Salva Impostazioni */
+button[type="submit"] {
+    background-color: rgb(101, 101, 101);
+    color: white;
+}
+
+/* Effetto al passaggio del mouse */
+button[type="submit"]:hover {
+    background-color: #333;  
+}
+
+button[type="button"]:hover {
+    background-color: #333;  
+}
+
+/* Layout migliorato per allineare elementi */
+.settings-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Spazio tra gli elementi */
+    flex-wrap: wrap;
 }
 
 /* Stile del link "Cambia password" */
@@ -117,7 +168,7 @@ button[type="submit"] {
     text-decoration: underline;
     cursor: pointer;
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 30px; /* Maggiore distanza sopra */
     transition: color 0.3s ease-in-out;
 }
 
