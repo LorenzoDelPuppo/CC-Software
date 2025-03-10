@@ -23,9 +23,21 @@ try {
 
  
     $mail->isHTML(true);                                  
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    $mail->Subject = 'Cambio Password - Che Capelli';
+    $mail->Body    = "
+        <p>Ciao <b>{nome utente}</b>,</p>
+        <p>Abbiamo ricevuto una richiesta di recupero della password per il tuo account. Se non sei stato tu a richiederlo, ignora questa email.</p>
+        <p>Per reimpostare la tua password, clicca sul link sottostante:</p>
+        <p><a href='{LINK}' style='background-color:#28a745;color:#ffffff;padding:10px 15px;text-decoration:none;border-radius:5px;'>Reimposta Password</a></p>
+        <p>Grazie,<br>Team Che Capelli</p>
+    ";
+
+    $mail->AltBody = "Ciao {Nome utente},\n\n"
+                   . "Abbiamo ricevuto una richiesta di recupero della password per il tuo account. Se non sei stato tu, ignora questa email.\n\n"
+                   . "Per reimpostare la tua password, visita questo link:\n"
+                   . "{LINK}\n\n"
+                   . "Grazie,\n"
+                   . "Team Che Capelli";
 
     $mail->send();
     echo 'Message has been sent';
