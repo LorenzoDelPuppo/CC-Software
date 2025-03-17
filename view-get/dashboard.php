@@ -1,4 +1,4 @@
-<?php/*
+<?php
 // Blocco di controllo accessi
 session_start();
 require_once __DIR__ . '/../connect.php';
@@ -119,7 +119,7 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-$conn->close();*/
+$conn->close();
 ?>
 
 <!DOCTYPE html> 
