@@ -66,7 +66,7 @@ body {
   }
   
   /* Dropdown di base (scuro) nascosto */
-  .dropdown-menu {
+.dropdown-menu {
     display: none;
     position: absolute;
     top: 100%;
@@ -88,6 +88,7 @@ body {
     display: block;
     opacity: 1;
   }
+  
   
   /* Voci di menu */
   .dropdown-item {
