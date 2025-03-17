@@ -68,7 +68,7 @@ h2 {
 
 /* Pulsante di logout */
 button[type="submit"] {
-    background-color: #007bff;
+    background-color: #333;
     color: white;
     padding: 10px;
     border: none;
@@ -78,7 +78,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #444;
 }
 
 /* Modifica preferenza */
