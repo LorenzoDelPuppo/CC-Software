@@ -1,5 +1,6 @@
 <link rel="stylesheet" href=".././style/barra_alta.css">
 <div class="top-bar">
+<script src=".././js/menu_profilo.js"></script>
   <div class="left-section">
     <a href=".././view-get/menu.php">
       <img src=".././style/rullino/tasto_home.svg" alt="Home" class="home-button">
