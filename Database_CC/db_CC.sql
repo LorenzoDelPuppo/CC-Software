@@ -80,6 +80,13 @@ CREATE TABLE IF NOT EXISTS requiredS (
     FOREIGN KEY (requiredS_id2) REFERENCES serviceCC(service_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS magazzino(
+    prod_id INT PRIMARY KEY AUTO_INCREMENT, 
+    nome_p VARCHAR(50) NOT NULL,
+    cod_p VARCHAR(50) NOT NULL,
+    QTA INT NOT NULL
+);
+
 INSERT INTO serviceCC (nameS, timeTOT, freeTime, engageTime)
 VALUES 
     ('Piega', 55, 0, 45),
