@@ -134,7 +134,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href=".././style/style_dash.css">
+    <link rel="stylesheet" href="../CC-Software/style/style_dash.css">
     <style>
         /* Impostazioni per il contenitore delle colonne */
         .column-container {
