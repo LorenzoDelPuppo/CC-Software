@@ -2,7 +2,6 @@
 // Blocco di controllo accessi
 session_start();
 require_once __DIR__ . '/../connect.php';
-;
 
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['email'])) {
@@ -54,11 +53,17 @@ if (isset($_POST['update_preference'])) {
     echo "<p>Preferenza aggiornata con successo!</p>";
 }
 
-// Recupero degli appuntamenti
+// Gestisci la selezione della data
 $selectedDate = isset($_POST['search_date']) ? $_POST['search_date'] : null;
 
-// Se non viene fornita una data specifica, mostriamo tutti gli appuntamenti
+// Se non viene fornita una data specifica (tutti gli appuntamenti), seleziona la data corrente
+if (!$selectedDate && !isset($_POST['show_all'])) {
+    $selectedDate = date('Y-m-d');  // Imposta la data corrente come predefinita
+}
+
+// Recupero degli appuntamenti
 if ($selectedDate) {
+    // Se la data è selezionata, mostra gli appuntamenti per quel giorno
     $sql = "
         SELECT 
             a.appointment_id, 
@@ -77,6 +82,7 @@ if ($selectedDate) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $selectedDate);
 } else {
+    // Se non è stata selezionata una data, mostra tutti gli appuntamenti
     $sql = "
         SELECT 
             a.appointment_id, 
@@ -180,14 +186,14 @@ $conn->close();
 <?php include '.././view-get/barra.php'; ?>
 <body>
 
-
     <!-- Barra di ricerca per la data -->
     <form action="" method="POST">
         <input type="date" name="search_date" value="<?php echo $selectedDate ? $selectedDate : ''; ?>" placeholder="Seleziona una data">
         <button type="submit">Cerca Appuntamenti</button>
     </form>
+    <!-- Bottone per mostrare tutti gli appuntamenti -->
     <form action="" method="POST">
-        <button type="submit" name="search_date" value="">Mostra tutti gli appuntamenti</button>
+        <button type="submit" name="show_all" value="1">Mostra tutti gli appuntamenti</button>
     </form>
 
     <h2>Appuntamenti per il giorno: <?php echo $selectedDate ? date("d-m-Y", strtotime($selectedDate)) : "Tutti i Giorni"; ?></h2>
@@ -281,5 +287,6 @@ $conn->close();
             ?>
         </div>
     </div>
+
 </body>
 </html>
