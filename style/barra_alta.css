@@ -6,58 +6,67 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: #fff;
-    background: url('.././style/rullino/vetrina.jpg'); 
+    background: url('.././style/rullino/vetrina.jpg');
     color: #000;  
-    background-position: center; 
-}
-
-.top-bar {
+    background-position: center;
+  }
+  
+  .top-bar {
     display: flex;
     align-items: center;
     background-color: #fff;
     border-bottom: 1px solid #000; /* Riga nera */
     padding: 5px 20px; /* Padding verticale ridotto */
-}
-
-.left-section {
+  }
+  
+  .left-section {
     flex: 0 0 auto;
-}
-
-.center-section {
+  }
+  
+  .center-section {
     flex: 1 1 auto;
     text-align: center;
-}
-
-.right-section {
+  }
+  
+  .right-section {
     flex: 0 0 auto;
-}
-
-.menu-icon, .user-icon {
+  }
+  
+  .menu-icon, .user-icon {
     font-size: 1.5rem;
     cursor: pointer;
-}
-
-/* Logo al centro, dimensione aumentata */
-.logo {
+  }
+  
+  /* Logo al centro, dimensione aumentata */
+  .logo {
     height: 70px; /* Logo grande */
     width: auto;
     cursor: pointer;
-}
-
-/* Menu utente */
-.user-menu {
+  }
+  
+  /* Menu utente */
+  .user-menu {
     position: relative;
     display: inline-block;
-}
-
-/* Icona utente */
-.user-icon {
-    font-size: 1.5rem;
+  }
+  
+  /* Icona utente */
+  .user-icon {
+    width: auto;
+    height: 40px; /* Altezza ottimizzata */
+    border-radius: 50%;
+    object-fit: cover;
     cursor: pointer;
-}
-
-/* Dropdown di base (scuro) nascosto */
-.dropdown-menu {
+    transition: transform 0.3s ease;
+  }
+  
+  /* Effetto hover sulla user-icon */
+  .user-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Dropdown di base (scuro) nascosto */
+  .dropdown-menu {
     display: none;
     position: absolute;
     top: 100%;
@@ -70,75 +79,65 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     z-index: 999;
     padding: 8px 0;
-}
-
-/* Mostra il dropdown se ha la classe "show" (gestita via JS) */
-.dropdown-menu.show {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  /* Mostra il dropdown se ha la classe "show" (gestita via JS) */
+  .dropdown-menu.show {
     display: block;
-}
-
-/* Voci di menu */
-.dropdown-item {
+    opacity: 1;
+  }
+  
+  /* Voci di menu */
+  .dropdown-item {
     display: block;
     padding: 10px 16px;
     text-decoration: none;
     color: #fff;
     transition: background-color 0.2s, color 0.2s;
-}
-
-/* Hover su voci generiche: sfondo grigio più scuro */
-.dropdown-item:hover {
+  }
+  
+  /* Hover su voci generiche: sfondo grigio più scuro */
+  .dropdown-item:hover {
     background-color: #444;
-}
-
-/* Separatore orizzontale */
-.dropdown-separator {
+  }
+  
+  /* Separatore orizzontale */
+  .dropdown-separator {
     border: none;
     border-top: 1px solid #444;
     margin: 4px 0;
-}
-
-/* Logout in un rosso più scuro di base */
-.logout-item {
+  }
+  
+  /* Logout in un rosso più scuro di base */
+  .logout-item {
     color: #b00; /* Rosso cupo */
     font-weight: bold;
-}
-
-/* Al passaggio del mouse su Logout: sfondo rosso cupo, testo bianco */
-.logout-item:hover {
+  }
+  
+  /* Al passaggio del mouse su Logout: sfondo rosso cupo, testo bianco */
+  .logout-item:hover {
     background-color: #b00;
     color: #fff;
-}
-.logout-icon {
-    width: 16px; /* Modifica la dimensione se necessario */
-    height: 16px;
-    margin-right: 8px; /* Spazio tra icona e testo */
-    vertical-align: middle;
-}
-
-/* Icona logout di default */
-.logout-icon {
+  }
+  
+  /* Icona logout di default */
+  .logout-icon {
     width: 20px;
     height: 20px;
+    margin-right: 8px; /* Spazio tra icona e testo */
+    vertical-align: middle;
   }
   
   /* Cambio immagine quando passi sopra */
   .logout-item:hover .logout-icon {
     content: url(".././style/rullino/logoutb.svg");
   }
-
+  
   .home-button {
     width: 30px;  
     height: auto;
     cursor: pointer;
-}
-
-.user-icon {
-    width: auto;
-    height: 160%; /* Mantiene la proporzione del contenitore */
-    max-height: 40px; /* Stessa altezza del logo */
-    border-radius: 50%;
-    object-fit: cover;
-    
   }
   

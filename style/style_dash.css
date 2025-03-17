@@ -1,0 +1,134 @@
+/* Stili generali */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Colonne container */
+.column-container {
+    display: flex;
+    justify-content: space-between; /* Per distribuire lo spazio tra le colonne */
+    gap: 10px; /* Aggiungi uno spazio tra le colonne */
+    margin: 20px;
+}
+
+/* Colonne */
+.column {
+    width: 32%; /* Impostiamo ogni colonna al 32% per permettere 3 colonne affiancate */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+/* Se lo spazio tra le colonne è troppo grande, possiamo ridurlo con gap*/
+.column:last-child {
+    margin-right: 0; /* Rimuove il margine destro dell'ultima colonna */
+}
+
+/* Modifica la disposizione in caso di schermi piccoli */
+@media (max-width: 768px) {
+    .column-container {
+        flex-direction: column; /* Le colonne si dispongono verticalmente su schermi piccoli */
+    }
+
+    .column {
+        width: 100%; /* Le colonne occupano tutta la larghezza disponibile su schermi piccoli */
+        margin-bottom: 20px;
+    }
+}
+
+.column:last-child {
+    margin-right: 0; /* Rimuove il margine destro dell'ultima colonna */
+}
+
+.appointment-box {
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.appointment-box strong {
+    font-size: 14px;
+}
+
+.clearfix {
+    clear: both;
+}
+
+/* Pulsante di logout */
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Modifica preferenza */
+select {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+/* Sezione ricerca */
+form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+input[type="date"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Stile per i pulsanti di navigazione */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button-container form {
+    margin: 0;
+}
+
+/* Colori per le preferenze */
+.preferenza-barbara {
+    background-color: #f8d7da;
+}
+
+.preferenza-giulia {
+    background-color: #d1ecf1;
+}
+
+.preferenza-casuale {
+    background-color: #d4edda;
+}
+
+/* Media query per schermi piccoli */
+@media (max-width: 768px) {
+    .column {
+        width: 100%;  /* Le colonne occupano tutta la larghezza disponibile su schermi piccoli */
+        margin-bottom: 20px;
+    }
+}

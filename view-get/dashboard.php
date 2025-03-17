@@ -1,4 +1,4 @@
-<?php
+<?php/*
 // Blocco di controllo accessi
 session_start();
 require_once __DIR__ . '/../connect.php';
@@ -119,7 +119,7 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
-$conn->close();
+$conn->close();*/
 ?>
 
 <!DOCTYPE html> 
@@ -128,17 +128,36 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href=".././style/style_dash.css">
     <style>
-        /* Stile per le colonne */
+        /* Impostazioni per il contenitore delle colonne */
+        .column-container {
+            display: flex;
+            gap: 20px; /* Spaziatura tra le colonne */
+            justify-content: space-between;
+            flex-wrap: wrap; /* Permette di andare a capo se lo schermo è troppo piccolo */
+        }
+
+        /* Stile per le singole colonne */
         .column {
-            width: 30%;
-            float: left;
-            margin: 10px;
+            flex: 1 1 30%; /* 1 1 30% significa che la colonna può occupare fino al 30% della larghezza, ma può adattarsi */
             padding: 10px;
             border: 1px solid #ccc;
             height: 600px;
             overflow-y: auto;
+        }
+
+        /* Aggiungi uno stile per gli sfondi */
+        .column:nth-child(1) {
+            background-color: #f8d7da;
+        }
+
+        .column:nth-child(2) {
+            background-color: #d1ecf1;
+        }
+
+        .column:nth-child(3) {
+            background-color: #d4edda;
         }
 
         .appointment-box {
@@ -156,18 +175,11 @@ $conn->close();
         .clearfix {
             clear: both;
         }
-
-        .button-container {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <?php include '.././view-get/barra.php'; ?>
 <body>
-    <!-- Pulsante per il Logout -->
-    <form action=".././add-edit/logout.php" method="post">
-        <button type="submit">Logout</button>
-    </form>
+
 
     <!-- Barra di ricerca per la data -->
     <form action="" method="POST">
@@ -180,120 +192,94 @@ $conn->close();
 
     <h2>Appuntamenti per il giorno: <?php echo $selectedDate ? date("d-m-Y", strtotime($selectedDate)) : "Tutti i Giorni"; ?></h2>
 
-    <!-- Colonne per le preferenze -->
-    <div class="column" style="background-color: #f8d7da;">
-        <h3>Preferenza: Barbara</h3>
-        <?php
-        if (!empty($appointmentsByPreference['Barbara'])) {
-            foreach ($appointmentsByPreference['Barbara'] as $appointmentKey => $appointments) {
-                echo "<div class='appointment-box'>";
-                // Stampa il nome cliente solo una volta per ogni appuntamento
-                echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
-                echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
-                foreach ($appointments as $appt) {
-                    echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>"; // Stampa solo il servizio
+    <!-- Contenitore per le colonne -->
+    <div class="column-container">
+        <!-- Colonna Barbara -->
+        <div class="column">
+            <h3>Preferenza: Barbara</h3>
+            <?php
+            if (!empty($appointmentsByPreference['Barbara'])) {
+                foreach ($appointmentsByPreference['Barbara'] as $appointmentKey => $appointments) {
+                    echo "<div class='appointment-box'>";
+                    echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
+                    echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
+                    foreach ($appointments as $appt) {
+                        echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>";
+                    }
+                    echo "<form action='' method='POST'>
+                            <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
+                            <select name='preference'>
+                                <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
+                                <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
+                                <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
+                            </select>
+                            <button type='submit' name='update_preference'>Modifica Preferenza</button>
+                        </form>";
+                    echo "</div>";
                 }
-                // Aggiungi il form di modifica della preferenza una sola volta
-                echo "<form action='' method='POST'>
-                        <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
-                        <select name='preference'>
-                            <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
-                            <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
-                            <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
-                        </select>
-                        <button type='submit' name='update_preference'>Modifica Preferenza</button>
-                      </form>";
-                echo "</div>";
+            } else {
+                echo "<p>Nessun appuntamento.</p>";
             }
-        } else {
-            echo "<p>Nessun appuntamento.</p>";
-        }
-        ?>
-    </div>
+            ?>
+        </div>
 
-    <div class="column" style="background-color: #d1ecf1;">
-        <h3>Preferenza: Giulia</h3>
-        <?php
-        if (!empty($appointmentsByPreference['Giulia'])) {
-            foreach ($appointmentsByPreference['Giulia'] as $appointmentKey => $appointments) {
-                echo "<div class='appointment-box'>";
-                // Stampa il nome cliente solo una volta per ogni appuntamento
-                echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
-                echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
-                foreach ($appointments as $appt) {
-                    echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>"; // Stampa solo il servizio
+        <!-- Colonna Giulia -->
+        <div class="column">
+            <h3>Preferenza: Giulia</h3>
+            <?php
+            if (!empty($appointmentsByPreference['Giulia'])) {
+                foreach ($appointmentsByPreference['Giulia'] as $appointmentKey => $appointments) {
+                    echo "<div class='appointment-box'>";
+                    echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
+                    echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
+                    foreach ($appointments as $appt) {
+                        echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>";
+                    }
+                    echo "<form action='' method='POST'>
+                            <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
+                            <select name='preference'>
+                                <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
+                                <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
+                                <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
+                            </select>
+                            <button type='submit' name='update_preference'>Modifica Preferenza</button>
+                        </form>";
+                    echo "</div>";
                 }
-                // Aggiungi il form di modifica della preferenza una sola volta
-                echo "<form action='' method='POST'>
-                        <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
-                        <select name='preference'>
-                            <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
-                            <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
-                            <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
-                        </select>
-                        <button type='submit' name='update_preference'>Modifica Preferenza</button>
-                      </form>";
-                echo "</div>";
+            } else {
+                echo "<p>Nessun appuntamento.</p>";
             }
-        } else {
-            echo "<p>Nessun appuntamento.</p>";
-        }
-        ?>
-    </div>
+            ?>
+        </div>
 
-    <div class="column" style="background-color: #d4edda;">
-        <h3>Preferenza: Casuale</h3>
-        <?php
-        if (!empty($appointmentsByPreference['Casuale'])) {
-            foreach ($appointmentsByPreference['Casuale'] as $appointmentKey => $appointments) {
-                echo "<div class='appointment-box'>";
-                // Stampa il nome cliente solo una volta per ogni appuntamento
-                echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
-                echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
-                foreach ($appointments as $appt) {
-                    echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>"; // Stampa solo il servizio
+        <!-- Colonna Casuale -->
+        <div class="column">
+            <h3>Preferenza: Casuale</h3>
+            <?php
+            if (!empty($appointmentsByPreference['Casuale'])) {
+                foreach ($appointmentsByPreference['Casuale'] as $appointmentKey => $appointments) {
+                    echo "<div class='appointment-box'>";
+                    echo "<strong>Cliente: " . $appointments[0]['cliente'] . "</strong><br>";
+                    echo "<strong>Data: " . date("d-m-Y H:i", strtotime($appointmentKey)) . "</strong><br>";
+                    foreach ($appointments as $appt) {
+                        echo $appt['nameS'] . " (" . $appt['engageTime'] . " min)<br>";
+                    }
+                    echo "<form action='' method='POST'>
+                            <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
+                            <select name='preference'>
+                                <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
+                                <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
+                                <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
+                            </select>
+                            <button type='submit' name='update_preference'>Modifica Preferenza</button>
+                        </form>";
+                    echo "</div>";
                 }
-                // Aggiungi il form di modifica della preferenza una sola volta
-                echo "<form action='' method='POST'>
-                        <input type='hidden' name='appointment_id' value='" . $appointments[0]['appointment_id'] . "'>
-                        <select name='preference'>
-                            <option value='Barbara' " . ($preference == 'Barbara' ? 'selected' : '') . ">Barbara</option>
-                            <option value='Giulia' " . ($preference == 'Giulia' ? 'selected' : '') . ">Giulia</option>
-                            <option value='Casuale' " . ($preference == 'Casuale' ? 'selected' : '') . ">Casuale</option>
-                        </select>
-                        <button type='submit' name='update_preference'>Modifica Preferenza</button>
-                      </form>";
-                echo "</div>";
+            } else {
+                echo "<p>Nessun appuntamento.</p>";
             }
-        } else {
-            echo "<p>Nessun appuntamento.</p>";
-        }
-        ?>
+            ?>
+        </div>
     </div>
-
-    <div class="clearfix"></div>
-
-    <!-- Sezione pulsanti -->
-    <div class="button-container" style="display: flex; gap: 10px;">
-        <form action=".././add-edit/prenota.php" method="post">
-            <button type="submit">Aggiungi Appuntamento</button>
-        </form>
-        <form action=".././view-get/calendario.php" method="get">
-            <button type="submit">Calendario</button>
-        </form>
-        <form action=".././view-get/lista_clienti.php" method="get">
-            <button type="submit">Gestione Clienti</button>
-        </form>
-        <form action=".././add-edit/aggiungi_utente.php" method="get">
-            <button type="submit">Aggiungi Cliente</button>
-        </form>
-        <form action=".././view-get/cerca_appuntamento.php" method="get">
-            <button type="submit">Modifica Appuntamento</button>
-        </form>
-        <form action=".././view-get/dashboarddef.php" method="post">
-            <button type="submit">dash</button>
-        </form>
-    </div>
-
 </body>
 </html>
