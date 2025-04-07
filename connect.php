@@ -1,7 +1,7 @@
 <?php
 
     $host = 'localhost';
-    $dbname = 'db_cc'; 
+    $dbname = 'u482179263_checapelli'; 
     $username = 'root';      
     $password = '';          
 
