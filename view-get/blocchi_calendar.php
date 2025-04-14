@@ -12,48 +12,54 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fascia Oraria Appuntamenti</title>
-    <script src=".././js/menu_profilo.js" defer></script>
-    <link rel="stylesheet" href=".././style/barra_alta.css">
+    <script src="../js/menu_profilo.js" defer></script>
+    <link rel="stylesheet" href="../style/barra_alta.css">
 
     <style>
         #calendar-container {
-            width: 600px;
+            width: 100%;
+            max-width: 1200px;
             margin: auto;
+            padding: 20px;
         }
 
         #calendar-grid {
             position: relative;
             width: 100%;
-            height: auto;
-            min-height: 1000px;
+            min-height: 2400px;
             border-left: 2px solid #ccc;
-            padding-left: 20px;
+            padding-left: 60px;
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(5px);
+            overflow-y: visible;
+            
         }
 
         .time-slot {
-            height: 31px !important; /* Corretto valore per il posizionamento */
+            height: 31px !important;
             border-bottom: 1px solid #ddd;
             font-size: 14px;
             position: relative;
         }
 
         .appointment {
-            position: absolute;
-            left: 60px;
-            width: 250px;
-            color: white;
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 12px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-            background-color: rgba(50, 205, 50, 0.9);
-            overflow: hidden;
-        }
+    position: absolute;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 0;
+    font-size: 12px;
+    color: white;
+    border-radius: 5px;
+    background-color: rgba(50, 205, 50, 0.9);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    overflow: hidden;
+    z-index: 10;
+}
+
     </style>
 </head>
-<?php include '.././view-get/barra.php'; ?>
+
+<?php include '../view-get/barra.php'; ?>
 <body>
 
 <div id="calendar-container">
@@ -75,48 +81,74 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
     document.addEventListener("DOMContentLoaded", function() {
         let selectedDate = "<?php echo $date; ?>"; 
 
-        fetch(`.././view-get/getAppointments.php?date=${selectedDate}`)
+        fetch(`../view-get/getAppointments.php?date=${selectedDate}`)
             .then(response => response.json())
             .then(data => {
+                console.log("📦 Appuntamenti ricevuti:", data);
                 if (!data.error) {
                     renderAppointments(data);
+                } else {
+                    alert("Errore nel caricamento degli appuntamenti: " + data.error);
                 }
             })
             .catch(error => console.error("❌ Errore nel caricamento degli appuntamenti:", error));
     });
 
     function getTimePosition(time) {
-        let [hours, minutes] = time.split(":").map(Number);
-        let totalMinutes = (hours * 60) + minutes;
+    let [hours, minutes] = time.split(":").map(Number);
+    let totalMinutes = (hours * 60) + minutes;
+    const gridStartMinutes = 480; // 08:00
+    let diffMinutes = totalMinutes - gridStartMinutes;
+    return (diffMinutes / 15) * 31;
+}
 
-        let openingHours = { 2: 510, 3: 510, 4: 510, 5: 510, 6: 480 };
-        let selectedDay = new Date("<?php echo $date; ?>").getDay();
-        let openingMinutes = openingHours[selectedDay] || 480;
 
-        let diffMinutes = totalMinutes - openingMinutes;
-        if (diffMinutes < 0) {
-            return 0;
-        }
-
-        return (diffMinutes / 15) * 31 + 92; // Aggiunti 30 minuti (62px) per correggere lo shift
-    }
 
     function renderAppointments(appointments) {
-        let container = document.getElementById("calendar-grid");
+        const container = document.getElementById("calendar-grid");
 
+        if (!Array.isArray(appointments) || appointments.length === 0) {
+            console.warn("⚠️ Nessun appuntamento disponibile o dati malformati");
+            return;
+        }
+
+        // Raggruppa per orario normalizzato HH:MM
+        const groupedByTime = {};
         appointments.forEach(appt => {
-            let position = getTimePosition(appt.startTime);
-            let duration = appt.totalDuration;
+            const time = appt.startTime.substring(0, 5);
+            if (!groupedByTime[time]) groupedByTime[time] = [];
+            groupedByTime[time].push(appt);
+        });
 
-            let appointmentDiv = document.createElement("div");
-            appointmentDiv.classList.add("appointment");
-            appointmentDiv.style.top = `${position}px`;
-            appointmentDiv.style.height = `${Math.max(15, duration * 2)}px`;
-            appointmentDiv.innerHTML = `<strong>${appt.customer}</strong><br>${appt.services.map(s => s.name).join(", ")}`;
+        // Ciclo per ogni gruppo orario
+        Object.entries(groupedByTime).forEach(([time, group]) => {
+            const count = group.length;
+            const slotWidth = 250; // larghezza totale disponibile per gli appuntamenti affiancati
+            const appointmentWidth = slotWidth / count;
 
-            container.appendChild(appointmentDiv);
+            group.forEach((appt, indexInGroup) => {
+                const start = appt.startTime.substring(0, 5);
+                const position = getTimePosition(start);
+                const duration = appt.totalDuration;
+
+                const appointmentDiv = document.createElement("div");
+                appointmentDiv.classList.add("appointment");
+
+                appointmentDiv.style.top = `${position}px`;
+                appointmentDiv.style.left = `${60 + indexInGroup * appointmentWidth}px`;
+                appointmentDiv.style.width = `${appointmentWidth - 5}px`;
+                appointmentDiv.style.height = `${(duration / 15) * 31}px`;
+
+                const services = Array.isArray(appt.services)
+                    ? appt.services.map(s => s.name).join(", ")
+                    : "Servizi non disponibili";
+
+                appointmentDiv.innerHTML = `<strong>${appt.customer}</strong><br>${services}`;
+                container.appendChild(appointmentDiv);
+            });
         });
     }
+
 </script>
 
 </body>
