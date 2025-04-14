@@ -13,7 +13,7 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
 $query = "
     SELECT 
         a.appointment_id, 
-        TIME(a.dateTime) AS startTime, 
+        DATE_FORMAT(DATE_ADD(a.dateTime, INTERVAL 0 MINUTE), '%H:%i') AS startTime, 
         c.fName, 
         c.lName, 
         s.nameS, 
