@@ -25,7 +25,7 @@ if (!isset($_SESSION['customer_id'])) {
 $customer_id = $_SESSION['customer_id'];
 
 // Recupera il tipo utente dal database (assicurati che il campo user_tipe esista nella tabella customer)
-$sql = "SELECT user_tipe FROM customer WHERE customer_id = ?";
+$sql = "SELECT user_tipe FROM Customer WHERE customer_id = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Errore nella preparazione della query: " . $conn->error);
@@ -61,9 +61,9 @@ function showAllAppuntamenti($conn) {
     $sql = "SELECT a.dateTime, c.fName, c.lName, 
                    GROUP_CONCAT(DISTINCT s.nameS ORDER BY s.nameS SEPARATOR ', ') AS servizi 
             FROM appointment a 
-            JOIN customer c ON a.customer_id = c.customer_id 
-            LEFT JOIN mergeas m ON a.appointment_id = m.appointment_id 
-            LEFT JOIN servicecc s ON m.service_id = s.service_id 
+            JOIN Customer c ON a.Customer_id = c.Customer_id 
+            LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id 
+            LEFT JOIN serviceCC s ON m.service_id = s.service_id 
             GROUP BY a.dateTime, c.fName, c.lName 
             ORDER BY a.dateTime ASC";
 

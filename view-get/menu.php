@@ -48,6 +48,9 @@ if (isset($_SESSION['email'])) {
   <?php elseif ($userType === "operatrice"): ?>
     <h1>Menu Operatrice</h1>
     <button class="menu-button" onclick="window.location.href='.././view-get/dashboard.php'">Dashboard</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/dashboardDef.php'">Dashboard</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/lista_clienti.php'">Dashboard</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/cerca_appuntamento.php'">Dashboard</button>
     <button class="menu-button" onclick="window.location.href='.././view-get/calendario.php'">Calendario</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/prenota.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_utente.php'">Aggiungi Utente</button>
