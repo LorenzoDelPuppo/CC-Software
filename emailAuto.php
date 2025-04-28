@@ -1,10 +1,34 @@
 <?php
 
+session_start();
+require_once 'connect.php';
+require './vendor/autoload.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php';
-require 'connect.php'; // tua connessione al DB
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+    $sql = "SELECT user_tipe FROM Customer WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($dbUserType);
+        if ($stmt->fetch()) {
+            $userType = $dbUserType;
+        }
+        $stmt->close();
+    }
+    $conn->close();
+}
+
+
+
+
 
 // Data di 3 giorni da oggi
 $targetDate = date('Y-m-d', strtotime('+3 days'));

@@ -165,7 +165,7 @@ $conn->close();
         }
 
         .column:nth-child(3) {
-            background-color: #808080;
+            background-color: #d4edda;
         }
 
         .appointment-box {
