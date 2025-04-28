@@ -1,4 +1,4 @@
-USE db_cc;
+USE u482179263_checapelli;
 INSERT INTO serviceCC (nameS, timeTOT, freeTime, engageTime)
 VALUES 
     ('Piega', 55, 0, 45),

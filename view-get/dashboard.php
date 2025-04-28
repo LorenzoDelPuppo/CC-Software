@@ -4,6 +4,7 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../connect.php';
+require_once __DIR__ . './../add-edit/cancella_appuntamenti.php'; 
 
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['email'])) {
