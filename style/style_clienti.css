@@ -136,3 +136,21 @@ tbody tr:hover {
     }
 }
 
+.client-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+textarea.nota-textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    resize: none;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
