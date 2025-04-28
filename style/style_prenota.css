@@ -153,45 +153,48 @@ p {
 /* Stile per il calendario */
 .ui-datepicker {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px; /* Angoli arrotondati */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Ombra più morbida */
   padding: 20px;
-  font-family: 'Roboto', sans-serif; /* Cambiato a un font moderno */
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   text-align: center;
-  width: 350px;
+  width: 350px; /* Larghezza fissa */
   margin: 0 auto;
   border: none;
 }
 
-/* Aggiunge uno spazio tra i giorni e il mese */
+/* Aggiunge uno spazio tra il titolo del mese e i giorni */
 .ui-datepicker-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 /* Modifica i giorni selezionati */
 .ui-datepicker .ui-state-highlight {
-  background-color: #70b8ff; /* Sfondo blu chiaro per il giorno selezionato */
-  color: white; /* Colore bianco per il testo */
+  background-color: #70b8ff; /* Colore blu chiaro per il giorno selezionato */
+  color: white;
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* Ombra per l'effetto visivo */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Ombra leggera */
 }
 
 /* Hover sui giorni */
 .ui-datepicker .ui-state-default:hover {
-  background-color: #f0f0f0; /* Colore hover più chiaro */
+  background-color: #e0f2ff; /* Colore hover più chiaro */
   cursor: pointer;
 }
 
 /* Design dei giorni del mese */
-.ui-datepicker table.ui-datepicker-calendar td {
+.ui-datepicker table.ui-datepicker-calendar td a {
   padding: 12px;
   border: none;
   vertical-align: middle;
-  text-align: center; /* Allineamento al centro dei numeri */
+  text-align: center;
+  font-weight: 500;
+  color: #000 !important; /* Imposta il colore del testo a nero */
+  text-decoration: none !important; /* Rimuove la sottolineatura */
 }
 
 /* Nomi dei giorni della settimana */
@@ -201,39 +204,54 @@ p {
   color: #888;
   font-weight: normal;
   padding-bottom: 8px;
+  padding-top: 5px;
 }
 
-/* Freccia di navigazione (freccia) */
+/* Freccia di navigazione */
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
   border: none;
-  background: none;
-  font-size: 20px;
-  color: #70b8ff;
+  background: #70b8ff;
+  font-size: 18px;
+  color: white;
   cursor: pointer;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Hover sulle frecce di navigazione */
 .ui-datepicker .ui-datepicker-prev:hover,
 .ui-datepicker .ui-datepicker-next:hover {
-  color: #4a9cd2;
+  background-color: #4a9cd2;
 }
 
-/* Stile per il pulsante di conferma del mese */
+/* Pulsante per la selezione del mese */
 .ui-datepicker .ui-datepicker-buttonpane button {
   background-color: #70b8ff;
   color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 25px;
+  padding: 8px 16px;
+  border-radius: 30px;
   cursor: pointer;
   font-size: 14px;
   margin-top: 10px;
 }
 
-.ui-datepicker .ui-datepicker-buttonpane button:hover {
-  background-color: #4a9cd2;
+/* Hover sui giorni - Aggiusta l'area e la forma */
+.ui-datepicker .ui-state-default:hover {
+  background-color: #e0f2ff; /* Colore hover più chiaro */
+  cursor: pointer;
+  border-radius: 100%; /* Forma arrotondata */
+  width: 50px; /* Dimensione più piccola dell'area hover */
+  height: 30px; /* Dimensione più piccola dell'area hover */
+  text-align: center; /* Allineamento al centro del testo */
+  padding: 0; /* Rimuove il padding per evitare che l'area sia troppo grande */
 }
+
 
 /* Pulsanti di navigazione per il calendario */
 .ui-datepicker .ui-datepicker-prev,
@@ -264,4 +282,46 @@ p {
 .ui-datepicker .ui-datepicker-prev:active,
 .ui-datepicker .ui-datepicker-next:active {
   background-color: #4a9cd2;
+}
+
+/* Stile per il contenitore del titolo del mese e delle frecce */
+.ui-datepicker-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  display: flex; /* Usa il layout flexbox */
+  justify-content: space-between; /* Spaziatura tra il mese e le frecce */
+  align-items: center; /* Centra verticalmente il testo */
+}
+
+/* Stile per le frecce di navigazione */
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+  border: none;
+  background: #70b8ff;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hover per le frecce di navigazione */
+.ui-datepicker .ui-datepicker-prev:hover,
+.ui-datepicker .ui-datepicker-next:hover {
+  background-color: #4a9cd2;
+}
+
+/* Aggiusta la distanza tra le frecce e il mese */
+.ui-datepicker .ui-datepicker-prev {
+  margin-right: 10px; /* Distanza tra la freccia sinistra e il mese */
+}
+
+.ui-datepicker .ui-datepicker-next {
+  margin-left: 10px; /* Distanza tra la freccia destra e il mese */
 }
