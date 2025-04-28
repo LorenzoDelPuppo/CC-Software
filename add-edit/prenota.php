@@ -1,4 +1,4 @@
-<?php /* 
+<?php 
 session_start();
 require_once __DIR__ . '/../connect.php'; // Includi il file di connessione al DB
 
@@ -174,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $message .= "Devi selezionare la data dell'appuntamento.<br>";
     }
 }
-$conn->close();*/
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="it">
