@@ -157,15 +157,15 @@ $conn->close();
 
         /* Aggiungi uno stile per gli sfondi */
         .column:nth-child(1) {
-            background-color: #f8d7da;
+            background-color: #D3D3D3;
         }
 
         .column:nth-child(2) {
-            background-color: #d1ecf1;
+            background-color: #A9A9A9;
         }
 
         .column:nth-child(3) {
-            background-color: #d4edda;
+            background-color: #808080;
         }
 
         .appointment-box {
