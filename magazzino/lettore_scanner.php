@@ -87,11 +87,14 @@ if (!isset($_SESSION['customer_id'])) {
           const container = document.getElementById("prodotto-container");
           if (data.trovato) {
             container.innerHTML = `
-              <h3>Prodotto: ${data.nome}</h3>
-              <p>Quantità: <span id="qta">${data.qta}</span></p>
-              <button onclick="aggiornaQta('${codice}', 1)">+</button>
-              <button onclick="aggiornaQta('${codice}', -1)">-</button>
-            `;
+<h3>Prodotto: ${data.nome}</h3>
+<p>Quantità attuale: <strong>${data.qta}</strong></p>
+<form onsubmit="salvaQta(event, '${codice}')">
+  <label>Quantità da aggiungere:</label><br>
+  <input type="number" id="qta_delta" name="qta_delta" required><br>
+  <button type="submit">Salva Quantità</button>
+</form>
+`;
           } else {
             container.innerHTML = `
               <h3>Nuovo prodotto</h3>
@@ -144,6 +147,72 @@ if (!isset($_SESSION['customer_id'])) {
           aggiornaMagazzinoUI(dati.codice);
         } else {
           alert("Errore nell'inserimento.");
+        }
+      });
+    }
+
+    
+    function modificaQta(delta) {
+      const qtaInput = document.getElementById("qta");
+      qtaInput.value = parseInt(qtaInput.value) + delta;
+      if (qtaInput.value < 0) qtaInput.value = 0;
+    }
+
+    function salvaQta(codice) {
+      const nuovaQta = parseInt(document.getElementById("qta").value);
+      fetch('aggiorna_quantita.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codice: codice, delta: 0, nuova_qta: nuovaQta })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Quantità aggiornata!");
+          document.getElementById("qta").value = data.nuova_qta;
+        } else {
+          alert("Errore nel salvataggio.");
+        }
+      });
+    }
+
+    
+    function aggiungiQuantita(event, codice) {
+      event.preventDefault();
+      const qta = parseInt(document.getElementById("aggiunta").value);
+      fetch('aggiorna_quantita.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codice: codice, delta: qta })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Quantità aggiornata!");
+          aggiornaMagazzinoUI(codice);
+        } else {
+          alert("Errore durante l'aggiornamento.");
+        }
+      });
+    }
+
+    
+    function salvaQta(event, codice) {
+      event.preventDefault();
+      const delta = parseInt(document.getElementById("qta_delta").value);
+      fetch('aggiorna_quantita.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codice: codice, delta: delta })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Quantità aggiornata!");
+          document.getElementById("barcode-result").innerText = "Codice: " + codice + " (Quantità aggiornata)";
+          aggiornaMagazzinoUI(codice);
+        } else {
+          alert("Errore nel salvataggio.");
         }
       });
     }
