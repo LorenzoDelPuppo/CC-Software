@@ -1,4 +1,4 @@
-<?php 
+<?php  
 session_start();
 require_once __DIR__ . '/../connect.php';
 
@@ -11,14 +11,51 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 $messagePreference = "";
 
-// Gestione dell'aggiornamento della preferenza
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['action'] === 'update_preference') {
-    $new_preference = $_POST['preference'] ?? '';
-    $allowed = ['Barbara', 'Giulia', 'Casuale'];
-    
-    if (!in_array($new_preference, $allowed)) {
-        $messagePreference = "Preferenza non valida.";
-    } else {
+// Gestione dell'aggiornamento delle preferenze
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
+
+    // Aggiorna la preferenza dell'operatrice
+    if ($_POST['action'] === 'update_preference') {
+        $new_preference = $_POST['preference'] ?? '';
+        $allowed = ['Barbara', 'Giulia', 'Casuale'];
+
+        if (!in_array($new_preference, $allowed)) {
+            $messagePreference = "Preferenza non valida.";
+        } else {
+            // Recupera l'ID del cliente
+            $stmt = $conn->prepare("SELECT customer_id FROM Customer WHERE email = ?");
+            if ($stmt) {
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $stmt->bind_result($customer_id);
+                if ($stmt->fetch()) {
+                    $stmt->close();
+                    // Aggiorna la preferenza
+                    $updateStmt = $conn->prepare("UPDATE Customer SET preference = ? WHERE customer_id = ?");
+                    if ($updateStmt) {
+                        $updateStmt->bind_param("si", $new_preference, $customer_id);
+                        if ($updateStmt->execute()) {
+                            $messagePreference = "Preferenza aggiornata correttamente.";
+                        } else {
+                            $messagePreference = "Errore durante l'aggiornamento: " . $updateStmt->error;
+                        }
+                        $updateStmt->close();
+                    } else {
+                        $messagePreference = "Errore nella preparazione della query di aggiornamento.";
+                    }
+                } else {
+                    $messagePreference = "Cliente non trovato.";
+                }
+            } else {
+                $messagePreference = "Errore nella preparazione della query.";
+            }
+        }
+    }
+
+    // Aggiorna la preferenza delle notifiche
+    if ($_POST['action'] === 'update_notifications') {
+        $wants_notification = isset($_POST['wants_notification']) ? 1 : 0;
+
         // Recupera l'ID del cliente
         $stmt = $conn->prepare("SELECT customer_id FROM Customer WHERE email = ?");
         if ($stmt) {
@@ -27,12 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['
             $stmt->bind_result($customer_id);
             if ($stmt->fetch()) {
                 $stmt->close();
-                // Aggiorna la preferenza
-                $updateStmt = $conn->prepare("UPDATE Customer SET preference = ? WHERE customer_id = ?");
+                // Aggiorna le notifiche
+                $updateStmt = $conn->prepare("UPDATE Customer SET wants_notification = ? WHERE customer_id = ?");
                 if ($updateStmt) {
-                    $updateStmt->bind_param("si", $new_preference, $customer_id);
+                    $updateStmt->bind_param("ii", $wants_notification, $customer_id);
                     if ($updateStmt->execute()) {
-                        $messagePreference = "Preferenza aggiornata correttamente.";
+                        $messagePreference = $wants_notification ? "Notifiche abilitate." : "Notifiche disabilitate.";
                     } else {
                         $messagePreference = "Errore durante l'aggiornamento: " . $updateStmt->error;
                     }
@@ -50,10 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['
 }
 
 // Recupera la preferenza attuale
-$stmt = $conn->prepare("SELECT preference FROM Customer WHERE email = ?");
+$stmt = $conn->prepare("SELECT preference, wants_notification FROM Customer WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
-$stmt->bind_result($current_preference);
+$stmt->bind_result($current_preference, $current_notification);
 $stmt->fetch();
 $stmt->close();
 
@@ -85,7 +122,7 @@ $conn->close();
         <div class="switch-container">
             <label for="toggle">Promemoria</label>
             <label class="switch">
-                <input type="checkbox" id="toggle">
+                <input type="checkbox" id="toggle" name="wants_notification" <?php echo ($current_notification == 1) ? 'checked' : ''; ?>>
                 <span class="slider"></span>
             </label>
         </div>
@@ -94,6 +131,16 @@ $conn->close();
             <div class="message"><?php echo htmlspecialchars($messagePreference); ?></div>
         <?php endif; ?>
 
+        <!-- Form per aggiornare le notifiche -->
+        <form action=".././add-edit/impostazioni.php" method="post">
+            <input type="hidden" name="action" value="update_notifications">
+            <button type="submit">Salva Notifiche</button>
+        </form>
+
+        <hr class="settings-divider">
+
+        <!-- Sezione operatrice -->
+        <h2>Seleziona la tua operatrice preferita</h2>
         <form action=".././add-edit/impostazioni.php" method="post">
             <input type="hidden" name="action" value="update_preference">
             <label for="preference">Seleziona la tua operatrice preferita:</label>
@@ -102,10 +149,9 @@ $conn->close();
                 <option value="Giulia" <?php echo ($current_preference === 'Giulia') ? 'selected' : ''; ?>>Giulia</option>
                 <option value="Casuale" <?php echo ($current_preference === 'Casuale') ? 'selected' : ''; ?>>Casuale</option>
             </select>
-            <button type="submit">Salva Impostazioni</button>
+            <button type="submit">Salva Preferenza</button>
         </form>
     </section>
-    <hr class="settings-divider">
 
     <hr class="settings-divider"> <!-- Linea nera -->
 
