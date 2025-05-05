@@ -1,4 +1,4 @@
-<?php  
+<?php 
 session_start();
 require_once __DIR__ . '/../connect.php'; // Includi il file di connessione al DB
 
@@ -189,9 +189,24 @@ $conn->close();
 
   <title>Prenotazione Appuntamenti</title>
   <!-- Includo jQuery e jQuery UI per il datepicker -->
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>$(document).ready(function() {
+  $("#appointment_date").datepicker({
+    prevText: "❮",  // Freccia per il mese precedente
+    dateFormat: 'dd/mm/yy',  // Imposta il formato italiano della data
+    nextText: "❯",  // Freccia per il mese successivo
+    firstDay: 1,  // Imposta la prima giornata della settimana (lunedì)
+    dayNames: ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],  // Nomi dei giorni in italiano
+    dayNamesMin: ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],  // Abbreviazioni dei giorni
+    monthNames: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"],  // Nomi dei mesi
+    monthNamesShort: ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],  // Abbreviazioni dei mesi
+
+  
+  });
+});</script>
+
 
   <!-- Link al file CSS esterno -->
   <link rel="stylesheet" href=".././style/style_prenota.css">

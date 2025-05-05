@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-// Controllo della sessione: solo amministratori e operatrici possono accedere
-if (!isset($_SESSION['email'])) {
-    header("Location: ../login.php");
-    exit();
-}
-
+// Connessione al database
 require_once __DIR__ . '/../connect.php';
 
 // Se l'utente ha inviato un nuovo valore per la nota, aggiorniamo nel database
@@ -14,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nota']) && isset($_PO
     $nota = $_POST['nota'];
     $customer_id = $_POST['customer_id'];
 
-    // Prepara l'update
+    // Prepara l'update della nota
     $sql = "UPDATE Customer SET nota = ? WHERE customer_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("si", $nota, $customer_id);
@@ -33,18 +28,18 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Clienti</title>
-    <link rel="stylesheet" href="../style/style_clienti.css"> <!-- Stile coerente -->
+    <link rel="stylesheet" href="../style/style_clienti.css">
 </head>
 <body>
 
-<?php include '.././view-get/barra.php'; ?>
+<?php include '../view-get/barra.php'; ?>
 
 <div class="client-container">
 
     <h1>Lista Clienti</h1>
     <div class="client-section">
         <h2>Ricerca Cliente</h2>
-        <form method="GET" action=".././view-get/visualizza_clienti.php" class="search-form">
+        <form method="GET" action="../view-get/visualizza_clienti.php" class="search-form">
             <input type="text" name="search" placeholder="Cerca per nome" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
             <button type="submit">Cerca</button>
         </form>
@@ -66,7 +61,7 @@ $result = $conn->query($sql);
                 <tbody>
                     <?php if ($result->num_rows > 0): ?>
                         <?php while($row = $result->fetch_assoc()): ?>
-                            <tr class="clickable-row" data-href="../add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>">
+                            <tr class="clickable-row" data-href="./add-edit/modifica_cliente.php?id=<?php echo $row['customer_id']; ?>">
                                 <td><?php echo htmlspecialchars($row['fName']); ?></td>
                                 <td><?php echo htmlspecialchars($row['lName']); ?></td>
                                 <td><?php echo htmlspecialchars($row['phoneN']); ?></td>
@@ -74,7 +69,7 @@ $result = $conn->query($sql);
                                     <form action="lista_clienti.php" method="POST" class="nota-form">
                                         <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
                                         <input type="text" name="nota" value="<?php echo htmlspecialchars($row['nota'] ?? ''); ?>" class="nota-input">
-                                        <button type="submit" class="edit-btn" >Salva</button>
+                                        <button type="submit" class="edit-btn">Salva Nota</button>
                                     </form>
                                 </td>
                                 <td>
@@ -84,7 +79,7 @@ $result = $conn->query($sql);
                         <?php endwhile; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="5">Nessun cliente trovato.</td>
+                            <td colspan="6">Nessun cliente trovato.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -93,8 +88,9 @@ $result = $conn->query($sql);
     </div>
 </div>
 
-<?php $conn->close(); ?>
+</div>
 
+<?php $conn->close(); ?>
 
 </body>
 </html>

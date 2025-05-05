@@ -1,7 +1,10 @@
 <?php
 // Blocco di controllo accessi
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . '/../connect.php';
+require_once __DIR__ . './../add-edit/cancella_appuntamenti.php'; 
 
 // Verifica se l'utente è loggato
 if (!isset($_SESSION['email'])) {
@@ -12,7 +15,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 
 // Recupera il ruolo dell'utente dal database
-$sql = "SELECT user_tipe FROM customer WHERE email = ?";
+$sql = "SELECT user_tipe FROM Customer WHERE email = ?";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Errore nella preparazione della query: " . $conn->error);
@@ -44,7 +47,7 @@ if (isset($_POST['update_preference'])) {
     $customerStmt->close();
 
     // Aggiorna la preferenza nel database per il cliente
-    $updateSql = "UPDATE customer SET preference = ? WHERE customer_id = ?";
+    $updateSql = "UPDATE Customer SET preference = ? WHERE customer_id = ?";
     $updateStmt = $conn->prepare($updateSql);
     $updateStmt->bind_param("si", $newPreference, $customerId);
     $updateStmt->execute();
@@ -73,7 +76,7 @@ if ($selectedDate) {
             s.nameS, 
             s.engageTime 
         FROM appointment a
-        JOIN customer c ON a.customer_id = c.customer_id
+        JOIN Customer c ON a.customer_id = c.customer_id
         LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id
         LEFT JOIN serviceCC s ON m.service_id = s.service_id
         WHERE DATE(a.dateTime) = ?
@@ -92,7 +95,7 @@ if ($selectedDate) {
             s.nameS, 
             s.engageTime 
         FROM appointment a
-        JOIN customer c ON a.customer_id = c.customer_id
+        JOIN Customer c ON a.customer_id = c.customer_id
         LEFT JOIN mergeAS m ON a.appointment_id = m.appointment_id
         LEFT JOIN serviceCC s ON m.service_id = s.service_id
         ORDER BY a.dateTime ASC
@@ -155,11 +158,11 @@ $conn->close();
 
         /* Aggiungi uno stile per gli sfondi */
         .column:nth-child(1) {
-            background-color: #f8d7da;
+            background-color: #D3D3D3;
         }
 
         .column:nth-child(2) {
-            background-color: #d1ecf1;
+            background-color: #A9A9A9;
         }
 
         .column:nth-child(3) {
