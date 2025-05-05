@@ -22,8 +22,8 @@ try {
     $mail->Port       = 465;                                   
 
     $mail->setFrom('noreplychecapelli@gmail.com', 'Mailer');
-    $mail->addAddress('federica.marcuzzi@iisvittorioveneto.it', 'Joe User');     
-    $mail->addReplyTo('federica.marcuzzi@iisvittorioveneto.it', 'Information');
+    $mail->addAddress('tommaso.poletto@iisvittorioveneto.it', 'tommaso');     
+    $mail->addReplyTo('tommaso.poletto@iisvittorioveneto.it', 'Information');
 
  
     $mail->isHTML(true);                                  
