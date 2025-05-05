@@ -195,8 +195,8 @@ $conn->close();
 <script>$(document).ready(function() {
   $("#appointment_date").datepicker({
     prevText: "❮",  // Freccia per il mese precedente
-    dateFormat: 'dd/mm/yy',  // Imposta il formato italiano della data
     nextText: "❯",  // Freccia per il mese successivo
+    dateFormat: 'dd/mm/yy',  // Imposta il formato italiano della data
     firstDay: 1,  // Imposta la prima giornata della settimana (lunedì)
     dayNames: ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],  // Nomi dei giorni in italiano
     dayNamesMin: ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],  // Abbreviazioni dei giorni
