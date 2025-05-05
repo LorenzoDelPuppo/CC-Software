@@ -23,39 +23,55 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
             padding: 20px;
         }
 
+        #calendar-wrapper {
+            display: flex;
+        }
+
+        /* Colonna orari */
+        #time-column {
+            width: 60px;
+            border-right: 2px solid #ccc;
+        }
+
+        /* Righe orari */
+        .time-slot {
+            height: 31px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        #time-column .time-slot {
+            text-align: right;
+            padding-right: 5px;
+            background: #fff;
+        }
+
+        /* Griglia appuntamenti */
         #calendar-grid {
             position: relative;
-            width: 100%;
-            min-height: 2400px;
-            border-left: 2px solid #ccc;
-            padding-left: 60px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
-            overflow-y: visible;
-            
+            flex-grow: 1;
+            background-color: #fdfdfd;
         }
 
-        .time-slot {
-            height: 31px !important;
-            border-bottom: 1px solid #ddd;
-            font-size: 14px;
+        #calendar-grid .time-slot {
             position: relative;
         }
 
+        /* Blocchi appuntamento */
         .appointment {
-    position: absolute;
-    box-sizing: border-box;
-    padding: 5px;
-    margin: 0;
-    font-size: 12px;
-    color: white;
-    border-radius: 5px;
-    background-color: rgba(50, 205, 50, 0.9);
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    overflow: hidden;
-    z-index: 10;
-}
-
+            position: absolute;
+            box-sizing: border-box;
+            padding: 5px;
+            margin: 0;
+            font-size: 12px;
+            color: white;
+            border-radius: 5px;
+            background-color: rgba(50, 205, 50, 0.9);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 10;
+        }
     </style>
 </head>
 
@@ -65,21 +81,35 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
 <div id="calendar-container">
     <h2 style="text-align: center;">Appuntamenti per il giorno <?php echo date("d-m-Y", strtotime($date)); ?></h2>
 
-    <div id="calendar-grid">
-        <?php
-        for ($hour = 8; $hour <= 19; $hour++) {
-            for ($min = 0; $min < 60; $min += 15) {
-                $time = sprintf("%02d:%02d", $hour, $min);
-                echo "<div class='time-slot'><strong>$time</strong></div>";
+    <div id="calendar-wrapper">
+        <!-- Colonna orari -->
+        <div id="time-column">
+            <?php
+            for ($hour = 8; $hour <= 19; $hour++) {
+                for ($min = 0; $min < 60; $min += 15) {
+                    $time = sprintf("%02d:%02d", $hour, $min);
+                    echo "<div class='time-slot'><strong>$time</strong></div>";
+                }
             }
-        }
-        ?>
+            ?>
+        </div>
+
+        <!-- Griglia appuntamenti -->
+        <div id="calendar-grid">
+            <?php
+            for ($hour = 8; $hour <= 19; $hour++) {
+                for ($min = 0; $min < 60; $min += 15) {
+                    echo "<div class='time-slot'></div>";
+                }
+            }
+            ?>
+        </div>
     </div>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let selectedDate = "<?php echo $date; ?>"; 
+        let selectedDate = "<?php echo $date; ?>";
 
         fetch(`../view-get/getAppointments.php?date=${selectedDate}`)
             .then(response => response.json())
@@ -95,14 +125,12 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
     });
 
     function getTimePosition(time) {
-    let [hours, minutes] = time.split(":").map(Number);
-    let totalMinutes = (hours * 60) + minutes;
-    const gridStartMinutes = 480; // 08:00
-    let diffMinutes = totalMinutes - gridStartMinutes;
-    return (diffMinutes / 15) * 31;
-}
-
-
+        let [hours, minutes] = time.split(":").map(Number);
+        let totalMinutes = (hours * 60) + minutes;
+        const gridStartMinutes = 480; // 08:00
+        let diffMinutes = totalMinutes - gridStartMinutes;
+        return (diffMinutes / 15) * 31;
+    }
 
     function renderAppointments(appointments) {
         const container = document.getElementById("calendar-grid");
@@ -112,7 +140,6 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
             return;
         }
 
-        // Raggruppa per orario normalizzato HH:MM
         const groupedByTime = {};
         appointments.forEach(appt => {
             const time = appt.startTime.substring(0, 5);
@@ -120,10 +147,9 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
             groupedByTime[time].push(appt);
         });
 
-        // Ciclo per ogni gruppo orario
         Object.entries(groupedByTime).forEach(([time, group]) => {
             const count = group.length;
-            const slotWidth = 250; // larghezza totale disponibile per gli appuntamenti affiancati
+            const slotWidth = 250;
             const appointmentWidth = slotWidth / count;
 
             group.forEach((appt, indexInGroup) => {
@@ -135,7 +161,7 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
                 appointmentDiv.classList.add("appointment");
 
                 appointmentDiv.style.top = `${position}px`;
-                appointmentDiv.style.left = `${60 + indexInGroup * appointmentWidth}px`;
+                appointmentDiv.style.left = `${indexInGroup * appointmentWidth}px`;
                 appointmentDiv.style.width = `${appointmentWidth - 5}px`;
                 appointmentDiv.style.height = `${(duration / 15) * 31}px`;
 
@@ -148,7 +174,6 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
             });
         });
     }
-
 </script>
 
 </body>
