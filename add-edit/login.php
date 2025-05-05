@@ -1,83 +1,90 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Che Capelli</title>
-    <link rel="stylesheet" href=".././style/style_input.css">
-</head>
-<body>
-<div class="logo-container">
-    <a href=".././view-get/menu.php">
-        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
-    </a>
-</div>
-    <div class = "form-container">
-        <h2>Login</h2>
-        <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="POST">
-            <label for="inserisci l'email">Email</label>
-            <input type="email" name="email" required placeholder="Inserisci" >
-            <br>
-            <label for="inserisci la password">Password</label>
-            <input type="password" name="password" required placeholder="Inserisci">
-            <br>
-          
-            <button type="submit">Accedi</button>
-            <a href=".././add-edit/password_dimenticata.php" class="forgot-password">Password dimenticata?</a>
-            <a href=".././add-edit/index.php" class="forgot-password">Non hai un account? Registrati</a>
-        </form>
-    </div>
-</body>
-</html>
-
 <?php
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-session_start(); // Avvia la sessione
-
-// Se l'utente è già loggato, reindirizza alla dashboard
+// Se l'utente è già loggato, lo mando alla dashboard
 if (isset($_SESSION['email'])) {
-    header("Location: .././view-get/dashboard.php");
+    header("Location: ../view-get/dashboard.php");
     exit();
 }
 
-require_once __DIR__ .  '/../connect.php';
-require_once ".././add-edit/cript.php";
+require_once __DIR__ . '/../connect.php';
+require_once __DIR__ . '/cript.php';
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    //recupero dati dal form 
+$erroreLogin = '';
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    //query per l'estrazione dei dati 
-    $query = "SELECT * FROM customer WHERE email = ?";
+    $query = "SELECT * FROM Customer WHERE email = ?";
     $stmt = $conn->prepare($query);
+
+    if (!$stmt) {
+        die("❌ Errore prepare(): " . $conn->error);
+    }
+
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
+    if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
-
-        // Verifica la password
-        $hashedPassword = $user["password"]; // Prendiamo la password hashata dal database
+        $hashedPassword = $user["password"];
 
         if (password_verify($password, $hashedPassword)) {
-            // Salva i dati dell'utente nella sessione
             $_SESSION['customer_id'] = $user["customer_id"];
             $_SESSION['email'] = $email;
-        
-            // Reindirizza alla dashboard
-            header("Location: .././view-get/menu.php");
-            
+
+            header("Location: ../view-get/menu.php");
             exit();
         } else {
-            echo "Password errata.";
+            $erroreLogin = "❌ Password errata.";
         }
     } else {
-        echo "Email non trovata.";
+        $erroreLogin = "❌ Email non trovata.";
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Che Capelli - Login</title>
+    <link rel="stylesheet" href="../style/style_input.css">
+</head>
+<body>
+<div class="logo-container">
+    <a href="../view-get/menu.php">
+        <img src="../style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
+    </a>
+</div>
+
+<div class="form-container">
+    <h2>Login</h2>
+
+    <?php if (!empty($erroreLogin)): ?>
+        <div style="color: red; margin-bottom: 10px;"><?php echo $erroreLogin; ?></div>
+    <?php endif; ?>
+
+    <form action="" method="POST">
+        <label for="email">Email</label>
+        <input type="email" name="email" required placeholder="Inserisci">
+
+        <label for="password">Password</label>
+        <input type="password" name="password" required placeholder="Inserisci">
+        
+        <button type="submit">Accedi</button>
+
+        <a href="../add-edit/password_dimenticata.php" class="forgot-password">Password dimenticata?</a>
+        <a href="../add-edit/index.php" class="forgot-password">Non hai un account? Registrati</a>
+    </form>
+</div>
+</body>
+</html>
