@@ -140,19 +140,24 @@ function showAllAppuntamenti($conn) {
       margin-left: 5px;
       font-size: 14px;
     }
+    .container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    width: 4200px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
   </style>
  <?php include '.././view-get/barra.php'; ?>
 </head>
+<div class="form-container">
 <body>
   <div class="container mt-4">
     <h2 class="mb-4">Tutti gli Appuntamenti Prenotati</h2>
     <?php showAllAppuntamenti($conn); ?>
-    <div class="mt-4 d-flex justify-content-around">
-      <a href=".././add-edit/aggiungi_utente.php" class="btn btn-primary">Aggiungi Cliente</a>
-      <a href=".././add-edit/prenota.php" class="btn btn-success">Aggiungi Appuntamento</a>
-      <a href=".././view-get/calendario.php" class="btn btn-info">Calendario</a>
-      <a href=".././view-get/lista_clienti.php" class="btn btn-warning">Schede Clienti</a>
-    </div>
   </div>
   <!-- Legenda dei servizi -->
   <div class="service-legend">
@@ -162,6 +167,7 @@ function showAllAppuntamenti($conn) {
         <span class="legend-text"><?php echo htmlspecialchars($serviceName); ?></span>
       </div>
     <?php endforeach; ?>
+  </div>
   </div>
 </body>
 </html>
