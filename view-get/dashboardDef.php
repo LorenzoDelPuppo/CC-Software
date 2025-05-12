@@ -149,9 +149,30 @@ function showAllAppuntamenti($conn) {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
+  }
+  .dropdown-menu {
+    display: none; /* Hidden by default */
+  }
+
+  .dropdown-menu.show {
+    display: block; /* Show when the 'show' class is added */
+  }
+
   </style>
- <?php include '.././view-get/barra.php'; ?>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const userIcon = document.querySelector('.user-icon'); // Replace with the actual class/ID of your user icon
+      const dropdownMenu = document.querySelector('.dropdown-menu'); // Replace with the actual class/ID of your dropdown menu
+
+      if (userIcon && dropdownMenu) {
+        userIcon.addEventListener('click', function() {
+          dropdownMenu.classList.toggle('show'); // Toggle the dropdown visibility
+        });
+      }
+    });
+  </script> 
+
+<?php include '.././view-get/barra.php' ?>
 </head>
 <div class="form-container">
 <body>
