@@ -1,7 +1,8 @@
-<?php 
+<?php
 session_start();
 require_once __DIR__ . '/../connect.php';
 require_once '.././add-edit/cript.php';
+
 
 // Controllo accessi: solo amministratore e operatrice
 if (!isset($_SESSION['email'])) {
@@ -21,16 +22,18 @@ if ($userType !== 'amministratore' && $userType !== 'operatrice') {
     exit;
 }
 
+
 // Inizializzo variabili per messaggi e utente selezionato
 $utenteSelezionato = null;
 $messaggioUtente = "";
 $messaggioPrenotazione = "";
 
+
 // Gestione ricerca utente
 if (isset($_POST['ricercaUtente'])) {
     $ricerca = trim($_POST['ricerca']);
     $ricercaLike = "%" . $ricerca . "%";
-    $sql = "SELECT customer_id, fName, lName, email FROM Customer 
+    $sql = "SELECT customer_id, fName, lName, email FROM Customer
             WHERE fName LIKE ? OR lName LIKE ? OR CONCAT(fName, ' ', lName) LIKE ? OR email LIKE ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $ricercaLike, $ricercaLike, $ricercaLike, $ricercaLike);
@@ -45,6 +48,7 @@ if (isset($_POST['ricercaUtente'])) {
     $stmt->close();
 }
 
+
 // Gestione registrazione utente (simile al form di registrazione del sito)
 if (isset($_POST['aggiungiUtente'])) {
     $firstName   = trim($_POST['fName']);
@@ -55,7 +59,7 @@ if (isset($_POST['aggiungiUtente'])) {
     $hairType    = $_POST['lunghezzaCapelli'];
     $gender      = $_POST['gender'];
     $userTypeNew = $_POST['user_tipe'];
-    
+   
     if(empty($firstName) || empty($lastName) || empty($emailNew) || empty($password)) {
         $messaggioUtente = "Compila tutti i campi obbligatori.";
     } else {
@@ -95,11 +99,13 @@ if (isset($_POST['aggiungiUtente'])) {
     }
 }
 
+
 // Helper: converte un orario (HH:MM) in minuti
 function timeToMinutes(string $timeStr): int {
     list($h, $m) = explode(":", $timeStr);
     return ((int)$h * 60) + (int)$m;
 }
+
 
 // Gestione prenotazione appuntamento
 if (isset($_POST['prenotaAppuntamento'])) {
@@ -110,29 +116,29 @@ if (isset($_POST['prenotaAppuntamento'])) {
         $appointment_date = $_POST['appointment_date'];
         $time_slot = $_POST['time_slot'];
         $servizi = isset($_POST['checkboxes']) ? $_POST['checkboxes'] : [];
-        
+       
         // Calcolo la durata totale dei servizi selezionati
         $requiredDuration = 0;
         $serviceDurations = [1 => 55, 2 => 45, 3 => 70, 4 => 100, 5 => 70, 6 => 70, 7 => 135, 8 => 125, 9 => 30, 10 => 25];
         foreach ($servizi as $s) {
             $requiredDuration += isset($serviceDurations[$s]) ? $serviceDurations[$s] : 0;
         }
-        
+       
         if ($requiredDuration <= 0) {
             $messaggioPrenotazione .= "Seleziona almeno un servizio valido.<br>";
         }
-        
+       
         if (!empty($time_slot)) {
             $slotStart = timeToMinutes($time_slot);
             $slotEnd   = $slotStart + $requiredDuration;
             // Esempio: se sabato, chiusura alle 17:00, altrimenti in base all'orario di inizio
             $dayNumber = (int)date('N', strtotime($appointment_date));
             $sessionClosing = ($dayNumber === 6) ? timeToMinutes("17:00") : (($slotStart < timeToMinutes("12:30")) ? timeToMinutes("12:30") : timeToMinutes("19:00"));
-            
+           
             if ($slotEnd > $sessionClosing) {
                 $messaggioPrenotazione .= "Errore: l'appuntamento terminerebbe oltre l'orario di chiusura.<br>";
             }
-            
+           
             if (empty($messaggioPrenotazione)) {
                 $appointment_datetime = $appointment_date . " " . $time_slot . ":00";
                 $sql = "INSERT INTO appointment (customer_id, dateTime) VALUES (?, ?)";
@@ -141,7 +147,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                     if ($stmt->execute()) {
                         $appointment_id = $stmt->insert_id;
                         $messaggioPrenotazione .= "Appuntamento prenotato con successo!<br>";
-                        
+                       
                         // Inserimento dei servizi
                         $sql2 = "INSERT INTO servicesOfAppointment (appointment_id, service_id, sPera) VALUES (?, ?, ?)";
                         if ($stmt2 = $conn->prepare($sql2)) {
@@ -195,6 +201,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
         .hair-option input { display: block; margin: 0 auto; }
         .hair-option img { width: 50px; height: auto; }
 
+
         .img_sceltacapelli {
             width: 75px;
             height: 75px;
@@ -203,10 +210,12 @@ if (isset($_POST['prenotaAppuntamento'])) {
             transition: border 0.3s ease, transform 0.3s ease;
         }
 
+
         /* Bottone in stato hover */
         .form-container button:hover {
             background-color: #333;
         }
+
 
         .form-container {
             width: 350px;
@@ -220,6 +229,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
             gap: 15px;
         }
 
+
         .form-container input,
         .form-container select  {
             width: 100%;
@@ -230,6 +240,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
             font-size: 14px;
             background-color: #f5f5f5;
         }
+
 
         /* Bottone allineato alla grafica originale */
         .form-container button {
@@ -244,22 +255,26 @@ if (isset($_POST['prenotaAppuntamento'])) {
             font-weight: bold;
         }
 
+
         .buttons_select {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
 
+
         /* Nasconde i radio button */
         input[type="radio"] {
             display: none;
         }
+
 
         /* Evidenziazione immagine selezionata */
         input[type="radio"]:checked + label .img_sceltacapelli {
             border: 3px solid black;
             transform: scale(1.1);
         }
+
 
         /* Stili per il contenitore delle immagini cliccabili */
         .img_label {
@@ -268,6 +283,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
             align-items: center;
             cursor: pointer;
         }
+
 
         .form-container input,
         .form-container select  {
@@ -286,6 +302,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
         $(document).ready(function(){
             $("#appointment_date").datepicker({ dateFormat: 'yy-mm-dd' });
 
+
             // Funzione per calcolare la durata totale dei servizi selezionati
             function calcolaDurataTotale() {
                 var serviceDurations = {1:55, 2:45, 3:70, 4:100, 5:70, 6:70, 7:135, 8:125, 9:30, 10:25};
@@ -296,6 +313,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                 });
                 return total;
             }
+
 
             // Funzione per aggiornare gli orari disponibili tramite AJAX
             function updateAvailableSlots() {
@@ -325,6 +343,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                     }
                 });
             }
+
 
             // Aggiorna gli orari al cambio della data o dei servizi
             $("#appointment_date").on("change", updateAvailableSlots);
@@ -394,7 +413,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                 </form>
             <?php endif; ?>
         </div>
-        
+       
         <!-- Colonna Destra: Prenotazione Appuntamento -->
         <div class="col" id="col-appointment">
             <h2>Prenota Appuntamento</h2>
@@ -405,7 +424,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                 <input type="hidden" name="cliente_id" value="<?php echo $utenteSelezionato ? $utenteSelezionato['customer_id'] : ''; ?>">
                 <fieldset>
                     <legend>Seleziona i Servizi</legend>
-                    <?php 
+                    <?php
                     $serviceDurations = [1 => 55, 2 => 45, 3 => 70, 4 => 100, 5 => 70, 6 => 70, 7 => 135, 8 => 125, 9 => 30, 10 => 25];
                     foreach ($serviceDurations as $id => $durata): ?>
                         <label>
@@ -438,3 +457,9 @@ if (isset($_POST['prenotaAppuntamento'])) {
 </div>
 </body>
 </html>
+
+
+
+
+
+
