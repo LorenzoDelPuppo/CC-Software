@@ -47,11 +47,11 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <title>Cerca Appuntamento</title>
+  <?php include '.././view-get/barra.php'; ?>
   <script src=".././js/menu_profilo.js" defer></script>
-    <link rel="stylesheet" href=".././style/barra_alta.css">
-
+  <link rel="stylesheet" href=".././style/barra_alta.css">
+  <link rel="stylesheet" href=".././style/style_cercaAppuntamenti.css">
 </head>
-<?php include '.././view-get/barra.php'; ?>
 <body>
 <div class="container">
   <h1>Cerca Appuntamento</h1>
@@ -61,31 +61,33 @@ $conn->close();
   </form>
 
   <?php if (!empty($appointments)): ?>
-  <table>
-    <thead>
-      <tr>
-        <th>ID Appuntamento</th>
-        <th>Data/Ora</th>
-        <th>Cliente</th>
-        <th>Modifica</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($appointments as $appt): ?>
-      <tr>
-        <td><?php echo $appt['appointment_id']; ?></td>
-        <td><?php echo $appt['dateTime']; ?></td>
-        <td><?php echo $appt['cliente']; ?></td>
-        <td>
-          <form method="GET" action=".././add-edit/modifica_appuntamento.php">
-            <input type="hidden" name="appointment_id" value="<?php echo $appt['appointment_id']; ?>">
-            <button type="submit" class="btn">Modifica</button>
-          </form>
-        </td>
-      </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID Appuntamento</th>
+          <th>Data/Ora</th>
+          <th>Cliente</th>
+          <th>Modifica</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($appointments as $appt): ?>
+        <tr>
+          <td><?php echo $appt['appointment_id']; ?></td>
+          <td><?php echo $appt['dateTime']; ?></td>
+          <td><?php echo $appt['cliente']; ?></td>
+          <td>
+            <form method="GET" action=".././add-edit/modifica_appuntamento.php">
+              <input type="hidden" name="appointment_id" value="<?php echo $appt['appointment_id']; ?>">
+              <button type="submit" class="edit-btn">Modifica</button>
+            </form>
+          </td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
   <?php else: ?>
     <?php if(isset($_GET['search'])): ?>
       <p>Nessun appuntamento trovato per "<?php echo htmlspecialchars($searchTerm); ?>"</p>
