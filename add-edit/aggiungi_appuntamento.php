@@ -208,6 +208,42 @@ if (isset($_POST['prenotaAppuntamento'])) {
             background-color: #333;
         }
 
+        .form-container {
+            width: 350px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-container input,
+        .form-container select  {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #f5f5f5;
+        }
+
+        /* Bottone allineato alla grafica originale */
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         .buttons_select {
             display: flex;
             justify-content: center;
@@ -231,6 +267,17 @@ if (isset($_POST['prenotaAppuntamento'])) {
             justify-content: center;
             align-items: center;
             cursor: pointer;
+        }
+
+        .form-container input,
+        .form-container select  {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #f5f5f5;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -331,9 +378,9 @@ if (isset($_POST['prenotaAppuntamento'])) {
                     </div>
                     <br>
                     <label>Genere:</label>
-                    <select name="gender" required>
-                        <option value="maschio">Maschio</option>
-                        <option value="femmina">Femmina</option>
+                    <select id="gender" name="gender" required>
+                        <option value="maschio">Uomo</option>
+                        <option value="femmina">Donna</option>
                     </select>
                     <br>
                     <label>Tipo Utente:</label>
