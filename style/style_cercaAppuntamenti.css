@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    background: url('.././style/rullino/vetrina.jpg');
+    color: #000;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Contenitore principale */
+  .container {
+    margin-top: 70px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+    margin-top: 70px;
+  }
+
+  /* Titolo principale */
+  h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  /* Form di ricerca */
+  .search-form {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .search-form input {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .search-form button {
+    padding: 8px 12px;
+    border: none;
+    background-color: rgb(101,101,101);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .search-form button:hover {
+    background-color: #333;
+  }
+
+  /* Tabella */
+  .table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: rgb(101,101,101);
+    color: white;
+  }
+
+  /* Alternanza colori */
+  tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+
+  tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+ /* Modifica pulsante "Cerca" e "Modifica" */
+  .search-form button,
+  .edit-btn {
+    padding: 6px 12px;
+    background-color: rgb(101,101,101);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border: none;
+  }
+
+  .search-form button:hover,
+  .edit-btn:hover {
+    background-color: #333;
+  }
+
+  
+  
