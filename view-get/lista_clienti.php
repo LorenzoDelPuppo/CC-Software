@@ -29,10 +29,33 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Clienti</title>
     <link rel="stylesheet" href="../style/style_clienti.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const userIcon = document.querySelector('.user-icon');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            // Mostra il menu quando si clicca sull'icona
+            if (userIcon && dropdownMenu) {
+            userIcon.addEventListener('click', function(event) {
+                event.stopPropagation();  // Evita che il clic sull'icona venga propagato al documento
+                dropdownMenu.classList.toggle('show');
+            });
+            }
+
+            // Chiudi il menu quando si clicca fuori
+            document.addEventListener('click', function(event) {
+            if (!userIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+            });
+        });
+    </script>
+
 </head>
 <body>
 
-<?php include '../view-get/barra.php'; ?>
+<?php include '../view-get/barra.php' ?>
 
 <div class="client-container">
 
