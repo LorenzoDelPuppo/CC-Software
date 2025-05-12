@@ -372,7 +372,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                         <div class="hair-option">
                             <input type="radio" id="corti" name="lunghezzaCapelli" value="corti" required>
                             <label for="corti" class="img_label">
-                            <img src=".././style/rullino/capellicorti.png" class="img_sceltacapelli" alt="Capelli Corti">
+                            <img src=".././style/rullino/CapelliCorti.png" class="img_sceltacapelli" alt="Capelli Corti">
                             </label>
                         </div>
                     </div>

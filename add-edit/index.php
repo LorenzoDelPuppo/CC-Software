@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="radio_menu">
                 <input type="radio" name="lunghezzaCapelli" id="corti" value="corti">
                 <label for="corti" class="img_label">
-                    <img src=".././style/rullino/capellicorti.png" class="img_sceltacapelli" alt="Corti">
+                    <img src=".././style/rullino/CapelliCorti.png" class="img_sceltacapelli" alt="Corti">
                 </label>
             </div>
         </div>
