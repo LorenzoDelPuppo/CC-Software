@@ -38,15 +38,15 @@ if (isset($_SESSION['email'])) {
 <div class="menu-container">
   <?php if ($userType === "amministratore"): ?>
     <h1>Menu Amministratore</h1>
-    <button class="menu-button" onclick="window.location.href='.././view-get/dashboard.php'">Dashboard colonne</button>
-    <button class="menu-button" onclick="window.location.href='.././view-get/dashboardDef.php'">Dashboard colori</button>
-    <button class="menu-button" onclick="window.location.href='.././view-get/lista_clienti.php'">lista clineti</button>
-    <button class="menu-button" onclick="window.location.href='.././view-get/cerca_appuntamento.php'">cerca appuntamenti</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/dashboard.php'">Dashboard Colonne</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/dashboardDef.php'">Dashboard Colori</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/lista_clienti.php'">Lista Clienti</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/cerca_appuntamento.php'">Cerca Appuntamenti</button>
     <button class="menu-button" onclick="window.location.href='.././view-get/calendario.php'">Calendario</button>
-    <button class="menu-button" onclick="window.location.href='.././add-edit/prenota.php'">prenota</button>
+    <button class="menu-button" onclick="window.location.href='.././add-edit/prenota.php'">Prenota</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_utente.php'">Aggiungi Utente</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/prenota.php'">Prenota</button>
-    <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_appuntamento.php'">aggiungi Appuntamento</button>
+    <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_appuntamento.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='.././view-get/miei_appuntamenti.php'">Miei Appuntamenti</button>
     <button class="menu-button" onclick="window.location.href='home.php'">Home</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/login.php'">Login</button>
