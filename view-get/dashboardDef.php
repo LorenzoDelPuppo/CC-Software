@@ -161,16 +161,26 @@ function showAllAppuntamenti($conn) {
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const userIcon = document.querySelector('.user-icon'); // Replace with the actual class/ID of your user icon
-      const dropdownMenu = document.querySelector('.dropdown-menu'); // Replace with the actual class/ID of your dropdown menu
+      const userIcon = document.querySelector('.user-icon');
+      const dropdownMenu = document.querySelector('.dropdown-menu');
 
+      // Mostra il menu quando si clicca sull'icona
       if (userIcon && dropdownMenu) {
-        userIcon.addEventListener('click', function() {
-          dropdownMenu.classList.toggle('show'); // Toggle the dropdown visibility
+        userIcon.addEventListener('click', function(event) {
+          event.stopPropagation();  // Evita che il clic sull'icona venga propagato al documento
+          dropdownMenu.classList.toggle('show');
         });
       }
+
+      // Chiudi il menu quando si clicca fuori
+      document.addEventListener('click', function(event) {
+        if (!userIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+          dropdownMenu.classList.remove('show');
+        }
+      });
     });
-  </script> 
+  </script>
+
 
 <?php include '.././view-get/barra.php' ?>
 </head>

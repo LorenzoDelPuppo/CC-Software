@@ -184,9 +184,41 @@ $conn->close();
         .clearfix {
             clear: both;
         }
+
+        .dropdown-menu {
+            display: none; /* Hidden by default */
+        }
+
+        .dropdown-menu.show {
+            display: block; /* Show when the 'show' class is added */
+        }
+
     </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const userIcon = document.querySelector('.user-icon');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            // Mostra il menu quando si clicca sull'icona
+            if (userIcon && dropdownMenu) {
+            userIcon.addEventListener('click', function(event) {
+                event.stopPropagation();  // Evita che il clic sull'icona venga propagato al documento
+                dropdownMenu.classList.toggle('show');
+            });
+            }
+
+            // Chiudi il menu quando si clicca fuori
+            document.addEventListener('click', function(event) {
+            if (!userIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+            });
+        });
+    </script>
+
 </head>
-<?php include '.././view-get/barra.php'; ?>
+<?php include '.././view-get/barra.php' ?>
 <body>
 
     <!-- Barra di ricerca per la data -->
