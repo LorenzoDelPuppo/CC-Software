@@ -193,6 +193,33 @@ $conn->close();
             display: block; /* Show when the 'show' class is added */
         }
 
+        .app-btn {
+            padding: 6px 12px;
+            background-color: rgb(101,101,101);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .app-btn:hover {
+            background-color: #333;
+        }
+
+        /* Selettore data e orario */
+        #search-date,
+        #time_slot {
+            display: block;
+            width: 200px;
+            max-width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
     </style>
 
     <script>
@@ -223,12 +250,12 @@ $conn->close();
 
     <!-- Barra di ricerca per la data -->
     <form action="" method="POST">
-        <input type="date" name="search_date" value="<?php echo $selectedDate ? $selectedDate : ''; ?>" placeholder="Seleziona una data">
-        <button type="submit">Cerca Appuntamenti</button>
+        <input type="date" id="search-date" name="search_date" value="<?php echo $selectedDate ? $selectedDate : ''; ?>" placeholder="Seleziona una data">
+        <button type="submit" class="app-btn">Cerca Appuntamenti</button>
     </form>
     <!-- Bottone per mostrare tutti gli appuntamenti -->
     <form action="" method="POST">
-        <button type="submit" name="show_all" value="1">Mostra tutti gli appuntamenti</button>
+        <button type="submit" class="app-btn" name="show_all" value="1">Mostra tutti gli appuntamenti</button>
     </form>
 
     <h2>Appuntamenti per il giorno: <?php echo $selectedDate ? date("d-m-Y", strtotime($selectedDate)) : "Tutti i Giorni"; ?></h2>
