@@ -194,6 +194,44 @@ if (isset($_POST['prenotaAppuntamento'])) {
         }
         .hair-option input { display: block; margin: 0 auto; }
         .hair-option img { width: 50px; height: auto; }
+
+        .img_sceltacapelli {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: border 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Bottone in stato hover */
+        .form-container button:hover {
+            background-color: #333;
+        }
+
+        .buttons_select {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Nasconde i radio button */
+        input[type="radio"] {
+            display: none;
+        }
+
+        /* Evidenziazione immagine selezionata */
+        input[type="radio"]:checked + label .img_sceltacapelli {
+            border: 3px solid black;
+            transform: scale(1.1);
+        }
+
+        /* Stili per il contenitore delle immagini cliccabili */
+        .img_label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -279,14 +317,16 @@ if (isset($_POST['prenotaAppuntamento'])) {
                         <label>Capelli:</label><br>
                         <!-- Esempio con immagini; sostituisci i src con i percorsi corretti -->
                         <div class="hair-option">
-                            <input type="radio" name="lunghezzaCapelli" value="lunghi" required>
-                            <img src=".././style/rullino/capelliLunghi.png" alt="Capelli Lunghi">
-                            <span>Lunghi</span>
+                            <input type="radio" id="lunghi" name="lunghezzaCapelli" value="lunghi" required>
+                            <label for="lunghi" class="img_label">
+                            <img src=".././style/rullino/capelliLunghi.png" class="img_sceltacapelli" alt="Capelli Lunghi">
+                            </label>
                         </div>
                         <div class="hair-option">
-                            <input type="radio" name="lunghezzaCapelli" value="corti" required>
-                            <img src=".././style/rullino/capellicorti.png" alt="Capelli Corti">
-                            <span>Corti</span>
+                            <input type="radio" id="corti" name="lunghezzaCapelli" value="corti" required>
+                            <label for="corti" class="img_label">
+                            <img src=".././style/rullino/capellicorti.png" class="img_sceltacapelli" alt="Capelli Corti">
+                            </label>
                         </div>
                     </div>
                     <br>
