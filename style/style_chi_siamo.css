@@ -180,15 +180,6 @@ body {
     cursor: pointer;
 }
 
-.hamburger {
-    display: none;
-    font-size: 28px;
-    background: none;
-    border: none;
-    color: #8c7f72;
-    cursor: pointer;
-}
-
 .mobile-menu {
     position: fixed;
     top: 0;
