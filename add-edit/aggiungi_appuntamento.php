@@ -166,7 +166,22 @@ if (isset($_POST['prenotaAppuntamento'])) {
                                 $stmt2->execute();
                             }
                             $stmt2->close();
+                        } else {
+                            die("Errore nella preparazione della query per servicesOfAppointment: " . $conn->error);
                         }
+
+                        // Inserimento nella tabella mergeAS
+                        $sql3 = "INSERT INTO mergeAS (appointment_id, service_id) VALUES (?, ?)";
+                        if ($stmt3 = $conn->prepare($sql3)) {
+                            foreach ($servizi as $service_id) {
+                                $stmt3->bind_param("ii", $appointment_id, $service_id);
+                                $stmt3->execute();
+                            }
+                            $stmt3->close();
+                        } else {
+                            die("Errore nella preparazione della query per mergeAS: " . $conn->error);
+                        }
+
                     } else {
                         $messaggioPrenotazione .= "Errore nella prenotazione: " . $stmt->error;
                     }
@@ -344,6 +359,53 @@ if (isset($_POST['prenotaAppuntamento'])) {
             // Aggiorna gli orari al cambio della data o dei servizi
             $("#appointment_date").on("change", updateAvailableSlots);
             $("input[name='checkboxes[]']").on("change", updateAvailableSlots);
+
+            // === Vincoli checkbox servizi ===
+            const mandatoryRelations = {
+                2: [1],
+                3: [1],
+                4: [1],
+                5: [1],
+                7: [1],
+                8: [1],
+                9: [1],
+            };
+
+            const incompatibleRelations = {
+                3: [7],
+                4: [7, 8],
+                5: [6, 7],
+                6: [5, 8],
+                7: [3, 4, 5, 6],
+                8: [3, 4, 6],
+            };
+
+            function updateCheckboxStates(checkbox) {
+                const val = parseInt($(checkbox).val());
+
+                if ($(checkbox).is(':checked')) {
+                    if (mandatoryRelations[val]) {
+                        mandatoryRelations[val].forEach(function(req){
+                            const el = $("input[name='checkboxes[]'][value='" + req + "']");
+                            if (!el.is(':checked')) el.prop('checked', true);
+                        });
+                    }
+                    $("input[name='checkboxes[]']").each(function(){
+                        const cval = parseInt($(this).val());
+                        if (incompatibleRelations[val] && incompatibleRelations[val].includes(cval)) {
+                            $(this).prop('checked', false);
+                            $(this).prop('disabled', true);
+                        }
+                    });
+                } else {
+                    $("input[name='checkboxes[]']").prop('disabled', false);
+                }
+            }
+
+            $("input[name='checkboxes[]']").change(function(){
+                updateCheckboxStates(this);
+            });
+
         });
     </script>
 </head>
@@ -424,7 +486,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
             <?php endif; ?>
         </div>
 
-        <!-- Colonna Destra: Prenotazione Appuntamento -->
+        <!-- Colonna Destra: Prenotazione Appuntamento (verticale) -->
         <div class="col" id="col-appointment">
             <h2>Prenota Appuntamento</h2>
             <?php if (!empty($messaggioPrenotazione)) : ?>
@@ -432,22 +494,29 @@ if (isset($_POST['prenotaAppuntamento'])) {
             <?php endif; ?>
             <form method="post" action="">
                 <input type="hidden" name="cliente_id" value="<?php echo $utenteSelezionato ? $utenteSelezionato['customer_id'] : ''; ?>">
+
                 <fieldset>
-                    <legend>Seleziona i Servizi</legend>
-                    <?php
-                    $serviceDurations = [1 => 55, 2 => 45, 3 => 70, 4 => 100, 5 => 70, 6 => 70, 7 => 135, 8 => 125, 9 => 30, 10 => 25];
-                    foreach ($serviceDurations as $id => $durata): ?>
-                        <label>
-                            <input type="checkbox" name="checkboxes[]" value="<?php echo $id; ?>">
-                            <span><?php echo "Servizio " . $id; ?></span>
-                        </label>
-                    <?php endforeach; ?>
+                    <legend>Seleziona i servizi</legend>
+                    <div class="services-container" style="display:flex; flex-direction: column; gap: 8px;">
+                        <label><input type="checkbox" name="checkboxes[]" value="1"> Piega</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="2"> Taglio</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="3"> Colore</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="4"> Mèche/Schiariture</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="5"> Permanente</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="6"> Stiratura</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="7"> Keratina</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="8"> Colori - Mèche</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="9"> Ricostruzione</label>
+                        <label><input type="checkbox" name="checkboxes[]" value="10"> Trattamento</label>
+                    </div>
                 </fieldset>
+
                 <fieldset>
                     <legend>Data Appuntamento</legend>
                     <label for="appointment_date">Data:</label>
                     <input type="text" id="appointment_date" name="appointment_date" autocomplete="off" required>
                 </fieldset>
+
                 <fieldset>
                     <legend>Orario Appuntamento</legend>
                     <label for="time_slot">Orario:</label>
@@ -455,6 +524,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
                         <option value="">-- Seleziona un orario --</option>
                     </select>
                 </fieldset>
+
                 <?php if ($utenteSelezionato): ?>
                     <button type="submit" name="prenotaAppuntamento">Prenota Appuntamento</button>
                 <?php else: ?>
