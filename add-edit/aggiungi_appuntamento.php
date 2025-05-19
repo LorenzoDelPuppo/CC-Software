@@ -194,6 +194,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
     }
 }
 ?>
+<?php include '.././view-get/barra.php'; ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -211,6 +212,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
             align-items: flex-start;
         }
         .col {
+         
             width: 48%;
             padding: 10px;
             box-sizing: border-box;
@@ -412,7 +414,6 @@ if (isset($_POST['prenotaAppuntamento'])) {
 </head>
 <body>
 <div class="container">
-    <h1>Prenotazione Appuntamento - Operatrice</h1>
     <div class="flex-container">
         <!-- Colonna Sinistra: Ricerca/Registrazione Utente -->
         <div class="col" id="col-user">
@@ -514,13 +515,11 @@ if (isset($_POST['prenotaAppuntamento'])) {
 
                 <fieldset>
                     <legend>Data Appuntamento</legend>
-                    <label for="appointment_date">Data:</label>
                     <input type="text" id="appointment_date" name="appointment_date" autocomplete="off" required>
                 </fieldset>
 
                 <fieldset>
                     <legend>Orario Appuntamento</legend>
-                    <label for="time_slot">Orario:</label>
                     <select id="time_slot" name="time_slot" required>
                         <option value="">-- Seleziona un orario --</option>
                     </select>

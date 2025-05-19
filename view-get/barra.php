@@ -1,4 +1,5 @@
 <link rel="stylesheet" href=".././style/barra_alta.css">
+<link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 <div class="top-bar">
 <script src="../CC-Software/js/menu_profilo.js"></script>
   <div class="left-section">
