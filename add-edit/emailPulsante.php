@@ -174,6 +174,7 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>

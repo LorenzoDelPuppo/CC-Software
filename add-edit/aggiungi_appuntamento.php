@@ -198,6 +198,7 @@ if (isset($_POST['prenotaAppuntamento'])) {
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
     <title>Prenotazione Appuntamento - Operatrice</title>
     <link rel="stylesheet" href=".././style/style_input.css">
     <link rel="stylesheet" href=".././style/style_prenota.css">

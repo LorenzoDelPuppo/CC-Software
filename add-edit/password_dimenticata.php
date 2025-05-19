@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <link rel="stylesheet" href="../style/style_input.css">
+<link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 
 <div class="logo-container">
     <a href="../view-get/menu.php">

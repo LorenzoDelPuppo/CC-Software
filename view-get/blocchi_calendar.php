@@ -9,6 +9,7 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fascia Oraria Appuntamenti</title>

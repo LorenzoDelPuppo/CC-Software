@@ -34,6 +34,7 @@ $conn->close();
 <html lang="it">
 <?php include '.././view-get/barra.php'; ?>
 <head>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <meta charset="UTF-8">
   <script src=".././js/menu_profilo.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -26,6 +26,7 @@ if (isset($_SESSION['email'])) {
 <html lang="it">
   
 <head>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <meta charset="UTF-8">
   <title>Menu</title>
   <script src=".././js/menu_profilo.js" defer></script>
