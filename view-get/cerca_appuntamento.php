@@ -47,10 +47,12 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <title>Cerca Appuntamento</title>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <?php include '.././view-get/barra.php'; ?>
   <script src=".././js/menu_profilo.js" defer></script>
   <link rel="stylesheet" href=".././style/barra_alta.css">
   <link rel="stylesheet" href=".././style/style_cercaAppuntamenti.css">
+  
 </head>
 <body>
 <div class="container">
