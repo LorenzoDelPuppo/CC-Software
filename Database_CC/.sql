@@ -84,7 +84,8 @@ CREATE TABLE IF NOT EXISTS magazzino(
     prod_id INT PRIMARY KEY AUTO_INCREMENT, 
     nome_p VARCHAR(50) NOT NULL,
     cod_p VARCHAR(50) NOT NULL,
-    QTA INT NOT NULL
+    QTA INT NOT NULL,
+    img_path VARCHAR(255) DEFAULT NULL
 );
 
 INSERT INTO serviceCC (nameS, timeTOT, freeTime, engageTime)
