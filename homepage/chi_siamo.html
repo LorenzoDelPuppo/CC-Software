@@ -9,14 +9,42 @@
 <body>
     <header class="header">
         <div class="logo">Che Capelli!</div>
-        <nav class="nav">
-            <a href="index.html">Home</a>
-            <a href="servizi.html">I Servizi</a>
-            <a href="chi_siamo.html" class="active">Chi Siamo</a>
-            <a href="galleria.html">Galleria</a>
-            <a href="contatti.html">Contatti</a>
-        </nav>
+        <button class="hamburger" id="hamburger">&#9776;</button>
     </header>
+
+    <!-- Menu slide-in -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <button class="close-btn" id="closeMenu">&times;</button>
+        <a href="home.html">Home</a>
+        <a href="servizi.html">Servizi</a>
+        <a href="chi_siamo.html" class="active">Chi Siamo</a>
+        <a href="galleria.html">Galleria</a>
+        <a href="contatti.html">Contatti</a>
+    </nav>
+
+
+    <!--Menu per smartphone-->
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const closeBtn = document.getElementById("closeMenu");
+        const links = document.querySelectorAll(".mobile-menu a");
+
+        hamburger.addEventListener("click", () => {
+            mobileMenu.classList.add("open");
+        });
+
+        closeBtn.addEventListener("click", () => {
+            mobileMenu.classList.remove("open");
+        });
+
+        links.forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+            });
+        });
+    </script>
+
 
     <main class="main-content">
         <section class="intro-section">
@@ -69,6 +97,7 @@
         </section>
     </main>
 
+    
     <footer class="footer">
         <p>© 2025 Che Capelli! - Salone di Parrucchieri a Sarone</p>
     </footer>

@@ -163,3 +163,160 @@ body {
     border-top: 1px solid #ddd3ca;
     margin-top: 70px;
 }
+
+.nav a.active,
+.mobile-menu a.active {
+    border-bottom: 2px solid #b3a68c; /* colore in palette */
+    color: #5a5147;
+    padding-bottom: 4px;
+}
+
+.hamburger {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: #8c7f72;
+    cursor: pointer;
+}
+
+.hamburger {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: #8c7f72;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100%;
+    background-color: #faf8f6;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+}
+
+.mobile-menu.open {
+    right: 0;
+}
+
+.mobile-menu a {
+    text-decoration: none;
+    color: #5a5147;
+    font-size: 18px;
+    padding: 12px 0;
+    font-weight: 500;
+    border-bottom: 1px solid #e0dad1;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: #5a5147;
+    cursor: pointer;
+}
+
+/* Tablet (max-width: 991px) */
+@media screen and (max-width: 991px) {
+    .intro-images {
+        flex-direction: column;
+    }
+
+    .intro-images img {
+        width: 100%;
+    }
+
+    .team-members {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .member {
+        max-width: 300px;
+    }
+
+    .main-content {
+        padding: 0 30px;
+    }
+
+    .nav a {
+        margin-left: 15px;
+    }
+}
+
+/* Smartphone (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav {
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .intro-section h1 {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .about-text h2,
+    .team-section h2,
+    .mission-section h2 {
+        font-size: 22px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 14px 0;
+    }
+
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .nav.show {
+        display: flex;
+    }
+
+    .nav a {
+        margin-left: 0;
+        font-size: 16px;
+        padding: 10px;
+        background-color: #f4f1ed;
+        border-bottom: 1px solid #ddd3ca;
+    }
+
+}
