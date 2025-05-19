@@ -4,19 +4,38 @@ if (!isset($_GET['date'])) {
 }
 
 $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
+
+// Colori definiti per ogni servizio
+$serviceColors = [
+    'Piega'               => '#e74c3c', // rosso
+    'Taglio'              => '#3498db', // blu
+    'Colore'              => '#2ecc71', // verde
+    'Mèche - Schiariture' => '#f1c40f', // giallo
+    'Permanente'          => '#9b59b6', // viola
+    'Stiratura'           => '#1abc9c', // turchese
+    'Keratina'            => '#e84393', // rosa acceso
+    'Colori - Mèche'      => '#34495e', // blu scuro/grigio
+    'Ricostruzione'       => '#e67e22', // arancione
+    'Trattamento'         => '#7f8c8d'  // grigio
+];
 ?>
 
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Fascia Oraria Appuntamenti</title>
     <script src="../js/menu_profilo.js" defer></script>
-    <link rel="stylesheet" href="../style/barra_alta.css">
+    <link rel="stylesheet" href="../style/barra_alta.css" />
 
     <style>
+        body {
+            margin: 0;
+            padding-right: 180px; /* spazio per la legenda */
+            font-family: Arial, sans-serif;
+        }
+
         #calendar-container {
             width: 100%;
             max-width: 1200px;
@@ -53,6 +72,7 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
             position: relative;
             flex-grow: 1;
             background-color: #fdfdfd;
+            min-height: calc(12 * 4 * 31px); /* 12 ore * 4 slot per ora * 31px altezza */
         }
 
         #calendar-grid .time-slot {
@@ -63,15 +83,72 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
         .appointment {
             position: absolute;
             box-sizing: border-box;
-            padding: 5px;
+            padding: 5px 5px 5px 8px;
             margin: 0;
             font-size: 12px;
             color: white;
             border-radius: 5px;
-            background-color: rgba(50, 205, 50, 0.9);
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            background-color: #333; /* fallback */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-weight: bold;
+        }
+
+        /* Pallini colorati per servizi */
+        .service-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid #fff;
+            margin-right: 4px;
+        }
+
+        /* Contenitore per pallini colorati */
+        .dots-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        /* Legenda fissa a destra */
+        #service-legend {
+            position: fixed;
+            top: 80px;
+            right: 10px;
+            width: 160px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        #service-legend h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            border: 1px solid #999;
         }
     </style>
 </head>
@@ -108,39 +185,51 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
     </div>
 </div>
 
+<!-- Legenda fissa a destra -->
+<div id="service-legend">
+    <h3>Legenda Servizi</h3>
+    <?php foreach ($serviceColors as $serviceName => $color): ?>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: <?php echo htmlspecialchars($color); ?>;"></div>
+            <div><?php echo htmlspecialchars($serviceName); ?></div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let selectedDate = "<?php echo $date; ?>";
 
         fetch(`../view-get/getAppointments.php?date=${selectedDate}`)
             .then(response => response.json())
             .then(data => {
-                console.log("📦 Appuntamenti ricevuti:", data);
                 if (!data.error) {
                     renderAppointments(data);
                 } else {
                     alert("Errore nel caricamento degli appuntamenti: " + data.error);
                 }
             })
-            .catch(error => console.error("❌ Errore nel caricamento degli appuntamenti:", error));
+            .catch(error => console.error("Errore nel caricamento degli appuntamenti:", error));
     });
 
     function getTimePosition(time) {
         let [hours, minutes] = time.split(":").map(Number);
-        let totalMinutes = (hours * 60) + minutes;
-        const gridStartMinutes = 480; // 08:00
+        let totalMinutes = hours * 60 + minutes;
+        const gridStartMinutes = 8 * 60; // 08:00
         let diffMinutes = totalMinutes - gridStartMinutes;
         return (diffMinutes / 15) * 31;
     }
 
     function renderAppointments(appointments) {
         const container = document.getElementById("calendar-grid");
-
         if (!Array.isArray(appointments) || appointments.length === 0) {
-            console.warn("⚠️ Nessun appuntamento disponibile o dati malformati");
+            console.warn("Nessun appuntamento disponibile o dati malformati");
             return;
         }
 
+        const serviceColors = <?php echo json_encode($serviceColors); ?>;
+
+        // Raggruppa appuntamenti per orario
         const groupedByTime = {};
         appointments.forEach(appt => {
             const time = appt.startTime.substring(0, 5);
@@ -160,17 +249,47 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
 
                 const appointmentDiv = document.createElement("div");
                 appointmentDiv.classList.add("appointment");
-
                 appointmentDiv.style.top = `${position}px`;
                 appointmentDiv.style.left = `${indexInGroup * appointmentWidth}px`;
                 appointmentDiv.style.width = `${appointmentWidth - 5}px`;
                 appointmentDiv.style.height = `${(duration / 15) * 31}px`;
 
-                const services = Array.isArray(appt.services)
-                    ? appt.services.map(s => s.name).join(", ")
-                    : "Servizi non disponibili";
+                // Inserisco testo cliente + servizi
+                const clientSpan = document.createElement("span");
+                clientSpan.textContent = appt.customer;
+                clientSpan.style.whiteSpace = "nowrap";
+                appointmentDiv.appendChild(clientSpan);
 
-                appointmentDiv.innerHTML = `<strong>${appt.customer}</strong><br>${services}`;
+                const servicesSpan = document.createElement("span");
+                if (Array.isArray(appt.services) && appt.services.length > 0) {
+                    servicesSpan.textContent = appt.services.map(s => s.name).join(", ");
+                } else {
+                    servicesSpan.textContent = "Servizi non disponibili";
+                }
+                servicesSpan.style.fontSize = "10px";
+                servicesSpan.style.whiteSpace = "normal";
+                appointmentDiv.appendChild(servicesSpan);
+
+                // Contenitore pallini
+                const dotsContainer = document.createElement("div");
+                dotsContainer.classList.add("dots-container");
+
+                if (Array.isArray(appt.services) && appt.services.length > 0) {
+                    appt.services.forEach(service => {
+                        const dot = document.createElement("span");
+                        dot.classList.add("service-dot");
+                        dot.style.backgroundColor = serviceColors[service.name] || "#777";
+                        dotsContainer.appendChild(dot);
+                    });
+                } else {
+                    const dot = document.createElement("span");
+                    dot.classList.add("service-dot");
+                    dot.style.backgroundColor = "#777";
+                    dotsContainer.appendChild(dot);
+                }
+
+                appointmentDiv.appendChild(dotsContainer);
+
                 container.appendChild(appointmentDiv);
             });
         });
@@ -179,3 +298,4 @@ $date = $_GET['date']; // Data selezionata nel formato YYYY-MM-DD
 
 </body>
 </html>
+

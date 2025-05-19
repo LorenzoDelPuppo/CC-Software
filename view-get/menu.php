@@ -26,7 +26,6 @@ if (isset($_SESSION['email'])) {
 <html lang="it">
   
 <head>
-  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <meta charset="UTF-8">
   <title>Menu</title>
   <script src=".././js/menu_profilo.js" defer></script>
@@ -48,7 +47,7 @@ if (isset($_SESSION['email'])) {
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_utente.php'">Aggiungi Utente</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_appuntamento.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='.././view-get/miei_appuntamenti.php'">Miei Appuntamenti</button>
-    <button class="menu-button" onclick="window.location.href='../home.html'">Sito Web</button>
+    <button class="menu-button" onclick="window.location.href='home.php'">Sito Web</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/login.php'">Login</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/index.php'">Registrati</button>
     
@@ -71,7 +70,7 @@ if (isset($_SESSION['email'])) {
     
   <?php else: ?>
     <h1>Menu Ospite</h1>
-    <button class="menu-button" onclick="window.location.href='../home.html'">Home</button>
+    <button class="menu-button" onclick="window.location.href='home.php'">Home</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/login.php'">Login</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/index.php'">Registrati</button>
   <?php endif; ?>

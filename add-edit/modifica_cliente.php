@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
     <meta charset="UTF-8">
     <script src=".././js/menu_profilo.js" defer></script>
     <link rel="stylesheet" href=".././style/barra_alta.css">

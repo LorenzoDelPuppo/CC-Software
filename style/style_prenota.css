@@ -241,6 +241,18 @@ p {
   margin-top: 10px;
 }
 
+/* Hover sui giorni - Aggiusta l'area e la forma */
+.ui-datepicker .ui-state-default:hover {
+  background-color: #e0f2ff; /* Colore hover più chiaro */
+  cursor: pointer;
+  border-radius: 100%; /* Forma arrotondata */
+  width: 50px; /* Dimensione più piccola dell'area hover */
+  height: 30px; /* Dimensione più piccola dell'area hover */
+  text-align: center; /* Allineamento al centro del testo */
+  padding: 0; /* Rimuove il padding per evitare che l'area sia troppo grande */
+}
+
+
 /* Pulsanti di navigazione per il calendario */
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
