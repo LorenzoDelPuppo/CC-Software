@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
+<link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 <link rel="stylesheet" href="../style/style_input.css">
 
 <div class="logo-container">
