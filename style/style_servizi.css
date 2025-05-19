@@ -4,13 +4,14 @@
     margin: 0;
     padding: 0;
     font-family: 'Georgia', serif;
-    color: #5a4d4a;
+    color: #5a5147;
 }
 
 /* Body and background */
 body {
     background-color: #f7f5f2;
     line-height: 1.6;
+    font-size: 16px;
 }
 
 /* Header */
