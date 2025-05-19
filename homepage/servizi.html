@@ -3,20 +3,49 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Servizi - Glamour Locks</title>
+    <title>Servizi</title>
     <link rel="stylesheet" href="../style/style_servizi.css" />
 </head>
 <body>
     <header class="header">
-        <div class="logo">Glamour Locks</div>
-        <nav class="nav">
-            <a href="home.html">Home</a>
-            <a href="servizi.html" class="active">Servizi</a>
-            <a href="chi_siamo.html">Chi Siamo</a>
-            <a href="galleria.html">Galleria</a>
-            <a href=" ">Contatti</a>
-        </nav>
-    </header>
+       <div class="logo">Che Capelli!</div>
+       <button class="hamburger" id="hamburger">&#9776;</button>
+   </header>
+
+   <!-- Menu slide-in -->
+   <nav class="mobile-menu" id="mobileMenu">
+       <button class="close-btn" id="closeMenu">&times;</button>
+       <a href="home.html">Home</a>
+       <a href="servizi.html" class="active">Servizi</a>
+       <a href="chi_siamo.html">Chi Siamo</a>
+       <a href="galleria.html">Galleria</a>
+       <a href="contatti.html">Contatti</a>
+   </nav>
+
+   <!--Menu per smartphone-->
+   <script>
+       const hamburger = document.getElementById("hamburger");
+       const mobileMenu = document.getElementById("mobileMenu");
+       const closeBtn = document.getElementById("closeMenu");
+       const links = document.querySelectorAll(".mobile-menu a");
+
+
+       hamburger.addEventListener("click", () => {
+           mobileMenu.classList.add("open");
+       });
+
+
+       closeBtn.addEventListener("click", () => {
+           mobileMenu.classList.remove("open");
+       });
+
+
+       links.forEach(link => {
+           link.addEventListener("click", () => {
+               mobileMenu.classList.remove("open");
+           });
+       });
+   </script>
 
     <main class="main-content">
         <section class="intro-section">

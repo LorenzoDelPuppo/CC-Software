@@ -197,129 +197,104 @@ body {
 }
 /* Large desktops (default styles above) */
 
-/* Desktop piccoli / Laptop */
-@media (max-width: 1200px) {
-    .main-content {
-        max-width: 700px;
-        margin: 2rem auto;
-    }
-
-    .services-list {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .header {
-        padding: 1rem 2rem;
-    }
-
-    .nav a {
-        margin-left: 1.2rem;
-        font-size: 0.85rem;
-    }
+/* Voce attiva in nav */
+.nav a.active,
+.mobile-menu a.active {
+  border-bottom: 2px solid #b3a68c;
+  color: #5a5147;
+  padding-bottom: 4px;
 }
 
-/* Tablet (portrait e landscape) */
-@media (max-width: 900px) {
-    .main-content {
-        max-width: 600px;
-        margin: 1.5rem auto;
-        padding: 0 1.5rem;
-    }
-
-    .services-list {
-        grid-template-columns: 1fr 1fr;
-        gap: 1.2rem;
-    }
-
-    .expertise-cards {
-        flex-direction: column;
-        gap: 1.5rem;
-        align-items: center;
-    }
-
-    .expertise-card {
-        max-width: 90%;
-    }
-
-    .intro-section h1 {
-        font-size: 2.2rem;
-    }
-
-    .header {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-        padding: 1rem 1rem;
-    }
-
-    .nav {
-        width: 100%;
-        text-align: center;
-    }
-
-    .nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-    }
+/* Hamburger menu (nascosto di default, visibile solo su mobile) */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: #8c7f72;
+  cursor: pointer;
 }
 
-/* Smartphone landscape (e.g. iPhone 6/7/8 Plus) */
-@media (max-width: 600px) {
-    .services-list {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .expertise-cards {
-        gap: 1rem;
-    }
-
-    .intro-section h1 {
-        font-size: 1.9rem;
-    }
-
-    .intro-section p {
-        font-size: 1rem;
-    }
-
-    .btn-book {
-        padding: 0.7rem 2rem;
-        font-size: 0.9rem;
-    }
+/* Mobile menu (nascosto inizialmente, scorre da destra) */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background-color: #faf8f6;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
 }
 
-/* Smartphone portrait (tutti i telefoni) */
-@media (max-width: 400px) {
-    .header {
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem 0.8rem;
-    }
-
-    .logo {
-        margin-bottom: 0.5rem;
-    }
-
-    .nav a {
-        margin: 0 0.6rem;
-        font-size: 0.85rem;
-    }
-
-    .intro-section h1 {
-        font-size: 1.6rem;
-    }
-
-    .intro-section p {
-        font-size: 0.95rem;
-    }
-
-    .service-card img {
-        height: 140px;
-    }
-
-    .btn-book {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.85rem;
-    }
+.mobile-menu.open {
+  right: 0;
 }
+
+.mobile-menu a {
+  text-decoration: none;
+  color: #5a5147;
+  font-size: 18px;
+  padding: 12px 0;
+  font-weight: 500;
+  border-bottom: 1px solid #e0dad1;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: #5a5147;
+  cursor: pointer;
+}
+
+/* Smartphone e tablet - max-width: 768px */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .desktop-menu {
+    display: none;
+  }
+
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .intro-section h1 {
+    font-size: 2rem;
+  }
+
+  .nav {
+    display: none;
+  }
+}
+
+/* Desktop (min-width: 769px) */
+@media (min-width: 769px) {
+  .desktop-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .hamburger {
+    display: none;
+  }
+}
+
