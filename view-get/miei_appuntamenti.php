@@ -33,13 +33,28 @@ if ($stmt = $conn->prepare($query)) {
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<script src=".././js/menu_profilo.js" defer></script>
-<link rel="stylesheet" href=".././style/style_miei_appuntamenti.css">
+    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
+
+    <script src=".././js/menu_profilo.js" defer></script>
+    <link rel="stylesheet" href=".././style/style_miei_appuntamenti.css">
     <meta charset="UTF-8">
     <title>I miei Appuntamenti</title>
 </head>
 
-<?php include '.././view-get/barra.php'; ?>
+<?php include '.././view-get/barra.php'?>
+<style>
+.user-menu {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+}
+
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+}
+</style>
+
 <body>
     <h1>I miei Appuntamenti</h1>
     <?php if ($result->num_rows > 0): ?>
