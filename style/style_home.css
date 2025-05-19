@@ -1,0 +1,467 @@
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f9f7f4;
+  color: #6f6359;
+  line-height: 1.6;
+}
+a {
+  text-decoration: none;
+  color: #a69f96;
+}
+header {
+  background: white;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  font-family: 'Playfair Display', serif;
+}
+header .logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #a69f96;
+  letter-spacing: 2px;
+}
+nav a {
+  margin-left: 2rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #a69f96;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #8a7e74;
+}
+
+/* Hero immagini */
+.hero-images {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 2rem 2rem 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+.hero-images img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  flex: 1;
+  max-height: 280px;
+}
+
+/* Hero text */
+.hero-text {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  margin: 3rem auto 2rem;
+  max-width: 600px;
+}
+.hero-text small {
+  letter-spacing: 4px;
+  color: #b7aca1;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+.hero-text h1 {
+  font-weight: 400;
+  font-size: 2.6rem;
+  margin: 1rem 0 1.5rem;
+  color: #6f6359;
+}
+.hero-text button {
+  background-color: #b7aca1;
+  border: none;
+  padding: 0.7rem 2rem;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+.hero-text button:hover {
+  background-color: #9d9287;
+}
+
+/* Section about */
+.about-section {
+  display: flex;
+  max-width: 900px;
+  margin: 4rem auto;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+.about-image {
+  flex: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  max-height: 300px;
+}
+.about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.about-text {
+  flex: 1;
+  background-color: #e9e3db;
+  padding: 2rem;
+  border-radius: 5px;
+  font-family: 'Playfair Display', serif;
+  color: #6f6359;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.about-text h2 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+.about-text p {
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.about-text button {
+  align-self: start;
+  background-color: #b7aca1;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+.about-text button:hover {
+  background-color: #9d9287;
+}
+
+/* Services Section */
+.services-section {
+  max-width: 900px;
+  margin: 4rem auto 3rem;
+  text-align: center;
+  padding: 0 2rem;
+  font-family: 'Playfair Display', serif;
+}
+.services-section h3 {
+  font-weight: 400;
+  color: #a69f96;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  letter-spacing: 2px;
+}
+.services-section h2 {
+  font-weight: 300;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #6f6359;
+}
+.services-section p {
+  font-weight: 300;
+  font-size: 1rem;
+  margin-bottom: 3rem;
+  color: #7c746b;
+}
+
+/* Service cards */
+.service-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+.service-card {
+  flex: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  max-width: 280px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+}
+.service-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.service-card .label {
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(183,172,161,0.8);
+  width: 100%;
+  padding: 0.8rem 0;
+  color: white;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* Expertise section */
+.expertise-section {
+  max-width: 900px;
+  margin: 0 auto 4rem auto;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #6f6359;
+}
+
+.expertise-section p {
+  font-weight: 300;
+  font-size: 1rem;
+  margin-bottom: 3rem;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #7c746b;
+}
+.expertise-cards {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.expertise-card {
+  flex: 1;
+  min-width: 230px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.expertise-card svg {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1rem;
+  stroke: #b7aca1;
+  stroke-width: 1.5;
+  fill: none;
+}
+.expertise-card h4 {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #a69f96;
+}
+.expertise-card p {
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: #7c746b;
+}
+
+/* Button booking */
+.book-button {
+  background-color: #b7aca1;
+  color: white;
+  font-weight: 600;
+  padding: 0.7rem 2rem;
+  border: none;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 3rem;
+  transition: background-color 0.3s;
+  display: inline-block; /* per farlo comportare come contenuto inline centrabile */
+  margin-top: 3rem;
+}
+.book-button:hover {
+  background-color: #9d9287;
+}
+
+/* Testimonials section */
+.testimonial-section {
+  max-width: 900px;
+  margin: 4rem auto 5rem;
+  padding: 0 2rem;
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: #6f6359;
+}
+.testimonial-text {
+  flex: 1;
+  max-width: 420px;
+}
+.testimonial-text small {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #b7aca1;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.testimonial-text p {
+  font-weight: 300;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+.testimonial-text cite {
+  font-weight: 600;
+  font-style: normal;
+  color: #a69f96;
+}
+.testimonial-image {
+  flex: 1;
+  max-width: 300px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  max-height: 320px;
+}
+.testimonial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .about-section {
+    flex-direction: column;
+  }
+  .service-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .expertise-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .testimonial-section {
+    flex-direction: column;
+  }
+}
+
+/* Miglioramenti per smartphone */
+@media (max-width: 600px) {
+  body {
+    padding: 0 1rem;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  nav {
+    margin-top: 0.5rem;
+  }
+  nav a {
+    margin: 0 0.5rem 0.5rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .hero-images {
+    flex-direction: column;
+    padding: 1rem 0;
+    max-width: 100%;
+  }
+  .hero-images img {
+    max-height: 200px;
+    border-radius: 8px;
+  }
+
+  .hero-text {
+    max-width: 90%;
+    margin: 2rem auto;
+    text-align: center;
+  }
+  .hero-text h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  .hero-text button {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .about-section {
+    flex-direction: column;
+    padding: 0;
+    max-width: 100%;
+    margin: 2rem auto;
+  }
+  .about-image,
+  .about-text {
+    max-width: 100%;
+    flex: none;
+  }
+  .about-image img {
+    max-height: 250px;
+    border-radius: 8px;
+  }
+  .about-text {
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+  }
+  .about-text h2 {
+    font-size: 1.5rem;
+  }
+  .about-text p {
+    font-size: 0.95rem;
+  }
+  .about-text button {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .services-section,
+  .expertise-section,
+  .testimonial-section {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  .service-cards {
+    flex-direction: column;
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+  .service-card {
+    max-width: 100%;
+  }
+
+  .expertise-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .expertise-card {
+    max-width: 90%;
+    margin-bottom: 1.5rem;
+  }
+
+  .testimonial-section {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  .testimonial-text, .testimonial-image {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  .testimonial-image img {
+    border-radius: 8px;
+  }
+}
