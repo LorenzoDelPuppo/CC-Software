@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 // Se l'utente è già loggato, lo mando alla dashboard
 if (isset($_SESSION['email'])) {
-    header("Location: ../view-get/dashboard.php");
+    header("Location: ../view-get/menu.php");
     exit();
 }
 
