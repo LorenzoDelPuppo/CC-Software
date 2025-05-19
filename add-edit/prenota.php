@@ -181,7 +181,9 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <?php include '.././view-get/barra.php'; ?>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 
   </div>
 </div>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galleria Look - Che Capelli!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style/style_galleria.css" />
+  <style>
+    /* --- STILE MODALE (AGGIUNTO) --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal.open {
+      display: flex;
+    }
+    .modal-content {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 0 20px black;
+      animation: zoomIn 0.3s ease;
+    }
+    @keyframes zoomIn {
+      from {transform: scale(0.7);}
+      to {transform: scale(1);}
+    }
+    .close-btn {
+      position: fixed;
+      top: 25px;
+      right: 35px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      z-index: 2010;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Che Capelli!</div>
+    <nav class="nav desktop-menu">
+      <a href="home.html">Home</a>
+      <a href="servizi.html">Servizi</a>
+      <a href="chi_siamo.html">Chi Siamo</a>
+      <a href="galleria.html" class="active">Galleria</a>
+      <a href="contatti.html">Contatti</a>
+    </nav>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </header>
+
+  <nav class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenu">&times;</button>
+    <a href="home.html">Home</a>
+    <a href="servizi.html">Servizi</a>
+    <a href="chi_siamo.html">Chi Siamo</a>
+    <a href="galleria.html" class="active">Galleria</a>
+    <a href="contatti.html">Contatti</a>
+  </nav>
+
+  <main class="main-content">
+    <section class="gallery-intro">
+      <h1>I Nostri Look</h1>
+      <p>Scopri alcuni dei nostri migliori lavori: tagli, colori e styling realizzati con cura e passione.</p>
+    </section>
+
+    <section class="gallery-grid">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Look 1" />
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80" alt="Look 2" />
+      <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=600&q=80" alt="Look 3" />
+      <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&q=80" alt="Look 4" />
+      <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=600&q=80" alt="Look 5" />
+      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80" alt="Look 6" />
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Che Capelli! Tutti i diritti riservati.</p>
+  </footer>
+
+  <!-- MODALE PER IMMAGINE -->
+  <div id="modal" class="modal">
+    <span id="closeModal" class="close-btn">&times;</span>
+    <img id="modalImage" class="modal-content" alt=""/>
+  </div>
+
+  <script>
+    // MENU MOBILE
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const closeBtn = document.getElementById("closeMenu");
+    const links = document.querySelectorAll(".mobile-menu a");
+
+    hamburger.addEventListener("click", () => {
+      mobileMenu.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
+    });
+
+    links.forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+      });
+    });
+
+    // MODALE IMMAGINE
+    const modal = document.getElementById("modal");
+    const modalImage = document.getElementById("modalImage");
+    const closeModal = document.getElementById("closeModal");
+
+    document.querySelectorAll('.gallery-grid img').forEach(img => {
+      img.addEventListener('click', () => {
+        modalImage.src = img.src;
+        modalImage.alt = img.alt;
+        modal.classList.add('open');
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('open');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal){
+        modal.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -75,9 +75,6 @@ ob_end_flush();
   <title>Aggiungi Utente</title>
   <link rel="stylesheet" href=".././style/style_input.css">
   <?php include '.././view-get/barra.php'; ?>
-  <div class="logo-container">
-    <a href=".././view-get/menu.php">
-      <img src=".././style/rullino/logo.png" alt="Logo" class="logo" />
     </a>
   </div>
 </head>

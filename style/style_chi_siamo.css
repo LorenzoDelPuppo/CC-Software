@@ -14,12 +14,12 @@ body {
 }
 
 .header {
-    background-color: #f4f1ed;
+    background-color: #fff;
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ddd3ca;
+    border-bottom: 1px solid #ded5ce;
 }
 
 .logo {
