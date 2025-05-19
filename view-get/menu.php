@@ -29,6 +29,7 @@ if (isset($_SESSION['email'])) {
   <meta charset="UTF-8">
   <title>Menu</title>
   <script src=".././js/menu_profilo.js" defer></script>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <link rel="stylesheet" href=".././style/style_menu.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

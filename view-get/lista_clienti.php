@@ -29,6 +29,7 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista Clienti</title>
     <link rel="stylesheet" href="../style/style_clienti.css">
+    <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
