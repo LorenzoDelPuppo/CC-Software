@@ -1,17 +1,16 @@
-
 CREATE DATABASE IF NOT EXISTS u482179263_checapelli;
 USE u482179263_checapelli;
 
--- Tabella dati clienti
+-- Tabella dati clientiu482179263_checapelliu482179263_checapelli
 CREATE TABLE IF NOT EXISTS Customer (
 
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
     fName VARCHAR(50) NOT NULL,
     lName VARCHAR(50) NOT NULL,
-    hair ENUM ('long', 'short') NOT NULL,
+    hair ENUM ('lunghi', 'corti') NOT NULL,
     phoneN VARCHAR(15),
     password VARCHAR(255),
-    gender ENUM ('men', 'women','other') NOT NULL,
+    gender ENUM ('maschio', 'femmina') NOT NULL,
     preference ENUM ('Barbara', 'Giulia','Casuale') DEFAULT 'Casuale',
     email VARCHAR(254),
     wants_notification TINYINT(1) NOT NULL DEFAULT 1,
@@ -85,7 +84,8 @@ CREATE TABLE IF NOT EXISTS magazzino(
     prod_id INT PRIMARY KEY AUTO_INCREMENT, 
     nome_p VARCHAR(50) NOT NULL,
     cod_p VARCHAR(50) NOT NULL,
-    QTA INT NOT NULL
+    QTA INT NOT NULL,
+    img_path VARCHAR(255) DEFAULT NULL
 );
 
 INSERT INTO serviceCC (nameS, timeTOT, freeTime, engageTime)
