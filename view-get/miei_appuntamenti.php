@@ -34,6 +34,7 @@ if ($stmt = $conn->prepare($query)) {
 <html lang="it">
 <head>
 <script src=".././js/menu_profilo.js" defer></script>
+<link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 <link rel="stylesheet" href=".././style/style_miei_appuntamenti.css">
     <meta charset="UTF-8">
     <title>I miei Appuntamenti</title>

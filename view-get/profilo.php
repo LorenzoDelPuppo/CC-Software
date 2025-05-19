@@ -36,6 +36,7 @@ $conn->close();
 <head>
   <meta charset="UTF-8">
   <script src=".././js/menu_profilo.js" defer></script>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href=".././style/style_profilo.css">
   <title>Profilo Cliente</title>
