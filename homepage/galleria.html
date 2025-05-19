@@ -6,6 +6,43 @@
   <title>Galleria Look - Che Capelli!</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style/style_galleria.css" />
+  <style>
+    /* --- STILE MODALE (AGGIUNTO) --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal.open {
+      display: flex;
+    }
+    .modal-content {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 0 20px black;
+      animation: zoomIn 0.3s ease;
+    }
+    @keyframes zoomIn {
+      from {transform: scale(0.7);}
+      to {transform: scale(1);}
+    }
+    .close-btn {
+      position: fixed;
+      top: 25px;
+      right: 35px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      z-index: 2010;
+    }
+  </style>
 </head>
 <body>
   <header class="header">
@@ -49,7 +86,14 @@
     <p>&copy; 2025 Che Capelli! Tutti i diritti riservati.</p>
   </footer>
 
+  <!-- MODALE PER IMMAGINE -->
+  <div id="modal" class="modal">
+    <span id="closeModal" class="close-btn">&times;</span>
+    <img id="modalImage" class="modal-content" alt=""/>
+  </div>
+
   <script>
+    // MENU MOBILE
     const hamburger = document.getElementById("hamburger");
     const mobileMenu = document.getElementById("mobileMenu");
     const closeBtn = document.getElementById("closeMenu");
@@ -67,6 +111,29 @@
       link.addEventListener("click", () => {
         mobileMenu.classList.remove("open");
       });
+    });
+
+    // MODALE IMMAGINE
+    const modal = document.getElementById("modal");
+    const modalImage = document.getElementById("modalImage");
+    const closeModal = document.getElementById("closeModal");
+
+    document.querySelectorAll('.gallery-grid img').forEach(img => {
+      img.addEventListener('click', () => {
+        modalImage.src = img.src;
+        modalImage.alt = img.alt;
+        modal.classList.add('open');
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('open');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal){
+        modal.classList.remove('open');
+      }
     });
   </script>
 </body>

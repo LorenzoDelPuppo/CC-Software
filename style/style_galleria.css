@@ -129,6 +129,63 @@ body {
   border-top: 1px solid #ded5ce;
 }
 
+/* Stile modale fullscreen */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.85);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #000;
+  animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+  from {transform: scale(0.7);}
+  to {transform: scale(1);}
+}
+
+.close {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.close:hover {
+  color: #b3a68c;
+}
+
+.caption {
+  margin: auto;
+  display: block;
+  width: 90vw;
+  max-width: 700px;
+  text-align: center;
+  color: #ddd;
+  padding: 10px 0 30px 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+}
+
 /* Responsive nav */
 @media screen and (max-width: 768px) {
   .hamburger {
