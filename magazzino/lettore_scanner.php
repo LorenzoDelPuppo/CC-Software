@@ -28,7 +28,9 @@ if (!isset($_SESSION['customer_id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="it">
+  <?php include '.././view-get/barra.php'; ?>
 <head>
+  <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
   <meta charset="UTF-8">
   <title>Lettore Codici a Barre</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>

@@ -48,6 +48,7 @@ if (isset($_SESSION['email'])) {
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_utente.php'">Aggiungi Utente</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_appuntamento.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='.././view-get/miei_appuntamenti.php'">Miei Appuntamenti</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/menu_magazzino.php'">Magazzino</button>
     <button class="menu-button" onclick="window.location.href='.././homepage/home.html'">Sito Web</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/login.php'">Login</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/index.php'">Registrati</button>
@@ -63,6 +64,7 @@ if (isset($_SESSION['email'])) {
     <button class="menu-button" onclick="window.location.href='.././view-get/calendario.php'">Calendario</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/prenota.php'">Aggiungi Appuntamento</button>
     <button class="menu-button" onclick="window.location.href='.././add-edit/aggiungi_utente.php'">Aggiungi Utente</button>
+    <button class="menu-button" onclick="window.location.href='.././view-get/menu_magazzino.php'">Magazzino</button>
     
   <?php elseif ($userType === "cliente"): ?>
     <h1>Menu Cliente</h1>

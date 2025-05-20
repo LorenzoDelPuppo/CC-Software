@@ -125,6 +125,8 @@ $result = $conn->query($sql);
 <html lang="it">
 <head>
 <meta charset="UTF-8" />
+<?php include '.././view-get/barra.php'; ?>
+<link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 <title>Magazzino - Gestione Prodotti con Immagini</title>
 <style>
     body { font-family: Arial, sans-serif; margin: 40px; background:#fafafa; }
