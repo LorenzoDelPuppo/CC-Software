@@ -4,20 +4,17 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center; /* Centra il form verticalmente */
-    align-items: center;
-    margin: 0;
     background-image: url('.././style/rullino/vetrina.jpg'); /* Immagine di sfondo */
     background-size: cover;  
     background-position: center; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 
     width: 100vw; 
-    height: 100vh; 
-    padding-top: 40px; 
 }
 
 /* Contenitore logo */
 .logo-container {
+    top: 20px;
     display: block;
     margin: 0 auto;
     width: 80%;
@@ -43,6 +40,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 50px;
 }
 
 /* Titolo */
@@ -125,7 +123,8 @@ button:hover {
 }
 
 .form-container {
-    width: 350px;
+    width: 350px; /* Imposta la larghezza desiderata per il contenitore */
+    margin: 0 auto; /* Centra orizzontalmente */
     padding: 25px;
     background: white;
     border-radius: 10px;
@@ -134,7 +133,11 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    top: 50%;
+     margin-top: 50px;
 }
+
+
 
 .form-container input,
 .form-container select  {
