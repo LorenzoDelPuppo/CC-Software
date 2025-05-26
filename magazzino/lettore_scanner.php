@@ -34,6 +34,7 @@ if (!isset($_SESSION['customer_id'])) {
   <meta charset="UTF-8">
   <title>Lettore Codici a Barre</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+  <script src=".././js/menu_profilo.js"></script>
   <style>
     #scanner-container { width: 100%; max-width: 640px; height: 480px; margin: auto; background: #000; }
     #barcode-result { font-size: 1.5em; text-align: center; margin-top: 20px; color: green; }

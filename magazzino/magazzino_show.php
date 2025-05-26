@@ -126,8 +126,9 @@ $result = $conn->query($sql);
 <head>
 <meta charset="UTF-8" />
 <?php include '.././view-get/barra.php'; ?>
+<script src=".././js/menu_profilo.js"></script>
 <link rel="icon" href=".././style/rullino/icon.png" type="image/png">
-<title>Magazzino - Gestione Prodotti con Immagini</title>
+<title>Gestione Prodotti</title>
 <style>
     body { font-family: Arial, sans-serif; margin: 40px; background:#fafafa; }
     h1 { text-align:center; margin-bottom:30px; }
@@ -270,8 +271,6 @@ endif; ?>
         <?php endif; ?>
     </tbody>
 </table>
-
-<a href="../add-edit/logout.php" class="logout-link">Logout</a>
 
 </body>
 </html>
