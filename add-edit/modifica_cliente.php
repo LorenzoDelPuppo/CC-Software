@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 ?>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it"> 
 <head>
     <meta charset="UTF-8">
     <script src=".././js/menu_profilo.js" defer></script>
