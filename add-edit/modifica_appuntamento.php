@@ -140,9 +140,8 @@ ob_end_flush();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modifica Appuntamento</title>
-  <link rel="stylesheet" href="style/prenota.css">
+  <link rel="stylesheet" href=".././style/style_prenota.css">
   <script src=".././js/menu_profilo.js" defer></script>
-    <link rel="stylesheet" href=".././style/barra_alta.css">
   <!-- Includo jQuery e jQuery UI per il Datepicker -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -242,7 +241,8 @@ ob_end_flush();
   </script>
 </head>
 <body>
-<div class="form-container">
+<div class="prenota-container">
+<div class="container">
   <h1>Modifica Appuntamento</h1>
   <?php if (!empty($success)) echo "<p class='success'>$success</p>"; ?>
   <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
@@ -279,6 +279,7 @@ ob_end_flush();
       <button type="submit" id="submitButton" disabled>Aggiorna Appuntamento</button>
     </div>
   </form>
+</div>
 </div>
 </body>
 </html>

@@ -80,9 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     <link rel="stylesheet" href=".././style/style_input.css">
 <?php include '.././view-get/barra.php'; ?>
 <body>
-    <div class="logo-container">
-        <img src=".././style/rullino/logo.png" alt="Che Capelli Logo" class="logo">
-    </div>
     <div class="form-container">
         <h2>Modifica Cliente</h2>
         <form action=".././add-edit/modifica_cliente.php" method="post">
