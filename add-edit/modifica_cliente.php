@@ -74,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 <head>
     <meta charset="UTF-8">
     <script src=".././js/menu_profilo.js" defer></script>
-    <link rel="stylesheet" href=".././style/barra_alta.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifica Cliente</title>
     <link rel="stylesheet" href=".././style/style_input.css">

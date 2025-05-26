@@ -9,7 +9,7 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">Che Capelli!</div>
+        <img src="./../style/rullino/logo.png" alt="Logo" style="width: 80px; height: auto;">
         <nav class="nav">
             <a href="home.html">Home</a>
             <a href="servizi.html" class="active">Servizi</a>
@@ -20,101 +20,100 @@
         <button class="hamburger" id="hamburger">&#9776;</button>
     </header>
 
-   <!-- Menu slide-in -->
-   <nav class="mobile-menu" id="mobileMenu">
-       <button class="close-btn" id="closeMenu">&times;</button>
-       <a href="home.html">Home</a>
-       <a href="servizi.html" class="active">Servizi</a>
-       <a href="chi_siamo.html">Chi Siamo</a>
-       <a href="galleria.html">Galleria</a>
-       <a href="contatti.html">Contatti</a>
-   </nav>
+    <!-- Menu slide-in -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <button class="close-btn" id="closeMenu">&times;</button>
+        <a href="home.html">Home</a>
+        <a href="servizi.html" class="active">Servizi</a>
+        <a href="chi_siamo.html">Chi Siamo</a>
+        <a href="galleria.html">Galleria</a>
+        <a href="contatti.html">Contatti</a>
+    </nav>
 
-   <!--Menu per smartphone-->
-   <script>
-       const hamburger = document.getElementById("hamburger");
-       const mobileMenu = document.getElementById("mobileMenu");
-       const closeBtn = document.getElementById("closeMenu");
-       const links = document.querySelectorAll(".mobile-menu a");
+    <!--Menu per smartphone-->
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const mobileMenu = document.getElementById("mobileMenu");
+        const closeBtn = document.getElementById("closeMenu");
+        const links = document.querySelectorAll(".mobile-menu a");
 
+        hamburger.addEventListener("click", () => {
+            mobileMenu.classList.add("open");
+        });
 
-       hamburger.addEventListener("click", () => {
-           mobileMenu.classList.add("open");
-       });
+        closeBtn.addEventListener("click", () => {
+            mobileMenu.classList.remove("open");
+        });
 
-
-       closeBtn.addEventListener("click", () => {
-           mobileMenu.classList.remove("open");
-       });
-
-
-       links.forEach(link => {
-           link.addEventListener("click", () => {
-               mobileMenu.classList.remove("open");
-           });
-       });
-   </script>
+        links.forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+            });
+        });
+    </script>
 
     <main class="main-content">
         <section class="intro-section">
-            <h1>Explore Our Exclusive Services</h1>
-            <p>Step into an ambiance of elegance, where personalized service meets the latest trends. Our expert stylists and spa professionals are ready to elevate your beauty experience.</p>
+            <h1>Esplora i Nostri Servizi Esclusivi</h1>
+            <p>Entra in un’atmosfera di eleganza, dove il servizio personalizzato incontra le ultime tendenze. I nostri stylist ed esperti spa sono pronti a rendere unica la tua esperienza di bellezza.</p>
         </section>
 
         <section class="services-list">
             <article class="service-card">
-                <img src="images/haircut-styling.jpg" alt="Haircut & Styling" />
-                <h2>Haircut & Styling</h2>
-                <p>Precision cuts and modern styling to match your personality and lifestyle. From classic trims to the latest trends.</p>
+                <img src="images/haircut-styling.jpg" alt="Taglio & Styling" />
+                <h2>Taglio & Styling</h2>
+                <p>Tagli precisi e styling moderni per riflettere la tua personalità e il tuo stile di vita. Dai tagli classici alle ultime tendenze.</p>
             </article>
 
             <article class="service-card">
-                <img src="images/hair-coloring.jpg" alt="Hair Coloring" />
-                <h2>Hair Coloring</h2>
-                <p>Expert coloring techniques including balayage, ombre, highlights, and full-color transformations with premium products.</p>
+                <img src="images/hair-coloring.jpg" alt="Colorazione Capelli" />
+                <h2>Colorazione Capelli</h2>
+                <p>Tecniche di colorazione professionale tra cui balayage, ombré, colpi di sole e trasformazioni totali con prodotti di alta qualità.</p>
             </article>
 
             <article class="service-card">
-                <img src="images/hair-treatment.jpg" alt="Hair Treatment" />
-                <h2>Hair Treatment</h2>
-                <p>Nourish and revitalize your hair with our deep conditioning, keratin smoothing, and scalp care treatments.</p>
+                <img src="images/hair-treatment.jpg" alt="Trattamenti Capelli" />
+                <h2>Trattamenti Capelli</h2>
+                <p>Nutrimento e rivitalizzazione per i tuoi capelli con trattamenti intensivi, lisciature alla cheratina e cura del cuoio capelluto.</p>
             </article>
 
             <article class="service-card">
-                <img src="images/spa-services.jpg" alt="Spa Services" />
-                <h2>Spa Services</h2>
-                <p>Relax and rejuvenate with our luxurious spa offerings including massages, facials, and body treatments.</p>
+                <img src="images/spa-services.jpg" alt="Servizi Spa" />
+                <h2>Servizi Spa</h2>
+                <p>Rilassati e rigenerati con i nostri trattamenti spa di lusso: massaggi, trattamenti viso e per il corpo.</p>
             </article>
         </section>
 
         <section class="expertise-section">
-            <h2>Why Choose Us</h2>
+            <h2>Perché Sceglierci</h2>
             <div class="expertise-cards">
                 <div class="expertise-card">
                     <div class="icon">✂️</div>
-                    <h3>Unique Expertise</h3>
-                    <p>Our stylists stay ahead of trends to deliver innovative and personalized hair care and styling.</p>
+                    <h3>Competenza Unica</h3>
+                    <p>I nostri stylist anticipano le tendenze per offrirti un servizio innovativo e personalizzato per la cura dei capelli.</p>
                 </div>
                 <div class="expertise-card">
                     <div class="icon">❤️</div>
-                    <h3>Personalized Touch</h3>
-                    <p>Every client receives customized attention to highlight their unique beauty and style.</p>
+                    <h3>Tocco Personalizzato</h3>
+                    <p>Ogni cliente riceve un'attenzione su misura per valorizzare la propria bellezza e il proprio stile.</p>
                 </div>
                 <div class="expertise-card">
                     <div class="icon">🌟</div>
-                    <h3>Luxury Redefined</h3>
-                    <p>Enjoy an atmosphere designed for your comfort, where every detail is crafted for relaxation and indulgence.</p>
+                    <h3>Lusso Riscoperto</h3>
+                    <p>Goditi un ambiente progettato per il tuo comfort, dove ogni dettaglio è pensato per il relax e il piacere.</p>
                 </div>
             </div>
         </section>
 
         <section class="booking-cta">
-            <a href="contact.html" class="btn-book">Book an Appointment with Us</a>
+            <a href=".././add-edit/login.php" class="book-button" aria-label="Prenota un appuntamento con Che Capelli!">
+                Prenota un appuntamento con noi
+            </a>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2025 Glamour Locks. All Rights Reserved.</p>
+        <p>&copy; 2025 Che Capelli! Tutti i diritti riservati.</p>
     </footer>
 </body>
 </html>
