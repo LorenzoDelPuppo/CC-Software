@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 require_once __DIR__ . '/../connect.php';
 
@@ -64,19 +64,10 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="it">
 <head>
+<link rel="icon" href=".././style/rullino/icon.png" type="image/png">
 <meta charset="UTF-8" />
 <title>Reset Password - Che Capelli</title>
-<style>
-/* Stessi stili di prima */
-body { font-family: Arial, sans-serif; background: #fafafa; margin: 40px; }
-.container { max-width: 400px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);}
-h2 { text-align: center; }
-.message { margin-bottom: 15px; color: red; }
-form label { display: block; margin-top: 10px; font-weight: bold; }
-form input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
-form button { margin-top: 15px; width: 100%; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 5px; }
-form button:hover { background: #0056b3; }
-</style>
+<link rel="stylesheet" href=".././style/style_input.css">
 </head>
 <body>
 <div class="container">
