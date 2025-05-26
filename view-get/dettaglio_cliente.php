@@ -68,9 +68,11 @@ if ($clienteSelezionatoId) {
     <meta charset="UTF-8">
     <title>Lista Clienti</title>
     <link rel="stylesheet" href="../style/style_clienti.css">
+    <link rel="stylesheet" href="../style/style_impostazioni.css">
 </head>
 <body>
 <?php include '../view-get/barra.php'; ?>
+<script src=".././js/menu_profilo.js"></script>
 <div class="client-container">
     <h1>Lista Clienti</h1>
     <form method="get" action="">
