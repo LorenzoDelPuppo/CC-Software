@@ -6,11 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Che Capelli! - Home</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style/style_home.css" />
+  <link rel="stylesheet" href="../style/style_home.css"/>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">Che Capelli!</div>
+    <header>
+      <img src="./../style/rullino/logo.png" alt="Logo" style="width: 80px; height: auto;">
+
         <nav class="nav">
             <a href="home.html" class="active">Home</a>
             <a href="servizi.html">Servizi</a>
@@ -28,7 +29,7 @@
         <a href="servizi.html">Servizi</a>
         <a href="chi_siamo.html">Chi Siamo</a>
         <a href="galleria.html">Galleria</a>
-        <a href="contatti.html">Contatti</a>
+        <a href=".././add-edit/login.php">Contatti</a>
     </nav>
 
     <!--Menu per smartphone-->
@@ -65,7 +66,6 @@
   <section class="hero-text" role="region" aria-label="Testo di benvenuto e invito ai servizi">
     <small>EMBRACE YOUR STYLE</small>
     <h1>Ogni Capello Racconta la Tua Storia di Bellezza e Cura</h1>
-    <button aria-label="Visualizza i servizi offerti da Che Capelli!">Scopri i nostri servizi</button>
   </section>
 
   <section class="about-section" aria-label="Sezione chi siamo">
@@ -80,7 +80,6 @@
       <p>
         Vieni a trovarci in Piazza Vittoria, 1, 33070 Caneva PN, per un'esperienza di bellezza autentica e rilassante.
       </p>
-      <button aria-label="Maggiori informazioni sul salone Che Capelli!">Scopri di più su di noi</button>
     </div>
   </section>
 
@@ -120,7 +119,9 @@
         <p>Un ambiente elegante dove ogni dettaglio è pensato per il tuo comfort e piacere.</p>
       </div>
     </div>
-    <button class="book-button" aria-label="Prenota un appuntamento con Che Capelli!" src=".././add-edit/index.php">Prenota un appuntamento con noi</button>
+    <a href=".././add-edit/login.php" class="book-button" aria-label="Prenota un appuntamento con Che Capelli!">
+      Prenota un appuntamento con noi
+    </a>
   </section>
 
   <!-- Sezione se si vuole aggiungere le recensioni 
