@@ -219,6 +219,23 @@ body {
     cursor: pointer;
 }
 
+.intro-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.intro-text {
+    flex: 1;
+}
+
+.intro-images img {
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0 6px 10px rgba(141, 134, 123, 0.2);
+}
+
 /* Tablet (max-width: 991px) */
 @media screen and (max-width: 991px) {
     .intro-images {
