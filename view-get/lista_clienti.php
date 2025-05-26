@@ -63,7 +63,7 @@ $result = $conn->query($sql);
     <h1>Lista Clienti</h1>
     <div class="client-section">
         <h2>Ricerca Cliente</h2>
-        <form method="GET" action="../view-get/visualizza_clienti.php" class="search-form">
+        <form method="GET" action="../view-get/dettaglio_cliente.php" class="search-form">
             <input type="text" name="search" placeholder="Cerca per nome" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
             <button type="submit">Cerca</button>
         </form>
