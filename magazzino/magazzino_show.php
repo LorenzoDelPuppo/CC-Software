@@ -141,16 +141,16 @@ $result = $conn->query($sql);
         vertical-align: middle;
     }
     th {
-        background-color: #007bff; color: white; font-weight:600;
+        background-color: #333; color: white; font-weight:600;
     }
     tr:hover { background:#f1f1f1; }
     a.action-link {
-        color:#007bff; text-decoration:none; font-weight:bold;
+        color:rgb(85, 85, 85); text-decoration:none; font-weight:bold;
     }
     a.action-link:hover { text-decoration:underline; }
     form.edit-form {
         max-width: 450px; margin: 0 auto 40px; padding: 20px;
-        background: white; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        background: white; border-radius: 8px; box-shadow: 0 0 8px rgba(255, 0, 0, 0.1);
         text-align:left;
     }
     form.edit-form label { display: block; margin-top: 15px; font-weight:bold; }
@@ -160,18 +160,12 @@ $result = $conn->query($sql);
     }
     form.edit-form button {
         margin-top:20px; padding:10px; width: 100%;
-        background: #007bff; color: white; border:none;
+        background: #333; color: white; border:none;
         font-weight: bold; cursor:pointer; border-radius:5px;
     }
-    form.edit-form button:hover { background:#0056b3; }
+    form.edit-form button:hover { background: rgba(0, 130, 0, 0.5); }
     .error { color: red; text-align:center; margin-bottom:20px; }
-    .logout-link {
-        display: block; width: 100px; margin: 0 auto;
-        text-align: center; background:#dc3545; color: white;
-        padding: 10px 0; text-decoration:none; border-radius:5px;
-        font-weight:bold;
-    }
-    .logout-link:hover { background:#c82333; }
+
     img.product-img {
         max-width: 100px; max-height: 100px;
         object-fit: contain;
