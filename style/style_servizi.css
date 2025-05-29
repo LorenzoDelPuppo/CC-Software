@@ -115,56 +115,64 @@ body {
     padding: 0 1rem;
 }
 
-/* Expertise Section */
+/* Expertise section */
 .expertise-section {
-    text-align: center;
-    margin-bottom: 3rem;
+  max-width: 900px;
+  margin: 0 auto 4rem auto;
+  padding: 0 2rem;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: #6f6359;
 }
 
-.expertise-section h2 {
-    font-weight: 400;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #5a4d4a;
+.expertise-section p {
+  font-weight: 300;
+  font-size: 1rem;
+  margin-bottom: 3rem;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #7c746b;
 }
-
 .expertise-cards {
-    display: flex;
-    justify-content: space-around;
-    gap: 2rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-
 .expertise-card {
-    background: #fff;
-    border: 1px solid #ded5ce;
-    border-radius: 6px;
-    padding: 1.5rem;
-    max-width: 260px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    text-align: center;
-    transition: box-shadow 0.3s ease;
+  flex: 1;
+  min-width: 230px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  text-align: center;
 }
-
-.expertise-card:hover {
-    box-shadow: 0 6px 14px rgba(179, 167, 152, 0.4);
+.expertise-card svg {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1rem;
+  stroke: #b7aca1;
+  stroke-width: 1.5;
+  fill: none;
+}
+.expertise-card h4 {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #a69f96;
+}
+.expertise-card p {
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: #7c746b;
 }
 
 .expertise-card .icon {
-    font-size: 2.5rem;
+    font-size: 4rem;
     margin-bottom: 0.7rem;
     color: #b3a798;
-}
-
-.expertise-card h3 {
-    font-weight: 400;
-    margin-bottom: 0.7rem;
-    color: #b3a798;
-}
-
-.expertise-card p {
-    font-size: 0.9rem;
-    color: #877f7a;
 }
 
 /* Booking call to action */
