@@ -101,6 +101,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </div>
         <br>
+        <input type="checkbox" name="consenso" required>Accetto la <a href="privacy.html" target="_blank">Privacy Policy</a>
+        <br>
         <button type="submit">Registrati</button>
     </form>
 </div>
